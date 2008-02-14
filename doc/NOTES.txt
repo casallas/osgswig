@@ -1,0 +1,5 @@
+Notes
+-----
+
+- review namespace issue
+- setSceneData(osg::Node *scene) vs. setSceneData(Node* node)

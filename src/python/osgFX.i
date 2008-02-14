@@ -1,0 +1,2 @@
+%include "../osgFX.i"
+
