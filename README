@@ -37,8 +37,13 @@ It is most recently tested with
 swig 1.3.33
 OpenSceneGraph 2.3.4
 
-The merge also still contain all the files and documentation from the original osgswig.
-revision 95 of:
+
+The repository also still contain all the files and documentation from the original osgswig.
+check out revision 95 of:
  http://osgswig.googlecode.com/svn/
  or https://osgswig.googlecode.com/svn/ (for members)
-contains the original osgswig.
+this contains the original osgswig.
+
+or check out the pre2.2 branch:
+svn checkout http://osgswig.googlecode.com/svn/branches/pre_2.2/ osgswig-read-only
+svn checkout https://osgswig.googlecode.com/svn/branches/pre_2.2/ --username myusername
