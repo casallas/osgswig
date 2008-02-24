@@ -57,6 +57,7 @@ typedef double GL_DOUBLE;
 #include <osg/State>
 #include <osg/StateSet>
 #include <osg/StateAttribute>
+#include <osg/PolygonMode>
 #include <osg/LineWidth>
 #include <osg/LineStipple>
 #include <osg/Material>
@@ -469,6 +470,7 @@ namespace osg {
 %include osg/FrameStamp
 %include osg/StateSet
 %include osg/StateAttribute
+%include osg/PolygonMode
 %include osg/LineWidth
 %include osg/LineStipple
 %include osg/Material

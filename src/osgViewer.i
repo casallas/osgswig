@@ -55,3 +55,9 @@
 %include osgViewer/ViewerEventHandlers
 
 
+%inline %{
+osgViewer::Viewer *GUIActionAdapterToViewer(osgGA::GUIActionAdapter *aa) {
+  return dynamic_cast<osgViewer::Viewer*>(aa);
+}
+%}
+

@@ -1,4 +1,8 @@
-%module osgGA
+%module(directors="1") osgGA
+
+#ifdef SWIGPYTHON
+%feature("director") osgGA::GUIEventHandler;
+#endif
 
 #ifdef SWIGPERL
 %{
@@ -53,5 +57,4 @@
 %include osgGA/AnimationPathManipulator
 %include osgGA/DriveManipulator
 %include osgGA/NodeTrackerManipulator
-
 
