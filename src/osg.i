@@ -630,3 +630,23 @@ namespace osg {
 #endif
 
 %include osg/Timer
+
+//casting helpers
+
+%inline %{
+osg::Geode *NodeToGeode(osg::Node *b) {
+  return dynamic_cast<osg::Geode*>(b);
+}
+%}
+
+%inline %{
+osg::PositionAttitudeTransform *NodeToPositionAttitudeTransform(osg::Node *b) {
+  return dynamic_cast<osg::PositionAttitudeTransform*>(b);
+}
+%}
+
+%inline %{
+osg::MatrixTransform *NodeToMatrixTransform(osg::Node *b) {
+  return dynamic_cast<osg::MatrixTransform*>(b);
+}
+%}
