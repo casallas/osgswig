@@ -5,12 +5,12 @@ __author__  = ["Rene Molenaar"]
 __url__     = ("http://code.google.com/p/osgswig/")
 __version__ = "2.0.0"
 __doc__     = """ This OpenSceneGraph in Python example shows creating a\
-                 rotation callback for a transform node \
+                 pickhandler that adds a wirebox and a callback to \
+                 a selected node \
                  ____Rene Molenaar 2008 """
 
 #import the needed modules
-import osg,  osgDB, osgGA, osgViewer, osgUtil, time
-
+import osg,  osgDB, osgGA, osgViewer, osgUtil
 
 selmat = osg.Material()
 selmat.setDiffuse (osg.Material.FRONT_AND_BACK, osg.Vec4 (0.9, 0.1, 0.0, 1.0))
@@ -43,6 +43,7 @@ def createWireBox(node):
     #create a stateset for the wirebox
     stateset = osg.StateSet()
     wbgeode.setStateSet(stateset)
+#    stateset.thisown = 0   
 
     #create a polygonmode state attribute
     polyModeObj = osg.PolygonMode()
@@ -60,11 +61,15 @@ def createWireBox(node):
     lx = bb._max.x() - bb._min.x()
     ly = bb._max.y() - bb._min.y()
     lz = bb._max.z() - bb._min.z()
-    shape = osg.ShapeDrawable(osg.Box(center, lx, ly, lz))
+    box = osg.Box(center, lx, ly, lz)
+    shape = osg.ShapeDrawable(box)
     #shape.setColor(osg.Vec4(1.0, 0.0, 0.0, 1.0))
     
     #add the drawable to the wirebox geode
     wbgeode.addDrawable(shape)
+
+    for pointer in [stateset, box, polyModeObj, lw, shape]:
+        pointer.thisown = False
 
     #return the wirebox geode
     return wbgeode
@@ -155,13 +160,13 @@ class PickHandler(osgGA.GUIEventHandler):
                     if pot:           
                         #if there is a previous selected node, 'deselect' it
                         if self._selectedNode:
-                            self._selectedNode.setUpdateCallback(osg.NodeCallback())
+                            self._selectedNode.setUpdateCallback(None)
                             #remove the wirebox of the previous selection
                             if self.wb:
                                 self._selectedNode.removeChild(self.wb)
                         self._selectedNode = pot
                         #show that the node is selected
-                        pot.setUpdateCallback(RotateCB().__disown__())                      
+                        pot.setUpdateCallback(RotateCB().__disown__())
                     else:
                         geode = osg.NodeToGeode(node)
                         if geode:
@@ -169,6 +174,8 @@ class PickHandler(osgGA.GUIEventHandler):
                             #will be attached to the parental transform node
                             self.wb = createWireBox(geode)
                             self._selectedNode.addChild(self.wb)
+                            self.wb.thisown = False
+                            return True
             return False                            
         else:
             print "No Intersection Found"            
@@ -231,4 +238,4 @@ viewer.run()
 #    viewer.frame()
 
 #set an empty node for clean-up step
-viewer.setSceneData(osg.Node())
+viewer.setSceneData(None)

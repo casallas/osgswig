@@ -9,7 +9,7 @@ __doc__     = """ This OpenSceneGraph in Python example shows creating a\
                  ____Rene Molenaar 2008 """
 
 #import the needed modules
-import osg,  osgDB, osgGA, osgViewer, time
+import osg,  osgDB, osgGA, osgViewer
 
 #Create a callback function for a transform node
 class RotateCB(osg.NodeCallback):
@@ -75,5 +75,5 @@ viewer.run()
 #    viewer.frame()
            
 #set an empty node for clean-up step
-viewer.setSceneData(osg.Node())
+viewer.setSceneData(None)
 
