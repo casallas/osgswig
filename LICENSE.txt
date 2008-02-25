@@ -1,6 +1,8 @@
 SWIG based OpenSceneGraph bindings
 
-Copyright (c) 2005-2007, Hartmut Seichter, HITLabNZ
+Copyright (c) 2005-2008, Human Interface Technology Laboratory New Zealand
+Copyright (c) 2007-2008, TU Delft Computer Graphics Group
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
