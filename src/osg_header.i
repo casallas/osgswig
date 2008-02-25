@@ -7,6 +7,7 @@
 #include <osg/State>
 #include <osg/StateSet>
 #include <osg/StateAttribute>
+#include <osg/PolygonMode>
 #include <osg/LineWidth>
 #include <osg/LineStipple>
 #include <osg/Material>
