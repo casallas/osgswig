@@ -40,6 +40,9 @@ typedef unsigned int GLenum;
 typedef unsigned int GLuint;
 typedef float GL_FLOAT;
 typedef double GL_DOUBLE;
+typedef int GLsizei;
+typedef int GLint;
+typedef unsigned char GLboolean;
 #endif
 
 %{
@@ -64,6 +67,9 @@ typedef double GL_DOUBLE;
 #include <osg/Node>
 #include <osg/Group>
 #include <osg/Switch>
+#include <osg/LOD>
+#include <osg/PagedLOD>
+#include <osg/ProxyNode>
 #include <osg/MatrixTransform>
 #include <osg/Projection>
 #include <osg/CullSettings>
@@ -306,6 +312,12 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Camera::getPostDrawCallback;
 %ignore osg::Camera::setPreDrawCallback;
 %ignore osg::Camera::getPreDrawCallback;
+%ignore osg::Camera::getInitialDrawCallback;
+%ignore osg::Camera::setInitialDrawCallback;
+%ignore osg::Camera::getIntialDrawCallback;
+%ignore osg::Camera::setIntialDrawCallback;
+%ignore osg::Camera::getFinalDrawCallback;
+%ignore osg::Camera::setFinalDrawCallback;
 %ignore osg::CameraNode::Attachment;
 %ignore osg::CameraNode::BufferAttachmentMap;
 
@@ -539,7 +551,7 @@ namespace osg {
 %template(vectorVec3) std::vector<osg::Vec3f>;
 %template(vectorVec4) std::vector<osg::Vec4f>;
 %template(vectorUInt) std::vector<GLuint>;
-%template(Vec2Array) osg::TemplateArray<osg::Vec2f,osg::Array::Vec3ArrayType,2,0x1406>;
+%template(Vec2Array) osg::TemplateArray<osg::Vec2f,osg::Array::Vec2ArrayType,2,0x1406>;
 %template(Vec3Array) osg::TemplateArray<osg::Vec3f,osg::Array::Vec3ArrayType,3,0x1406>;
 %template(Vec4Array) osg::TemplateArray<osg::Vec4f,osg::Array::Vec4ArrayType,4,0x1406>;
 %template(UIntArray) osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,0x1405>;
@@ -556,6 +568,9 @@ namespace osg {
 %include osg/Billboard
 %include osg/Group
 %include osg/Switch
+%include osg/LOD
+%include osg/PagedLOD
+%include osg/ProxyNode
 %include osg/NodeVisitor
 %include osg/Projection
 %include osg/Transform
@@ -602,6 +617,9 @@ namespace osg {
 %template(GeodeRef) osg::ref_ptr<osg::Geode>;
 %template(BillboardRef) osg::ref_ptr<osg::Billboard>;
 %template(SwitchRef) osg::ref_ptr<osg::Switch>;
+%template(LODRef) osg::ref_ptr<osg::LOD>;
+%template(PagedLODRef) osg::ref_ptr<osg::PagedLOD>;
+%template(ProxyNodeRef) osg::ref_ptr<osg::ProxyNode>;
 %template(ProjectionRef) osg::ref_ptr<osg::Projection>;
 %template(LightRef) osg::ref_ptr<osg::Light>;
 %template(MatrixTransformRef) osg::ref_ptr<osg::MatrixTransform>;
@@ -650,5 +668,11 @@ osg::PositionAttitudeTransform *NodeToPositionAttitudeTransform(osg::Node *b) {
 %inline %{
 osg::MatrixTransform *NodeToMatrixTransform(osg::Node *b) {
   return dynamic_cast<osg::MatrixTransform*>(b);
+}
+%}
+
+%inline %{
+osg::Texture *StateAttributeToTexture(osg::StateAttribute *b) {
+  return dynamic_cast<osg::Texture*>(b);
 }
 %}

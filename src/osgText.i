@@ -11,6 +11,9 @@
 %}
 #endif
 
+
+%include std_pair.i
+
 %include "globals.i"
 
 %include osg_header.i
@@ -20,14 +23,14 @@
 
 
 %{
-
 #include <osgText/Export>
+#include <osgText/KerningType>
+#include <osgText/TextBase>
 #include <osgText/FadeText>
 #include <osgText/Font>
 #include <osgText/String>
 #include <osgText/Text>
 #include <osgText/Version>
-
 
 // using namespace osg;
 // using namespace osgSim;
@@ -45,15 +48,21 @@
 
 %ignore osgText::Text::getGlyphQuads;
 %ignore osgText::Text::getTextureGlyphQuadMap;
+%ignore osgText::Font::getKerning;
+%ignore osgText::Font::getGlyph;
 
 /* include the actual headers */
-
 %include osgText/Export
 %include osgText/String
 %include osgText/Font
 %include osgText/Text
 %include osgText/FadeText
 %include osgText/Version
+%include osgText/KerningType
+
+# %template(FontResolution) std::pair<unsigned int,unsigned int>;
+
+
 
 
 

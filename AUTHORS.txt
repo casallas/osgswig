@@ -1,4 +1,10 @@
+Authors
+-------
 Eric Griffith
 Gerwin de Haan
 Rene Molenaar
 Hartmut Seichter
+
+Contributors
+------------
+Luigi Calori

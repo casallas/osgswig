@@ -13,6 +13,7 @@
 ## 
 ##---------------------------------------------------------------------------
 
+
 IF(WIN32)
     CMAKE_MINIMUM_REQUIRED(VERSION 2.4.6 FATAL_ERROR)
 ENDIF(WIN32)
@@ -20,6 +21,12 @@ ENDIF(WIN32)
 # Our project is called 'osgswig' this is how it will be called in
 # visual studio, and in our makefiles.
 PROJECT(osgswig)
+
+# Using full paths for link libraries (CMake 2.6)
+IF(COMMAND cmake_policy)
+  CMAKE_POLICY(SET CMP0003 NEW)
+ENDIF(COMMAND cmake_policy)
+
 
 SET(OSGSWIG_MAJOR_VERSION 0)
 SET(OSGSWIG_MINOR_VERSION 9)

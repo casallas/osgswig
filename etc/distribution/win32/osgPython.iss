@@ -2,11 +2,12 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "osgPython"
-#define SitePackage "osg-2.2.0-msw"
+#define SitePackage "osgswig-0.9.0"
 #define MyAppVerName "OpenSceneGraph for Python 2.5"
 #define MyAppPublisher "Hartmut Seichter, HITLab New Zealand"
 #define MyAppURL "http://www.hitlabnz.org"
-#define OSG_VERSION "2.2.0"
+#define OSG_VERSION "2.3.4"
+#define OSGSWIG_VERSION "0.9.0"
 #define PACKAGE_REVISION "-1"
 
 #define OSG_ROOT GetEnv("OSG_ROOT")
@@ -28,12 +29,12 @@ OutputBaseFilename={#MyAppName}-{#OSG_VERSION}{#PACKAGE_REVISION}-py25
 Compression=lzma
 ;; Compression=zip
 SolidCompression=yes
-SourceDir=..\..\..\
+SourceDir=..\..\..\build\lib
 WizardImageFile=compiler:wizmodernimage-IS.bmp
 WizardSmallImageFile=compiler:wizmodernsmallimage-IS.bmp
 AppVersion={#OSG_VERSION}
 UninstallFilesDir={app}\uninst
-LicenseFile=LICENSE.txt
+LicenseFile=..\..\LICENSE.txt
 
 
 [Languages]
@@ -51,26 +52,32 @@ Name: doc; Description: Documentation; Types: full compact custom
 
 [Files]
 ;; License Files
-Source: LICENSE.txt; Components: library; DestDir: {app}; Flags: ignoreversion
-Source: COPYING.txt; Components: library; DestDir: {app}; Flags: ignoreversion
+Source: ..\..\LICENSE.txt; Components: library; DestDir: {app}; Flags: ignoreversion
+Source: ..\..\COPYING.txt; Components: library; DestDir: {app}; Flags: ignoreversion
 
 ;; DLLs
-Source: bin\python\{#SitePackage}\*.dll; Components: library; DestDir: {app}; Flags: ignoreversion
+Source: python\release\_*.pyd; Components: library; DestDir: {app}; Flags: ignoreversion
 
 ;; Wrapper Libraries
-Source: bin\python\{#SitePackage}\_osg*.pyd; Components: library; DestDir: {app}; Flags: ignoreversion
-Source: bin\python\{#SitePackage}\osg*.py; Components: library; DestDir: {app}; Flags: ignoreversion
-Source: bin\python\{#SitePackage}\osgPlugins-{#OSG_VERSION}\osgdb_*.dll; Components: library; DestDir: {app}\osgPlugins-{#OSG_VERSION}; Flags: ignoreversion
+Components: library; Source: python\osg*.py;  DestDir: {app}; Flags: ignoreversion
+
+;; OSG
+Components: library; Source: {#OSG_ROOT}\bin\osg*.dll;  DestDir: {app}; Flags: ignoreversion
+Components: library; Source: {#OSG_ROOT}\bin\ot*.dll;  DestDir: {app}; Flags: ignoreversion
+Components: library; Source: {#OSG_ROOT}\bin\osgPlugins-{#OSG_VERSION}\osgdb_*.dll;  DestDir: {app}\osgPlugins-{#OSG_VERSION}; Flags: ignoreversion
 
 ; osgART
-Components: library; Source: bin\python\{#SitePackage}\osgPlugins-{#OSG_VERSION}\osgart_*.dll;  DestDir: {app}\osgPlugins-{#OSG_VERSION}; Flags: ignoreversion
-Components: library; Source: bin\python\{#SitePackage}\osgPlugins-{#OSG_VERSION}\DSVL.dll; DestDir: {app}\..\..\..
-Components: library; Source: bin\python\{#SitePackage}\osgPlugins-{#OSG_VERSION}\libARvideo.dll;DestDir: {app}\..\..\..
-Components: library; Source: bin\python\osg.pth; DestDir: {app}\..; Flags: ignoreversion
+Components: library; Source: {#OSGART_ROOT}\bin\osgART.dll; DestDir: {app}\osgPlugins-{#OSG_VERSION}; Flags: ignoreversion
+Components: library; Source: {#OSGART_ROOT}\bin\osgart_*_artoolkit.dll; DestDir: {app}\osgPlugins-{#OSG_VERSION}; Flags: ignoreversion
+Components: library; Source: {#OSGART_ROOT}\bin\DSVL.dll; DestDir: {app}\..\..\..
+Components: library; Source: {#OSGART_ROOT}\bin\libARvideo.dll;DestDir: {app}\..\..\..
+
+; put a path file
+Components: library; Source: python\osg.pth; DestDir: {app}\..; Flags: ignoreversion
 
 ;; Examples --
-Source: examples\python\*.pyw; Components: examples; DestDir: {app}\examples\python; Flags: ignoreversion
-Source: examples\python\*.py; Components: examples; DestDir: {app}\examples\python; Flags: ignoreversion
+Source: ..\..\examples\python\*.pyw; Components: examples; DestDir: {app}\examples\python; Flags: ignoreversion
+Source: ..\..\examples\python\*.py; Components: examples; DestDir: {app}\examples\python; Flags: ignoreversion
 
 ;; Data for osgART
 Source: {#OSGART_ROOT}\bin\Data\*.dat; Components: examples; DestDir: {app}\examples\python\data; Flags: ignoreversion
@@ -78,13 +85,13 @@ Source: {#OSGART_ROOT}\bin\Data\patt.*; Components: examples; DestDir: {app}\exa
 Source: {#ARTOOLKIT_2_ROOT}\patterns\pattHiro.pdf; Components: examples; DestDir: {app}\examples\python\data; Flags: ignoreversion
 
 ;; Cow!
-Source: examples\python\models\*.osg; Components: examples; DestDir: {app}\examples\python; Flags: ignoreversion
+;; Source: ..\..\examples\python\models\*.osg; Components: examples; DestDir: {app}\examples\python; Flags: ignoreversion
 ;; Source: examples\python\Images\*.rgb; Components: examples; DestDir: {app}\examples\python\Images; Flags: ignoreversion
 
 
 ;; Documentation
 ;; Source: src\*.i; Components: code; DestDir: {app}\src; Flags: recursesubdirs
-Source: doc\python\doc\html\osgPython.ch?; Components: doc; DestDir: {app}\doc
+;; Source: ..\..\doc\python\doc\html\osgPython.ch?; Components: doc; DestDir: {app}\doc
 
 [Icons]
 Name: {group}\Uninstall {#MyAppName}; Filename: {app}\{uninstallexe}

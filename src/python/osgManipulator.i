@@ -1,0 +1,2 @@
+%include "../osgManipulator.i"
+
