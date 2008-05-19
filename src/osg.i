@@ -676,3 +676,33 @@ osg::Texture *StateAttributeToTexture(osg::StateAttribute *b) {
   return dynamic_cast<osg::Texture*>(b);
 }
 %}
+
+%inline %{
+osg::LOD *NodeToLOD(osg::Node *b) {
+  return dynamic_cast<osg::LOD*>(b);
+}
+%}
+
+%extend osg::Node {
+	osg::LOD* asLOD() {return dynamic_cast<osg::LOD*>(self);}
+};
+
+%inline %{
+osg::PagedLOD *NodeToPagedLOD(osg::Node *b) {
+  return dynamic_cast<osg::PagedLOD*>(b);
+}
+%}
+
+%extend osg::LOD {
+	osg::PagedLOD* asPagedLOD() {return dynamic_cast<osg::PagedLOD*>(self);}
+};
+
+%inline %{
+osg::ProxyNode *NodeToProxyNode(osg::Node *b) {
+  return dynamic_cast<osg::ProxyNode*>(b);
+}
+%}
+
+%extend osg::Group {
+	osg::ProxyNode* asProxyNode() {return dynamic_cast<osg::ProxyNode*>(self);}
+};
