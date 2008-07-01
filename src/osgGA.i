@@ -42,6 +42,7 @@
 %include osgGA/Version
 %include osgGA/GUIActionAdapter
 %include osgGA/GUIEventAdapter
+%include <osgGA/EventQueue>
 // %include osgGA/GUIEventHandlerVisitor
 %include osgGA/GUIEventHandler
 %include osgGA/EventVisitor

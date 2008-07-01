@@ -1,7 +1,7 @@
 %{
-
 #include <osgGA/Export>
 #include <osgGA/Version>
+#include <osgGA/EventQueue>
 #include <osgGA/EventVisitor>
 #include <osgGA/GUIActionAdapter>
 #include <osgGA/GUIEventAdapter>
@@ -19,7 +19,4 @@
 #include <osgGA/AnimationPathManipulator>
 #include <osgGA/DriveManipulator>
 #include <osgGA/NodeTrackerManipulator>
-
-// using namespace osgGA;
-
 %}
