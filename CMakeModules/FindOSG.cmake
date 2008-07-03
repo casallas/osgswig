@@ -34,6 +34,10 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
     FIND_LIBRARY(${MYLIBRARY}
         NAMES ${MYLIBRARYNAME}
         PATHS
+        /usr/local/lib64
+        /usr/local/lib
+        /usr/lib64
+        /usr/lib
         $ENV{OSG_DIR}/lib
         $ENV{OSG_DIR}/bin
         $ENV{OSG_DIR}
@@ -56,6 +60,10 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
     FIND_LIBRARY(${MYLIBRARY}_DEBUG
         NAMES ${MYLIBRARYNAME}d
         PATHS
+        /usr/local/lib64
+        /usr/local/lib
+        /usr/lib64
+        /usr/lib
         $ENV{OSG_DIR}/lib
         $ENV{OSG_DIR}
         $ENV{OSGDIR}/lib
