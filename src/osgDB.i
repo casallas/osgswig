@@ -110,6 +110,10 @@ namespace std
 
 %ignore osgDB::Input::read;
 
+%ignore osgDB::DatabasePager::DatabaseThread;
+%ignore osgDB::DatabasePager::getDatabaseThread;
+%ignore osgDB::DatabasePager::getNumDatabaseThreads;
+
 %include osgDB/Version
 %include osgDB/Export
 %include osgDB/ReaderWriter

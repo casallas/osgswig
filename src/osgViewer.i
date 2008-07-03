@@ -39,14 +39,9 @@
 %ignore osgViewer::CompositeViewer::getViews;
 
 /* include the actual headers */
-
-
 %include osgViewer/Version
 %include osgViewer/GraphicsWindow
-// %include osgViewer/HelpHandler
 %include osgViewer/Scene
-//%include osgViewer/SimpleViewer
-// %include osgViewer/StatsHandler
 %include osgViewer/Version
 %include osgViewer/ViewerBase
 %include osgViewer/View

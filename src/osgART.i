@@ -20,24 +20,20 @@
 
 
 %{
-
+#include <osgART/Foundation>
 #include <osgART/Field>
-#include <osgART/GenericTracker>
+#include <osgART/Calibration>
+#include <osgART/Tracker>
 #include <osgART/VideoConfig>
 #include <osgART/Marker>
-// #include <osgART/MarkerCallback>
+#include <osgART/MarkerCallback>
 #include <osgART/PluginManager>
-#include <osgART/GenericVideo>
+#include <osgART/Video>
+#include <osgART/VideoGeode>
 #include <osgART/VideoLayer>
-#include <osgART/VideoBillboard>
-#include <osgART/VideoPlane>
-#include <osgART/ShadowRenderer>
-#include <osgART/PlaneARShadowRenderer>
 #include <osgART/VideoImageStream>
-#include <osgART/ARSceneNode>
-
-// later version will not have this header
-#include <osgART/ARTTransform>
+#include <osgART/TransformFilterCallback>
+#include <osgART/GeometryUtils>
 
 %}
 
@@ -54,26 +50,23 @@
 
 %template(FieldRef) osg::ref_ptr<osgART::Field>;
 
+%include osgART/Calibration
 %include osgART/Field
+%include osgART/Foundation
 %include osgART/VideoConfig
 %include osgART/VideoImageStream
-%include osgART/GenericVideo
+%include osgART/Video
+%include osgART/VideoGeode
+%include osgART/VideoPlugin
 %include osgART/Marker
-// %include osgART/MarkerCallback
-%include osgART/GenericTracker
-%include osgART/GenericVideoShader
-%include osgART/GenericVideoObject
+%include osgART/MarkerCallback
+%include osgART/Tracker
 %include osgART/PluginManager
 %include osgART/VideoLayer
-%include osgART/VideoPlane
-%include osgART/VideoBillboard
-%include osgART/ShadowRenderer
-%include osgART/PlaneARShadowRenderer
-%include osgART/ARSceneNode
-
-// later version will not have this header
-%include osgART/ARTTransform
-
+%include osgART/TransformFilterCallback
+%include osgART/Utils
+%include osgART/GeometryUtils
+
 
 
 
