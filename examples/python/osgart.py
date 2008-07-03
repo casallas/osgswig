@@ -8,106 +8,84 @@ import osgDB
 import osgViewer
 import osgART
 
+
+def createImageBackground(video):
+	layer = osgART.VideoLayer()
+	layer.setSize(video)
+	geode = osgART.VideoGeode(osgART.VideoGeode.USE_TEXTURE_2D, video)
+	osgART.addTexturedQuad(geode,video.s(),video.t())
+	layer.addChild(geode)
+	return layer
+
+
+# create a root node
+root = osg.Group()
+
 # only use Python path
 osgDB.Registry.instance().setLibraryFilePathList(sys.path)
 
 # create a viewer
 viewer = osgViewer.Viewer()
 
+# set the scene root
+viewer.setSceneData(root)
+
 # preload plugins
-if not osgART.PluginManager.instance().load("osgart_video_artoolkit"):
-	exit(-1)
-	
-if not osgART.PluginManager.instance().load("osgart_tracker_artoolkit"):
-	exit(-1)
+video_id = osgART.PluginManager.getInstance().load("osgart_video_artoolkit2")	
+tracker_id = osgART.PluginManager.getInstance().load("osgart_tracker_artoolkit2")
 
 # create a video source (move to settings)
-video = osgART.GenericVideo.cast(osgART.PluginManager.instance().get("video_artoolkit"))
+video = osgART.Video.cast(osgART.PluginManager.getInstance().get(video_id))
 
 # open the video
 video.open()
 
 # tracker
-tracker = osgART.GenericTracker.cast(osgART.PluginManager.instance().get("tracker_artoolkit"))	
+tracker = osgART.Tracker.cast(osgART.PluginManager.getInstance().get(tracker_id))	
 
-# init the actual tracker
-tracker.init(video.getWidth(),video.getHeight(),
-	os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])),"Data/markers_list.dat"))
+# create a calibration object
+calibration = tracker.getOrCreateCalibration()
 
-# create a new group
-foreground = osg.Group()
+# load camera parameter 
+tracker.getOrCreateCalibration().load("data/camera_para.dat")
 
-# create a video background
-videobackground = osgART.VideoLayer(video,0)
+# initialize the tracker
+tracker.setImage(video)
 
-# init that one
-videobackground.init()
+# add a tracker callback
+osgART.TrackerCallback.addOrSet(root,tracker)
 
-# add the videobackground to the scene
-foreground.addChild(videobackground)
+# create a marker
+marker = tracker.addMarker("single;data/patt.hiro;80;0;0")
 
-# set the render bin details correctly
-foreground.getOrCreateStateSet().setRenderBinDetails(2, "RenderBin")
+# set the marker active 
+marker.setActive(True)
 
-# set the projection matrix
-projection = osg.Projection(osg.Matrixd(tracker.getProjectionMatrix()))
+# create a matrix transfrom utilised through osgART
+ar_transform = osg.MatrixTransform()
 
-# get the marker
-marker = tracker.getMarker(0)
-# marker = None
+ar_transform.setEventCallback(osgART.MarkerTransformCallback(marker))
+ar_transform.getEventCallback().setNestedCallback(osgART.MarkerVisibilityCallback(marker))
+ar_transform.getEventCallback().getNestedCallback().setNestedCallback(osgART.TransformFilterCallback())
 
-if marker:
-	
-	# set the marker active
-	marker.setActive(True)
+ar_transform.addChild(osgART.testCube())
 
-	# get the marker transform
-	markertrans = osgART.ARTTransform(marker)
+ar_transform.getOrCreateStateSet().setRenderBinDetails(100, "RenderBin")
 
-	# add a scene
-	markertrans.addChild(osgDB.readNodeFile('cow.osg'))	
-	
-	# 
-	markertrans.getOrCreateStateSet().setRenderBinDetails(5, "RenderBin")
-	
-	foreground.addChild(markertrans)
+video_background = createImageBackground(video)
+
+video_background.getOrCreateStateSet().setRenderBinDetails(0, "RenderBin");
+
+cam = calibration.createCamera();
 
 
-# create new transform node
-modelview = osg.MatrixTransform()
+cam.addChild(ar_transform)
+cam.addChild(video_background)
 
-modelview.addChild(foreground)
-
-projection.addChild(modelview)
-
-scaler = osg.AutoTransform()
-
-scaler.setScale(10.0)
-
-# create a root node
-root = osg.Group()
-
-root.addChild(projection)
-
-# add to the scene
-viewer.setSceneData(root)
-
-tracker.setImageSource(video)
-
-# show the viewer
-viewer.realize()
+root.addChild(cam)
 
 video.start()
 
-
-# loop until done
-while not viewer.done():
-
-	video.update()
-
-	tracker.update()
-
-	# render
-	viewer.frame()
+viewer.run();
 
 
