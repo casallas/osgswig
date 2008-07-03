@@ -210,6 +210,21 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Matrixf::operator=;
 %ignore osg::Matrixf::operator*=;
 
+
+%ignore osg::BoundingSphere::center();
+%ignore osg::BoundingSphere::radius();
+%ignore osg::BoundingSphere::radius2();
+
+%ignore osg::BoundingBox::xMin();
+%ignore osg::BoundingBox::xMax();
+
+%ignore osg::BoundingBox::yMin();
+%ignore osg::BoundingBox::yMax();
+
+%ignore osg::BoundingBox::zMin();
+%ignore osg::BoundingBox::zMax();
+
+
 %ignore osg::Plane::operator=;
 %ignore osg::Plane::operator[];
 
