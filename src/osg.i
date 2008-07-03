@@ -55,7 +55,11 @@ typedef unsigned char GLboolean;
 #include <osg/ApplicationUsage>
 #include <osg/AnimationPath>
 #include <osg/ArgumentParser>
+
+#if (OPENSCENEGRAPH_MINOR_VERSION > 4)
 #include <osg/MixinVector>
+#endif
+
 #include <osg/Array>
 #include <osg/Version>
 #include <osg/State>
@@ -561,7 +565,11 @@ namespace osg {
 #endif
 %include osg/Drawable
 
+
+#if (OPENSCENEGRAPH_MINOR_VERSION > 4)
 %include osg/MixinVector
+#endif
+
 %include osg/Array
 //GDH manual definition of some array types which are useful in python
 %template(vectorVec2) std::vector<osg::Vec2f>;

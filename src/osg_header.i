@@ -1,5 +1,9 @@
 %{
 
+#if (OPENSCENEGRAPH_MINOR_VERSION > 4)
+#include <osg/MixinVector>
+#endif
+
 #include <osg/Array>
 #include <osg/Notify>
 #include <osg/ApplicationUsage>
