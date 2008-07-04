@@ -508,11 +508,11 @@ namespace osg {
 %include osg/Material
 %include osg/Stencil
 %include osg/Depth
+
 %include osg/TexEnv
 %include osg/TexEnvCombine
 %include osg/TexEnvFilter
 %include osg/TexGen
-%include osg/TexGenNode
 
 %include osg/AlphaFunc
 %include osg/BlendFunc
@@ -545,12 +545,22 @@ namespace osg {
 %include osg/VertexProgram
 %include osg/ColorMask
 
+// In osg/Viewport, the return as by-reference function x() precedes the by-value function x()
+// we can ignore the declarations, and extend the class with calls to the by-value function
+// we cannot use the same names for the extensions as the original function (or one should change the header files)
+// note that with SWIG extend-ing, a class's "this" is not available (neither explicitly nor implicitly), 
+// so an explicit $self is needed for all member access, see 
+//  http://www.swig.org/Doc1.3/SWIGPlus.html#SWIGPlus_class_extension 
 %ignore osg::Viewport::x;
 %ignore osg::Viewport::y;
 %ignore osg::Viewport::width;
 %ignore osg::Viewport::height;
-
+%extend osg::Viewport {	value_type getX() {return $self->x();}};
+%extend osg::Viewport {	value_type getY() {return $self->y();}};
+%extend osg::Viewport {	value_type getWidth() {return $self->width();}};
+%extend osg::Viewport {	value_type getHeight() {return $self->height();}};
 %include osg/Viewport
+
 %include osg/Shader
 %include osg/Program
 %include osg/DisplaySettings
@@ -571,15 +581,29 @@ namespace osg {
 #endif
 
 %include osg/Array
-//GDH manual definition of some array types which are useful in python
-%template(vectorVec2) std::vector<osg::Vec2f>;
-%template(vectorVec3) std::vector<osg::Vec3f>;
-%template(vectorVec4) std::vector<osg::Vec4f>;
-%template(vectorUInt) std::vector<GLuint>;
-%template(Vec2Array) osg::TemplateArray<osg::Vec2f,osg::Array::Vec2ArrayType,2,0x1406>;
-%template(Vec3Array) osg::TemplateArray<osg::Vec3f,osg::Array::Vec3ArrayType,3,0x1406>;
-%template(Vec4Array) osg::TemplateArray<osg::Vec4f,osg::Array::Vec4ArrayType,4,0x1406>;
-%template(UIntArray) osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,0x1405>;
+//Definition of array types which are useful in python
+%template(vectorVec2)     std::vector<osg::Vec2f>;
+%template(vectorVec3)     std::vector<osg::Vec3f>;
+%template(vectorVec4)     std::vector<osg::Vec4f>;
+%template(vectorVec2d)    std::vector<osg::Vec2d>;
+%template(vectorVec3d)    std::vector<osg::Vec3d>;
+%template(vectorVec4d)    std::vector<osg::Vec4d>;
+%template(vectorGLshort)  std::vector<GLshort>;
+%template(vectorGLint)    std::vector<GLint>;
+%template(vectorGLubyte)  std::vector<GLubyte>;
+%template(vectorGLushort) std::vector<GLushort>;
+%template(vectorGLuint)   std::vector<GLuint>;
+%template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,0x1406>;		// GL_FLOAT
+%template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,0x1406>;		// GL_FLOAT
+%template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,0x1406>;		// GL_FLOAT
+%template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,0x140A>;		// GL_DOUBLE
+%template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,0x140A>;		// GL_DOUBLE
+%template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,0x140A>;		// GL_DOUBLE
+%template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,0x1402>;		// GL_SHORT
+%template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,0x1404>;		// GL_INT
+%template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,0x1401>;		// GL_UNSIGNED_BYTE
+%template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,0x1403>;	// GL_UNSIGNED_SHORT
+%template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,0x1405>;		// GL_UNSIGNED_INT
 
 %include osg/Geometry
 %include osg/Shape
@@ -600,12 +624,12 @@ namespace osg {
 %include osg/Projection
 %include osg/Transform
 %include osg/PositionAttitudeTransform
+%include osg/TexGenNode
 
 # %include osg/AnimationPath
 %include osg/ApplicationUsage
 %include osg/ArgumentParser
 %include osg/Array
-
 
 %include osg/PrimitiveSet
 
