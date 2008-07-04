@@ -24,8 +24,7 @@
 #include <osg/RenderInfo>
 #endif
 
-
-
+#include <osg/GraphicsContext>
 #include <osg/Drawable>
 #include <osg/ShapeDrawable>
 #include <osg/Node>
