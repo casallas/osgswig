@@ -66,6 +66,7 @@ typedef unsigned char GLboolean;
 #include <osg/StateSet>
 #include <osg/StateAttribute>
 #include <osg/PolygonMode>
+#include <osg/Point>
 #include <osg/LineWidth>
 #include <osg/LineStipple>
 #include <osg/Material>
@@ -392,13 +393,16 @@ VECIGNOREHELPER(Quat)
 %ignore osg::BufferObject::getExtensions;
 %ignore osg::BufferObject::setExtensions;
 
+%ignore osg::Point::Extensions;
+%ignore osg::Point::getExtensions;
+%ignore osg::Point::setExtensions;
+
 %ignore osg::View::addSlave;
 %ignore osg::View::getSlave;
 %ignore osg::View::removeSlave;
 %ignore osg::View::findSlaveForCamera;
 
 %ignore osg::ArgumentParser::read;
-
 
 
 #ifdef SWIGPYTHON
@@ -503,6 +507,7 @@ namespace osg {
 %include osg/StateSet
 %include osg/StateAttribute
 %include osg/PolygonMode
+%include osg/Point
 %include osg/LineWidth
 %include osg/LineStipple
 %include osg/Material
