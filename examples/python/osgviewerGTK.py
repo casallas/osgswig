@@ -21,7 +21,7 @@ class SimpleDemo(gtk.Window):
     def __init__(self):
         gtk.Window.__init__(self)
 
-        self.set_title('simple')
+        self.set_title('OpenSceneGraph Viewer in Python and GTK')
         if sys.platform != 'win32':
             self.set_resize_mode(gtk.RESIZE_IMMEDIATE)
         self.set_reallocate_redraws(True)
