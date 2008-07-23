@@ -69,10 +69,8 @@ marker.setActive(True)
 # create a matrix transfrom utilised through osgART
 ar_transform = osg.MatrixTransform()
 
-# add the chain of event handlers
-ar_transform.setEventCallback(osgART.MarkerTransformCallback(marker))
-ar_transform.getEventCallback().setNestedCallback(osgART.MarkerVisibilityCallback(marker))
-ar_transform.getEventCallback().getNestedCallback().setNestedCallback(osgART.TransformFilterCallback())
+# add the default chain of event handlers
+osgART.attachDefaultEventCallbacks(ar_transform,marker)
 
 # add a cube
 ar_transform.addChild(osgART.testCube())

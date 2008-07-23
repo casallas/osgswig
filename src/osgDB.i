@@ -30,16 +30,16 @@ namespace std
 }
 
 #ifdef SWIGPYTHON
-
 %typemap(out) osgDB::FilePathList {
     $result = PyList_New(0);
-		if ($result == 0) {
-	return NULL;
-    }
-    for (osgDB::FilePathList::iterator i = $1.begin(); i != $1.end(); ++i) {
+	
+	if ($result == 0) return NULL;
+    
+    for (osgDB::FilePathList::iterator i = $1.begin(); i != $1.end(); ++i) 
+	{
 		PyObject * str = PyString_FromString((*i).c_str());
 		if (str == 0) return NULL;
-	if (PyList_Append($result, str) == -1) return NULL;
+		if (PyList_Append($result, str) == -1) return NULL;
     }
 }
 #endif
@@ -51,6 +51,7 @@ namespace std
 #include <osg/BlendColor>
 
 #include <osgDB/Version>
+#include <osgDB/AuthenticationMap>
 #include <osgDB/Registry>
 #include <osgDB/WriteFile>
 #include <osgDB/SharedStateManager>
@@ -116,6 +117,7 @@ namespace std
 
 %include osgDB/Version
 %include osgDB/Export
+%include osgDB/AuthenticationMap
 %include osgDB/ReaderWriter
 %include osgDB/WriteFile
 %include osgDB/SharedStateManager

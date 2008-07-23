@@ -20,9 +20,14 @@ node.addChild(osgDB.readNodeFile('cow.osg'))
 # create a viewer
 viewer = osgViewer.Viewer()
 
-# configure
+# configure default threading
 viewer.setThreadingModel(osgViewer.Viewer.SingleThreaded)
 
+# add handlers
+viewer.addEventHandler(osgViewer.StatsHandler())
+viewer.addEventHandler(osgViewer.WindowSizeHandler())
+viewer.addEventHandler(osgViewer.ThreadingHandler())
+viewer.addEventHandler(osgViewer.HelpHandler())
 
 # add to the scene
 viewer.setSceneData(node)

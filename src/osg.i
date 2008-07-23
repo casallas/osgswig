@@ -1,5 +1,12 @@
 %module(directors="1") osg
 
+#ifdef SWIGPYTHON
+// Workaround for this bug - triggered when iterating vectorNode
+// http://sourceforge.net/tracker/index.php?func=detail&aid=1863647&group_id=1645&atid=101645
+//
+#define PySwigIterator osg_module_PySwigIterator
+#endif // SWIGPYTHON
+
 %include "globals.i"
 #ifdef SWIGPYTHON
 %include "osgPyExtend.i"
@@ -11,6 +18,7 @@
 %feature("director") osg::MatrixTransform;
 // directors - preliminary set
 %feature("director") osg::NodeCallback;
+%feature("director") osg::NodeVisitor;
 
 
 //%feature("docstring");
@@ -33,9 +41,6 @@
 %include "osg_header.i"
 
 
-#ifdef SWIGCSHARP
-# %include GL/gl.h
-#else
 typedef unsigned int GLenum;
 typedef unsigned int GLuint;
 typedef float GL_FLOAT;
@@ -43,7 +48,6 @@ typedef double GL_DOUBLE;
 typedef int GLsizei;
 typedef int GLint;
 typedef unsigned char GLboolean;
-#endif
 
 %{
 #include <osg/ref_ptr>
@@ -199,6 +203,34 @@ VECIGNOREHELPER(Vec4d)
 
 VECIGNOREHELPER(Quat)
 %ignore osg::Quat::operator=;
+
+
+
+// correct override for osg::NodeVisitor::apply
+%rename("apply_Node") osg::NodeVisitor::apply(Node&);
+%rename("apply_Geode") osg::NodeVisitor::apply(Geode&);
+%rename("apply_Billboard") osg::NodeVisitor::apply(Billboard&);
+%rename("apply_Group") osg::NodeVisitor::apply(Group&);
+%rename("apply_ProxyNode") osg::NodeVisitor::apply(ProxyNode&);
+%rename("apply_Projection") osg::NodeVisitor::apply(Projection&);
+%rename("apply_CoordinateSystemNode") osg::NodeVisitor::apply(CoordinateSystemNode&);
+%rename("apply_ClipNode") osg::NodeVisitor::apply(ClipNode&);
+%rename("apply_TexGenNode") osg::NodeVisitor::apply(TexGenNode&);
+%rename("apply_LightSource") osg::NodeVisitor::apply(LightSource&);       
+%rename("apply_Transform") osg::NodeVisitor::apply(Transform&);
+%rename("apply_Camera") osg::NodeVisitor::apply(Camera&);
+%rename("apply_CameraView") osg::NodeVisitor::apply(CameraView&);
+%rename("apply_MatrixTransform") osg::NodeVisitor::apply(MatrixTransform&);
+%rename("apply_PositionAttitudeTransform") osg::NodeVisitor::apply(PositionAttitudeTransform&);
+%rename("apply_Switch") osg::NodeVisitor::apply(Switch&);
+%rename("apply_Sequence") osg::NodeVisitor::apply(Sequence&);
+%rename("apply_LOD") osg::NodeVisitor::apply(LOD&);
+%rename("apply_PagedLOD") osg::NodeVisitor::apply(PagedLOD&);
+%rename("apply_ClearNode") osg::NodeVisitor::apply(ClearNode&);
+%rename("apply_OccluderNode") osg::NodeVisitor::apply(OccluderNode&);
+%rename("apply_OcclusionQueryNode") osg::NodeVisitor::apply(OcclusionQueryNode&);
+
+
 
 // mappings for matrix transform
 // \TODO fix the mappings back
@@ -704,6 +736,9 @@ namespace osg {
 #endif
 
 %include osg/Timer
+
+
+
 
 //casting helpers
 

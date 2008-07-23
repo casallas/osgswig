@@ -18,6 +18,8 @@
 %include "typemaps.i"
 %include "std_vector.i"
 %include "std_string.i"
+%include "std_multiset.i"
+
 
 /* import headers */
 %include osg_header.i
@@ -27,6 +29,9 @@
 
 
 %{
+
+#include <set>
+
 #include <osgUtil/CubeMapGenerator>
 #include <osgUtil/CullVisitor>
 #include <osgUtil/DelaunayTriangulator>
@@ -148,10 +153,32 @@ struct Intersection
     const osg::Vec3& getLocalIntersectNormal() const { return localIntersectionNormal; }
     osg::Vec3 getWorldIntersectNormal() const { return matrix.valid() ? osg::Matrix::transform3x3(osg::Matrix::inverse(*matrix),localIntersectionNormal) : localIntersectionNormal; }
 };
+
+#ifdef SWIGPYTHON
+%typemap(out) osgUtil::LineSegmentIntersector::Intersections& {
+    
+	$result = PyList_New(0);
+	
+	if ($result == 0 || $1 == 0) return NULL;
+
+    for (osgUtil::LineSegmentIntersector::Intersections::iterator i = $1->begin(); i != $1->end(); ++i) 
+	{
+		PyObject* obj = SWIG_NewPointerObj((new Intersection(static_cast< const Intersection& >(*i))), SWIGTYPE_p_Intersection, SWIG_POINTER_OWN |  0 );
+
+		if (obj) 
+			if (PyList_Append($result, obj) == -1) return NULL;
+    }
+}
+
+#endif // SWIGPYTHON
+
 %include osgUtil/LineSegmentIntersector
+
+
 %{
 typedef osgUtil::LineSegmentIntersector::Intersection Intersection;
 %}
+
 
 //%include osgUtil/PolytopeIntersector
 

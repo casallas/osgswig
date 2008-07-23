@@ -81,3 +81,13 @@ using namespace osg;
 %include osgManipulator/TranslateAxisDragger
 %include osgManipulator/TranslatePlaneDragger
 
+%inline %{
+osgManipulator::Dragger *NodeToDragger(osg::Node *d) {
+  return dynamic_cast<osgManipulator::Dragger*>(d);
+}
+%}
+
+
+
+
+

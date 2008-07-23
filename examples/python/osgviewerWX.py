@@ -27,7 +27,8 @@ class GraphicsWindowWX(wx.glcanvas.GLCanvas):
 
 		self.viewer = osgViewer.Viewer()
 
-		self.viewer.addEventHandler(osgViewer.StatsHandler())
+		self.viewer.setThreadingModel(osgViewer.Viewer.SingleThreaded)
+		self.viewer.addEventHandler(osgViewer.StatsHandler())		
 		self.viewer.setCameraManipulator(osgGA.TrackballManipulator())
 
 		self.graphicswindow = self.viewer.setUpViewerAsEmbeddedInWindow(0,0,width,height)
@@ -140,7 +141,7 @@ class MainWindow(wx.Frame):
 
 	def OnOpen(self, evt):
 		dlg = wx.FileDialog(self, 'Open a Scene', os.getcwd() , '' , 
-			'OpenSceneGraph Files (*.osg)|*.osg|All Files (*.*)|*.*')
+			'OpenSceneGraph Files (*.osg,*.ive)|*.osg,*.ive|All Files (*.*)|*.*')
 		if wx.ID_OK == dlg.ShowModal():
 			node = osgDB.readNodeFile(dlg.GetPath().encode('ascii', 'replace'))
 			self.canvas.viewer.setSceneData(node)
