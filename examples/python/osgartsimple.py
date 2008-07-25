@@ -36,17 +36,17 @@ viewer.addEventHandler(osgViewer.HelpHandler())
 viewer.setSceneData(root)
 
 # preload plugins
-video_id = osgART.PluginManager.getInstance().load("osgart_video_artoolkit2")	
-tracker_id = osgART.PluginManager.getInstance().load("osgart_tracker_artoolkit2")
+video_id = osgART.PluginManager.instance().load("osgart_video_artoolkit2")	
+tracker_id = osgART.PluginManager.instance().load("osgart_tracker_artoolkit2")
 
 # create a video source (move to settings)
-video = osgART.Video.cast(osgART.PluginManager.getInstance().get(video_id))
+video = osgART.Video.cast(osgART.PluginManager.instance().get(video_id))
 
 # open the video
 video.open()
 
 # tracker
-tracker = osgART.Tracker.cast(osgART.PluginManager.getInstance().get(tracker_id))	
+tracker = osgART.Tracker.cast(osgART.PluginManager.instance().get(tracker_id))	
 
 # create a calibration object
 calibration = tracker.getOrCreateCalibration()
