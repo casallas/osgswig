@@ -24,6 +24,7 @@ FIND_PATH(OSG_INCLUDE_DIR osg/Node
     /opt/local/include # DarwinPorts
     /opt/csw/include # Blastwave
     /opt/include
+	$ENV{PROGRAMFILES}/OpenSceneGraph/include
     /cygdrive/c/Program Files/OpenSceneGraph/include
     [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/include
     /usr/freeware/include
@@ -50,6 +51,7 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
         /opt/local/lib
         /opt/csw/lib
         /opt/lib
+		$ENV{PROGRAMFILES}/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/bin
         /cygdrive/c/Projects/OpenSceneGraph/Build/lib/release
@@ -75,6 +77,7 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
         /opt/local/lib
         /opt/csw/lib
         /opt/lib
+		$ENV{PROGRAMFILES}/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/bin
         /cygdrive/c/Projects/OpenSceneGraph/Build/lib/release

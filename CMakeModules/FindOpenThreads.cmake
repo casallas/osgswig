@@ -49,6 +49,7 @@ FIND_PATH(OPENTHREADS_INCLUDE_DIR OpenThreads/Thread
     $ENV{OSG_INCLUDE_DIR}
     $ENV{OSG_DIR}/include
     $ENV{OSG_DIR}
+	$ENV{PROGRAMFILES}/OpenSceneGraph/include
     NO_DEFAULT_PATH
 )
 
@@ -69,6 +70,7 @@ IF(NOT OPENTHREADS_INCLUDE_DIR)
         /opt/local/include # DarwinPorts
         /opt/csw/include # Blastwave
         /opt/include
+		$ENV{PROGRAMFILES}/OpenSceneGraph/include
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OpenThreads_ROOT]/include
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/include
     )
@@ -87,6 +89,7 @@ FIND_LIBRARY(OPENTHREADS_LIBRARY
     $ENV{OSG_DIR}/lib64
     $ENV{OSG_DIR}/lib
     $ENV{OSG_DIR}
+	$ENV{PROGRAMFILES}/OpenSceneGraph/lib
     NO_DEFAULT_PATH
 )
 
