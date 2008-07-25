@@ -12,6 +12,7 @@
 #include <osg/StateSet>
 #include <osg/StateAttribute>
 #include <osg/PolygonMode>
+#include <osg/PolygonOffset>
 #include <osg/Point>
 #include <osg/LineWidth>
 #include <osg/LineStipple>

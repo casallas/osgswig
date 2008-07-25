@@ -19,6 +19,8 @@
 %import osg.i
 
 
+
+
 %{
 
 #include <osgSim/BlinkSequence>
@@ -36,11 +38,12 @@
 #include <osgSim/LightPointSystem>
 #include <osgSim/LineOfSight>
 #include <osgSim/MultiSwitch>
-#include <osgSim/OpenFlightOptimizer>
+#include <osgSim/ObjectRecordData>
 #include <osgSim/OverlayNode>
 #include <osgSim/ScalarBar>
 #include <osgSim/ScalarsToColors>
 #include <osgSim/Sector>
+#include <osgSim/ShapeAttribute>
 #include <osgSim/SphereSegment>
 #include <osgSim/Version>
 #include <osgSim/VisibilityGroup>
@@ -83,9 +86,9 @@ using namespace osgSim;
 %include osgSim/LightPointSystem
 %include osgSim/LineOfSight
 %include osgSim/MultiSwitch
-%include osgSim/OpenFlightOptimizer
+%include osgSim/ObjectRecordData
 %include osgSim/OverlayNode
-%include osgSim/ScalarBar
+//%include osgSim/ScalarBar
 %include osgSim/ScalarsToColors
 %include osgSim/Sector
 %include osgSim/SphereSegment

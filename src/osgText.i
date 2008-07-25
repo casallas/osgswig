@@ -53,12 +53,14 @@
 
 /* include the actual headers */
 %include osgText/Export
+%include osgText/KerningType
 %include osgText/String
 %include osgText/Font
+%include osgText/TextBase
 %include osgText/Text
 %include osgText/FadeText
 %include osgText/Version
-%include osgText/KerningType
+
 
 # %template(FontResolution) std::pair<unsigned int,unsigned int>;
 

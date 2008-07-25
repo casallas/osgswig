@@ -63,6 +63,8 @@
 %ignore osgViewer::CompositeViewer::getScenes;
 %ignore osgViewer::CompositeViewer::getViews;
 
+/* this one needs some thought */
+%ignore osgViewer::ScreenCaptureHandler;
 
 /* include the actual headers */
 %include osgViewer/Version
@@ -74,6 +76,7 @@
 %include osgViewer/Viewer
 %include osgViewer/CompositeViewer
 %include osgViewer/ViewerEventHandlers
+
 
 
 %inline %{

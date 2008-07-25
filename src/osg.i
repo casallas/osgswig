@@ -71,6 +71,7 @@ typedef unsigned char GLboolean;
 #include <osg/StateAttribute>
 #include <osg/PolygonMode>
 #include <osg/Point>
+#include <osg/PolygonOffset>
 #include <osg/LineWidth>
 #include <osg/LineStipple>
 #include <osg/Material>
@@ -346,6 +347,8 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Node::getComputeBoundingSphereCallback;
 %ignore osg::NodeVisitor::setDatabaseRequestHandler;
 %ignore osg::NodeVisitor::getDatabaseRequestHandler;
+%ignore osg::NodeVisitor::setImageRequestHandler;
+%ignore osg::NodeVisitor::getImageRequestHandler;
 
 //%ignore osg::Transform::asPositionAttitudeTransform;
 
@@ -540,6 +543,7 @@ namespace osg {
 %include osg/StateAttribute
 %include osg/PolygonMode
 %include osg/Point
+%include osg/PolygonOffset
 %include osg/LineWidth
 %include osg/LineStipple
 %include osg/Material
