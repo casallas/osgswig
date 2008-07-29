@@ -29,17 +29,17 @@ while True:
                 templates+=[linewithclass]
             else:
                 nextline= f.readline()
-                if not "[" in nextline:
+                if not nextline.startswith("["):
                     #this is just a nested class
                     nestedclasses+=[linewithclass]
                 else:
                     #this is a probably an atomic/enum
                     pass
 
-print "Nested classes in osg:"
+print "Nested classes:"
 for entry in nestedclasses:
     print entry,
 
-print "\nTemplates in osg:"
+print "\nTemplates:"
 for entry in templates:
     print entry,
