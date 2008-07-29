@@ -37,7 +37,42 @@ namespc = alphafunc_comparisonfunctiontype.getNamespace()
 methodinfolist = vec4type.getMethods()
 
 #try to get the first item
-methodinfo = methodinfolist[0]
+#methodinfo = methodinfolist[0]
 
 #if all is well, one should have a MethodInfo* here, not the current 
-print "Methodinfo for vec4:", methodinfo
+#print "Methodinfo for vec4:", methodinfo
+
+#construct a methodinfolist instance to be filled
+methodinfolist = osgIntrospection.MethodInfoList_()
+
+#insert all method information into the list
+transformtype.getAllMethods(methodinfolist)
+
+print "Transformnode has the following functions:"
+for methodinfo in methodinfolist:
+    print methodinfo.getName()
+
+#construct a methodinfomap instance to be filled
+methodinfomap = osgIntrospection.MethodInfoMap_()
+
+#insert the information from a transformtype
+transformtype.getMethodsMap(methodinfomap)
+
+print "\nTransformnode is derived from:"
+for datatype in methodinfomap:
+    print datatype.getQualifiedName()
+
+#lmethodinfolist = methodinfomap[datatype]      #doesn't work
+#it appears the __getitem__ is broken, but one can use the .values() of the dict
+#one could, in python, merge the two lists in a new map/dict
+lmethodinfomap_keys   = [key for key in methodinfomap]
+lmethodinfomap_values = [value for value in methodinfomap.values()]
+
+print "Its methods are defined:"
+for type_idx in range(len(lmethodinfomap_keys)):
+    print "In :",lmethodinfomap_keys[type_idx].getQualifiedName()
+    for methodinfo in lmethodinfomap_values[type_idx]:
+        print "\t\t", methodinfo.getName()    
+
+
+

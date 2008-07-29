@@ -86,23 +86,70 @@ using namespace osgIntrospection;
 
 %include <osgIntrospection/CustomAttribute>
 %include <osgIntrospection/Type>
-%template(EnumLabelMap_) std::map<int, std::string>;
+
+%template(MethodInfoList_) std::vector<const osgIntrospection::MethodInfo* >;
+%template(PropertyInfoList_) std::vector<const osgIntrospection::PropertyInfo* >;
+%template(ParameterInfoList_) std::vector<const osgIntrospection::ParameterInfo* >;
+%template(ConstructorInfoList_) std::vector<const osgIntrospection::ConstructorInfo* >;
+
 // apparently there is a SWIG problem with pointer-to-consts in containers
 // see SWIG Mailing list post: http://www.nabble.com/Problems-with-container-of-pointer-to-const-td18594426.html
 // or this post http://thread.gmane.org/gmane.comp.programming.swig/12098/focus=12100
 // or the following bug report:
 // http://sourceforge.net/tracker/index.php?func=detail&aid=1550362&group_id=1645&atid=101645
+// using a workaround, but apparently __getitem__ still doesn't work correctly
 
-//%template(MethodInfoList_) std::vector<const osgIntrospection::MethodInfo* >;
-//%{
-//    namespace swig {
-//    template <>  struct traits<osgIntrospection::MethodInfo> {
-//     typedef pointer_category category;
-//      static const char* type_name() { return "osgIntrospection::MethodInfo";}
-//    };
-//  }
-//%}
-//%template(MethodInfoMap_) std::map<const osgIntrospection::Type*, osgIntrospection::MethodInfoList >;
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::MethodInfo> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::MethodInfo";}
+    };
+  }
+%}
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::PropertyInfo> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::PropertyInfo";}
+    };
+  }
+%}
+ 
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::ParameterInfo> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::ParameterInfo";}
+    };
+  }
+%}
+ 
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::ConstructorInfo> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::ConstructorInfo";}
+    };
+  }
+%}
+
+
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::Type> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::Type";}
+    };
+  }
+%}
+
+%template(PropertyInfoMap_) std::map<const osgIntrospection::Type*, osgIntrospection::PropertyInfoList >;
+%template(MethodInfoMap_) std::map<const osgIntrospection::Type*, osgIntrospection::MethodInfoList >;
+
+%template(EnumLabelMap_) std::map<int, std::string>;
+
+
 
 %include <osgIntrospection/Value>
 %include <osgIntrospection/Attributes>
