@@ -60,7 +60,7 @@ CONFIGURE_FILE(
 
 
 SET_SOURCE_FILES_PROPERTIES(
-	osg.i osgUtil.i osgFX.i osgDB.i osgGA.i osgText.i osgSim.i osgViewer.i osgManipulator.i 
+	osg.i osgUtil.i osgFX.i osgDB.i osgGA.i osgText.i osgSim.i osgViewer.i osgManipulator.i osgIntrospection.i
 	PROPERTIES CPLUSPLUS TRUE)
 	
 SET_SOURCE_FILES_PROPERTIES(osg.i PROPERTIES SWIG_FLAGS "-make_default")
@@ -96,6 +96,9 @@ SWIG_LINK_LIBRARIES(osgText ${SWIGLINKLIBS} ${OSGGA_LIBRARY} ${OSGTEXT_LIBRARY})
 SWIG_ADD_MODULE(osgSim python osgSim.i)
 SWIG_LINK_LIBRARIES(osgSim ${SWIGLINKLIBS} ${OSGGA_LIBRARY} ${OSGSIM_LIBRARY})
 
+SWIG_ADD_MODULE(osgIntrospection python osgIntrospection.i)
+SWIG_LINK_LIBRARIES(osgIntrospection ${SWIGLINKLIBS} ${OSGINTROSPECTION_LIBRARY})
+
 
 IF(BUILD_WITH_OSGART)
 	INCLUDE_DIRECTORIES(
@@ -113,7 +116,7 @@ IF(BUILD_WITH_OSGART)
 ENDIF(BUILD_WITH_OSGART)
 
 IF(WIN32)
-FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim)
+FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim osgIntrospection)
 	SET(TGT ${SWIG_MODULE_${modname}_REAL_NAME}) 
 	GET_TARGET_PROPERTY(${TGT}_LOCATION ${TGT} LOCATION)
 	GET_FILENAME_COMPONENT( MYNAME ${${TGT}_LOCATION} NAME_WE)
