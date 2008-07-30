@@ -41,13 +41,7 @@
 %include "osg_header.i"
 
 
-typedef unsigned int GLenum;
-typedef unsigned int GLuint;
-typedef float GL_FLOAT;
-typedef double GL_DOUBLE;
-typedef int GLsizei;
-typedef int GLint;
-typedef unsigned char GLboolean;
+%include GL.i
 
 %{
 #include <osg/ref_ptr>
