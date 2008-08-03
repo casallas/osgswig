@@ -51,7 +51,9 @@ namespace std
 #include <osg/BlendColor>
 
 #include <osgDB/Version>
-//#include <osgDB/AuthenticationMap>
+#if (OPENSCENEGRAPH_MINOR_VERSION > 6)
+#include <osgDB/AuthenticationMap>
+#endif
 #include <osgDB/Registry>
 #include <osgDB/WriteFile>
 #include <osgDB/SharedStateManager>
