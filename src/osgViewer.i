@@ -54,34 +54,32 @@
 %feature("director") osgViewer::GraphicsWindowEmbedded::grabFocus;
 %feature("director") osgViewer::GraphicsWindowEmbedded::grabFocusIfPointerInWindow;
 
-
-%ignore osgViewer::CompositeViewer::getCameras;
-%ignore osgViewer::CompositeViewer::getContexts;
-%ignore osgViewer::CompositeViewer::getWindows;
 %ignore osgViewer::CompositeViewer::getAllThreads;
 %ignore osgViewer::CompositeViewer::getOperationThreads;
-%ignore osgViewer::CompositeViewer::getScenes;
-%ignore osgViewer::CompositeViewer::getViews;
 
 /* this one needs some thought */
 %ignore osgViewer::ScreenCaptureHandler;
 
 /* include the actual headers */
 %include osgViewer/Version
+%include osgViewer/View
 %include osgViewer/GraphicsWindow
 %include osgViewer/Scene
 %include osgViewer/Version
+
+%template(Windows) std::vector<osgViewer::GraphicsWindow*>;
+%template(Contexts) std::vector<osg::GraphicsContext*>;
+%template(Cameras) std::vector<osg::Camera*>;
+%template(Scenes) std::vector<osgViewer::Scene*>;
+%template(Views) std::vector<osgViewer::View*>;
+
 %include osgViewer/ViewerBase
-%include osgViewer/View
 %include osgViewer/Viewer
 %include osgViewer/CompositeViewer
 %include osgViewer/ViewerEventHandlers
-
-
 
 %inline %{
 osgViewer::Viewer *GUIActionAdapterToViewer(osgGA::GUIActionAdapter *aa) {
   return dynamic_cast<osgViewer::Viewer*>(aa);
 }
 %}
-

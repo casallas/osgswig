@@ -20,8 +20,24 @@
 %feature("director") osg::NodeCallback;
 %feature("director") osg::NodeVisitor;
 
+//Enable exception handling in directors 
+%feature("director:except") {
+    if ($error != NULL) {
+        throw Swig::DirectorMethodException();
+    }
+}
 
-//%feature("docstring");
+%exception {
+    try { $action }
+    catch (Swig::DirectorException &e) { SWIG_fail; }
+}
+
+// Experimental: Integrating Doxygen-generated docs from OSG in python docstrings
+//  requires some more tooling/options to automate build
+//
+// %feature("docstring");
+// %include "osg_doxy2swig.i"
+
 #endif
 
 #ifdef SWIGPERL
@@ -270,17 +286,30 @@ VECIGNOREHELPER(Quat)
 %ignore osg::StateSet::getEventCallback;
 %ignore osg::StateSet::Callback;
 
+%ignore osg::StateAttribute::ModeUsage;
+%ignore osg::StateAttribute::Callback;
+
 %ignore osg::StateAttribute::setUpdateCallback;
 %ignore osg::StateAttribute::getUpdateCallback;
 %ignore osg::StateAttribute::setEventCallback;
 %ignore osg::StateAttribute::getEventCallback;
-
 %ignore osg::StateAttribute::getModeUsage;
 %ignore osg::StateAttribute::ModeUsage;
 
 %ignore osg::State::setDynamicObjectRenderingCompletedCallback;
 %ignore osg::State::getDynamicObjectRenderingCompletedCallback;
 
+//osg::Drawable, list of ignored Nested Classes
+%ignore osg::Drawable::ComputeBoundingBoxCallback;
+%ignore osg::Drawable::UpdateCallback;
+%ignore osg::Drawable::EventCallback;
+%ignore osg::Drawable::CullCallback;
+%ignore osg::Drawable::DrawCallback;
+%ignore osg::Drawable::AttributeFunctor;
+%ignore osg::Drawable::ConstAttributeFunctor;
+%ignore osg::Drawable::Extensions;
+
+//osg::Drawable, ignore functions that handle ignored Nested Classes
 %ignore osg::Drawable::getUpdateCallback;
 %ignore osg::Drawable::setUpdateCallback;
 %ignore osg::Drawable::getComputeBoundingBoxCallback;
@@ -296,13 +325,16 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Drawable::getExtensions;
 %ignore osg::Drawable::setExtensions;
 
+//osg::Geometry, list of ignored Nested Classes
+%ignore osg::Geometry::ArrayData;
+%ignore osg::Geometry::Vec3ArrayData;
+
 %ignore osg::Geometry::setTexCoordIndices;
 %ignore osg::Geometry::getTexCoordIndices;
 %ignore osg::Geometry::setVertexAttribIndices;
 %ignore osg::Geometry::getVertexAttribIndices;
 %ignore osg::Geometry::setVertexIndices;
 %ignore osg::Geometry::getVertexIndices;
-
 %ignore osg::Geometry::setVertexData;
 %ignore osg::Geometry::getVertexData;
 %ignore osg::Geometry::setNormalData;
@@ -325,14 +357,13 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Geometry::getFogCoordData;
 %ignore osg::Geometry::setTexCoordData;
 %ignore osg::Geometry::getTexCoordData;
+//%ignore osg::Geometry::set*;
+//%ignore osg::Geometry::get*;
 
 %ignore osg::TriangleMesh::setVertices;
 %ignore osg::TriangleMesh::getVertices;
 %ignore osg::TriangleMesh::setIndices;
 %ignore osg::TriangleMesh::getIndices;
-
-//%ignore osg::Geometry::set*;
-//%ignore osg::Geometry::get*;
 
 %ignore osg::BlendFunc::getExtensions;
 %ignore osg::BlendFunc::setExtensions;
@@ -434,10 +465,6 @@ VECIGNOREHELPER(Quat)
 %ignore osg::ArgumentParser::read;
 
 
-#ifdef SWIGPYTHON
-%feature("ref") osg::Referenced "$this->ref();"
-%feature("unref") osg::Referenced "$this->unref();"
-#endif
 
 #ifdef SWIGPERL
 %feature("ref") osg::Referenced "$this->ref();"
@@ -450,17 +477,37 @@ VECIGNOREHELPER(Quat)
 #endif
 
 
-
-
-
-
 // Now the headers
 %include osg/Version
 
 %include osg/Notify
 
-%include osg/ref_ptr
+%extend osg::Referenced {
+   ~Referenced() 
+   {
+#ifdef OSGSWIGDEBUG
+     printf("osg::~Referenced Obj %x, refcount before [%d]\n",self,self->referenceCount());
+#endif OSGSWIGDEBUG
+     self->unref();
+   }
+};
+#ifdef SWIGPYTHON
+%feature("ref") osg::Referenced {
+	$this->ref();
+#ifdef OSGSWIGDEBUG
+	printf("osg::Referenced::Ref   Obj %x, refcount[%d]\n",$this,$this->referenceCount());
+#endif OSGSWIGDEBUG
+	}
+%feature("unref") osg::Referenced {
+#ifdef OSGSWIGDEBUG
+	printf("osg::UnRef Obj %x, refcount before [%d]\n",$this,$this->referenceCount());
+#endif OSGSWIGDEBUG
+	$this->unref();
+	}
+#endif
 %include osg/Referenced
+%include osg/ref_ptr
+
 
 #if (OSG_VERSION_MAJOR > 1)
 %include osg/DeleteHandler
@@ -628,17 +675,21 @@ namespace osg {
 %template(vectorGLubyte)  std::vector<GLubyte>;
 %template(vectorGLushort) std::vector<GLushort>;
 %template(vectorGLuint)   std::vector<GLuint>;
-%template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,0x1406>;		// GL_FLOAT
-%template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,0x1406>;		// GL_FLOAT
-%template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,0x1406>;		// GL_FLOAT
-%template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,0x140A>;		// GL_DOUBLE
-%template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,0x140A>;		// GL_DOUBLE
-%template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,0x140A>;		// GL_DOUBLE
-%template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,0x1402>;		// GL_SHORT
-%template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,0x1404>;		// GL_INT
-%template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,0x1401>;		// GL_UNSIGNED_BYTE
-%template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,0x1403>;	// GL_UNSIGNED_SHORT
-%template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,0x1405>;		// GL_UNSIGNED_INT
+//%template(vectorGLfloat)  std::vector<GLfloat>;
+//%template(vectorGLdouble) std::vector<GLdouble>;
+//%template(FloatArray)     osg::TemplateArray<GLfloat,osg::Array::FloatArrayType,1,GL_FLOAT>;		// GL_FLOAT
+%template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,GL_FLOAT>;		// GL_FLOAT
+%template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,GL_FLOAT>;		// GL_FLOAT
+%template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT>;		// GL_FLOAT
+//%template(DoubleArray)    osg::TemplateArray<GLdouble,osg::Array::DoubleArrayType,1,GL_DOUBLE>;		// GL_DOUBLE
+%template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,GL_DOUBLE>;	// GL_DOUBLE
+%template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,GL_DOUBLE>;	// GL_DOUBLE
+%template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,GL_DOUBLE>;	// GL_DOUBLE
+%template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,GL_SHORT>;	// GL_SHORT
+%template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,GL_INT>;		// GL_INT
+%template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,GL_UNSIGNED_BYTE>;// GL_UNSIGNED_BYTE
+%template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,GL_UNSIGNED_SHORT>;// GL_UNSIGNED_SHORT
+%template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,GL_UNSIGNED_INT>;	// GL_UNSIGNED_INT
 
 %include osg/Geometry
 %include osg/Shape

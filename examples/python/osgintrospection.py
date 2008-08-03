@@ -63,16 +63,45 @@ for datatype in methodinfomap:
     print datatype.getQualifiedName()
 
 #lmethodinfolist = methodinfomap[datatype]      #doesn't work
-#it appears the __getitem__ is broken, but one can use the .values() of the dict
-#one could, in python, merge the two lists in a new map/dict
+#it appears the [] or __getitem__ of the dict is broken because of const wrapping values, 
+# but one can use the .values(), .keys() and .items() of the dict
 lmethodinfomap_keys   = [key for key in methodinfomap]
 lmethodinfomap_values = [value for value in methodinfomap.values()]
 
-print "Its methods are defined:"
+#a way to iterate over the seperate lists, based on similar indexing
 for type_idx in range(len(lmethodinfomap_keys)):
-    print "In :",lmethodinfomap_keys[type_idx].getQualifiedName()
+    #print "In :",lmethodinfomap_keys[type_idx].getQualifiedName()
     for methodinfo in lmethodinfomap_values[type_idx]:
-        print "\t\t", methodinfo.getName()    
+        #print "\t\t", methodinfo.getName()
+        pass
+
+#use the dict() constructor to rebuild a dictionary directly from lists of key-value pairs stored as tuples
+methodinfomap_new = dict([ (lmethodinfomap_keys[i],lmethodinfomap_values[i]) for i in range(len(lmethodinfomap_keys))])
+#or, the more smarter (TM) way with generator expressions
+methodinfomap_new = dict([key,value] for key,value in zip(lmethodinfomap_keys,lmethodinfomap_values))
+# finally, a useful oneliner nicely packaged in a lambda function to re-convert all troublesome dicts
+fixdict = lambda pdict : dict([key,value] for key,value in zip(pdict.keys(),pdict.values()))
+
+methodinfomap_new= fixdict(methodinfomap)
+
+#This new dict does allow __getitem__ stuff, so the iterating a methodinfmap because more pythonic
+print "Methods defined:"
+for type in methodinfomap_new:
+    print "In :", type.getQualifiedName()
+    for methodinfo in methodinfomap_new[type]:
+        print "\t\t",methodinfo.getName()
+
+print "Properties defined:"
+propertyinfomap = osgIntrospection.PropertyInfoMap_()
+transformtype.getPropertiesMap(propertyinfomap)
+propertyinfomap=fixdict(propertyinfomap)
+for type in propertyinfomap:
+    print "In :", type.getQualifiedName()
+    for propertyinfo in propertyinfomap[type]:
+        print "\t\t",propertyinfo.getName()
+
+
+
 
 
 

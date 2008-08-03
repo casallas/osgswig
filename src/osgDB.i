@@ -26,20 +26,20 @@
  
 namespace std
 {
-	%template(stdFilePathList) deque<string>;
+        %template(stdFilePathList) deque<string>;
 }
 
 #ifdef SWIGPYTHON
 %typemap(out) osgDB::FilePathList {
     $result = PyList_New(0);
-	
-	if ($result == 0) return NULL;
+        
+        if ($result == 0) return NULL;
     
     for (osgDB::FilePathList::iterator i = $1.begin(); i != $1.end(); ++i) 
-	{
-		PyObject * str = PyString_FromString((*i).c_str());
-		if (str == 0) return NULL;
-		if (PyList_Append($result, str) == -1) return NULL;
+        {
+                PyObject * str = PyString_FromString((*i).c_str());
+                if (str == 0) return NULL;
+                if (PyList_Append($result, str) == -1) return NULL;
     }
 }
 #endif
@@ -51,7 +51,7 @@ namespace std
 #include <osg/BlendColor>
 
 #include <osgDB/Version>
-#include <osgDB/AuthenticationMap>
+//#include <osgDB/AuthenticationMap>
 #include <osgDB/Registry>
 #include <osgDB/WriteFile>
 #include <osgDB/SharedStateManager>
@@ -117,11 +117,34 @@ namespace std
 
 %include osgDB/Version
 %include osgDB/Export
+
+#if (OPENSCENEGRAPH_MINOR_VERSION > 6)
 %include osgDB/AuthenticationMap
+#endif
+
 %include osgDB/ReaderWriter
 %include osgDB/WriteFile
 %include osgDB/SharedStateManager
+
+%typemap(out) osg::Node* {
+    //  osgDB::readNodeFile(s) returns a raw Node* with 0 reference count.
+    //  custom typemap to ensure a target-language-owned Node object, while increasing reference counting
+    //  alternative to %newobject directive, because reference counting had to be included (?)
+    if ($1)
+    {
+        $result = SWIG_NewPointerObj((void*)($1), $1_descriptor, SWIG_POINTER_OWN | 0);
+        $1->ref();
+#ifdef OSGSWIGDEBUG
+        printf("osgDB::$symname:: Typemap Ref for Obj %x\n",$result);
+#endif OSGSWIGDEBUG
+    }
+    else
+    {
+        SWIG_exception(SWIG_IOError,"osgDB::$symname:: Could not load file");
+    }
+} 
 %include osgDB/ReadFile
+%typemap(out) osg::Node*;   //resets the typemap
 
 %include osgDB/FieldReader
 %include osgDB/FieldReaderIterator
@@ -138,6 +161,3 @@ namespace std
 %include osgDB/Archive
 %include osgDB/DotOsgWrapper
 %include osgDB/Registry
-
-// %include osgDB/ReaderWriter
-// %include osgDB/ReadFile

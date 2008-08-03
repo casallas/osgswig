@@ -26,12 +26,6 @@
 %define OSGINTROSPECTION_EXPORT
 %enddef
 
-/* import headers */
-//%include osg_header.i
-
-/* import stuff from OpenSceneGraph */
-//%import osg.i
-
 %{
 #include <osgIntrospection/CustomAttributeProvider>
 

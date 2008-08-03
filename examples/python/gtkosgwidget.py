@@ -49,6 +49,11 @@ class SimpleDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         self.connect("button_press_event", self._on_mouse_event)
         self.connect("button_release_event", self._on_mouse_event)
 
+        #experimental: Stereo in a window
+        #self.ds = osg.DisplaySettings_instance()
+        #self.ds.setStereo(True)
+        #self.ds.setStereoMode(osg.DisplaySettings.QUAD_BUFFER)
+
         if viewer is None:
             self.viewer = osgViewer.Viewer()
         else:

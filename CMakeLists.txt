@@ -65,15 +65,14 @@ FIND_PACKAGE(OSGART) #osgART
 FIND_PACKAGE(OSGODE) #osgODE
 FIND_PACKAGE(OSGVERSE) #osgODE
 
-
 # Optional / Mike Weiblen 
 #FIND_PACKAGE(OSGVRPN) #osgVRPN
-
 
 OPTION(BUILD_WITH_OSGART "Create wrappers for osgART (Augmented Reality Toolkit for OpenSceneGraph)" OFF)
 OPTION(BUILD_WITH_OSGODE "Create wrappers for osgODE (ODE - Open Dynamics Environment for OpenSceneGraph)" OFF)
 OPTION(BUILD_WITH_OSGVRPN "Create wrappers for osgVRPN (VRPN - Virtual Reality Peripherals Network)" OFF)
 OPTION(BUILD_WITH_OSGVERSE "Create wrappers for osgVerse (lightweight, low latency, general-purpose network protocol for 3D data)" OFF)
+OPTION(BUILD_WITH_OSGINTROSPECTION "Create wrappers for osgIntrospection (OSG's own introspection library needs to be available)" OFF)
 
 
 # Make the headers visible to everything

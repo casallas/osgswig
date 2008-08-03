@@ -5,6 +5,8 @@
 %include "std_vector.i"
 %include "std_string.i"
 
+//#define OSGSWIGDEBUG
+
 %runtime %{
 // Runtime fix
 

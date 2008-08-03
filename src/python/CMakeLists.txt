@@ -6,6 +6,7 @@
 ## 
 ## osg python bindings
 ##---------------------------------------------------------------------------
+
 FIND_PACKAGE(OpenThreads REQUIRED) 
 FIND_PACKAGE(SWIG REQUIRED)
 
@@ -97,10 +98,13 @@ SWIG_ADD_MODULE(osgSim python osgSim.i)
 SWIG_LINK_LIBRARIES(osgSim ${SWIGLINKLIBS} ${OSGGA_LIBRARY} ${OSGSIM_LIBRARY})
 
 
-#SWIG_ADD_MODULE(osgIntrospection python osgIntrospection.i)
-#SWIG_LINK_LIBRARIES(osgIntrospection ${SWIGLINKLIBS} ${OSGINTROSPECTION_LIBRARY})
-
-# osgIntrospection is not build or distributed by default, needs an option like osgART
+IF(BUILD_WITH_OSGINTROSPECTION)
+	SET_SOURCE_FILES_PROPERTIES(
+		osgIntrospection.i
+		PROPERTIES CPLUSPLUS TRUE)
+	SWIG_ADD_MODULE(osgIntrospection python osgIntrospection.i)
+	SWIG_LINK_LIBRARIES(osgIntrospection ${SWIGLINKLIBS} ${OSGINTROSPECTION_LIBRARY})
+ENDIF(BUILD_WITH_OSGINTROSPECTION)
 
 IF(BUILD_WITH_OSGART)
 	INCLUDE_DIRECTORIES(
@@ -118,7 +122,6 @@ IF(BUILD_WITH_OSGART)
 ENDIF(BUILD_WITH_OSGART)
 
 IF(WIN32)
-#FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim osgIntrospection)
 FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim)
 	SET(TGT ${SWIG_MODULE_${modname}_REAL_NAME}) 
 	GET_TARGET_PROPERTY(${TGT}_LOCATION ${TGT} LOCATION)
