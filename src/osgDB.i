@@ -46,12 +46,14 @@ namespace std
 
 %{
 
+#include <osg/Version>
+
 #include <osg/BlendFunc>
 #include <osg/BlendEquation>
 #include <osg/BlendColor>
 
 #include <osgDB/Version>
-#if (OPENSCENEGRAPH_MINOR_VERSION > 6)
+#if (OPENSCENEGRAPH_SOVERSION > 40)
 #include <osgDB/AuthenticationMap>
 #endif
 #include <osgDB/Registry>
@@ -85,7 +87,6 @@ namespace std
 %define OSGDB_EXPORT
 %enddef
 
-
 %ignore osgDB::ReaderWriter;
 
 %ignore osgDB::Registry::getReadFileCallback;
@@ -117,10 +118,11 @@ namespace std
 %ignore osgDB::DatabasePager::getDatabaseThread;
 %ignore osgDB::DatabasePager::getNumDatabaseThreads;
 
+%include osg/Version
 %include osgDB/Version
 %include osgDB/Export
 
-#if (OPENSCENEGRAPH_MINOR_VERSION > 6)
+#if (OPENSCENEGRAPH_SOVERSION > 40)
 %include osgDB/AuthenticationMap
 #endif
 
