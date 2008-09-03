@@ -697,6 +697,10 @@ namespace osg {
 
 //Nodepath
 %template(vectorNode) std::vector<osg::Node*>;
+//ParentList
+%template(vectorGroup) std::vector<osg::Group*>;
+//DescriptionList
+%template(vectorString) std::vector<std::string>;
 
 %include osg/Node
 %include osg/Geode
