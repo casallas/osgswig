@@ -16,14 +16,14 @@ FIND_PATH(OSG_INCLUDE_DIR osg/Node
     $ENV{OSGDIR}/include
     $ENV{OSGDIR}
     $ENV{OSG_ROOT}/include
-    ~/Library/Frameworks
-    /Library/Frameworks
     /usr/local/include
     /usr/include
     /sw/include # Fink
     /opt/local/include # DarwinPorts
     /opt/csw/include # Blastwave
     /opt/include
+    ~/Library/Frameworks
+    /Library/Frameworks
 	$ENV{PROGRAMFILES}/OpenSceneGraph/include
     /cygdrive/c/Program Files/OpenSceneGraph/include
     [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/include
@@ -45,11 +45,12 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
         $ENV{OSGDIR}/lib
         $ENV{OSGDIR}
         $ENV{OSG_ROOT}/lib
-        ~/Library/Frameworks
-        /Library/Frameworks
-        /sw/lib
+         /sw/lib
         /opt/local/lib
         /opt/csw/lib
+        /opt/lib
+       ~/Library/Frameworks
+        /Library/Frameworks
         /opt/lib
 		$ENV{PROGRAMFILES}/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/lib
@@ -71,12 +72,12 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
         $ENV{OSGDIR}/lib
         $ENV{OSGDIR}
         $ENV{OSG_ROOT}/lib
-        ~/Library/Frameworks
-        /Library/Frameworks
         /sw/lib
         /opt/local/lib
         /opt/csw/lib
         /opt/lib
+        ~/Library/Frameworks
+        /Library/Frameworks
 		$ENV{PROGRAMFILES}/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/lib
         /cygdrive/c/Program\ Files/OpenSceneGraph/bin

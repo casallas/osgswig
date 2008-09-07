@@ -34,8 +34,3 @@ viewer.setSceneData(node)
 
 # loop until done
 viewer.run()
-
-
-
-
-

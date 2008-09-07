@@ -40,7 +40,10 @@ SET(OSGSWIG_SONAMES TRUE)
 
 # We have some custom .cmake scripts not in the official distribution.
 # Maybe this can be used override existing behavior if needed?
-SET(CMAKE_MODULE_PATH "${osgswig_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
+SET(CMAKE_MODULE_PATH 
+	${CMAKE_MODULE_PATH} 
+	"${CMAKE_SOURCE_DIR}/CMakeModules"
+	)
 
 # Find OpenGL
 FIND_PACKAGE(OpenGL)
@@ -73,6 +76,11 @@ OPTION(BUILD_WITH_OSGODE "Create wrappers for osgODE (ODE - Open Dynamics Enviro
 OPTION(BUILD_WITH_OSGVRPN "Create wrappers for osgVRPN (VRPN - Virtual Reality Peripherals Network)" OFF)
 OPTION(BUILD_WITH_OSGVERSE "Create wrappers for osgVerse (lightweight, low latency, general-purpose network protocol for 3D data)" OFF)
 OPTION(BUILD_WITH_OSGINTROSPECTION "Create wrappers for osgIntrospection (OSG's own introspection library needs to be available)" OFF)
+
+# bug on CMake 2.6 and 2.7 on Mac 
+IF (APPLE)
+	SET(OSG_INCLUDE_DIR "/${OSG_INCLUDE_DIR}")
+ENDIF(APPLE)
 
 
 # Make the headers visible to everything

@@ -140,10 +140,12 @@ class MainWindow(wx.Frame):
 		self.CreateStatusBar()
 
 	def OnOpen(self, evt):
-		dlg = wx.FileDialog(self, 'Open a Scene', os.getcwd() , '' , 
-			'OpenSceneGraph Files (*.osg,*.ive)|*.osg,*.ive|All Files (*.*)|*.*')
+		dlg = wx.FileDialog(self, 'Open a Scene', '' , '' , 
+			'OpenSceneGraph Files (*.osg,*.ive)|*.osg;*.ive|All Files (*.*)|*.*')
 		if wx.ID_OK == dlg.ShowModal():
-			node = osgDB.readNodeFile(dlg.GetPath().encode('ascii', 'replace'))
+			#node = osgDB.readNodeFile(dlg.GetPath().encode())
+			node = osgDB.readNodeFile('cow.osg')
+			wx.LogStatus("Loading" + dlg.GetPath())
 			self.canvas.viewer.setSceneData(node)
 			
 	def OnIdle(self, evt):
@@ -167,7 +169,12 @@ class osgviewerWX(wx.App):
 	def OnInit(self):
 		self.frame = MainWindow(None,-1,'wxPython and OpenSceneGraph')
 
+		# needed for python
+		osgDB.setLibraryFilePathList(sys.path)
+		
 		self.frame.Show(True)
+		
+		
 
 		return True
 

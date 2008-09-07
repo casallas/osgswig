@@ -56,8 +56,9 @@
 %include "std_string.i"
 %include "osg_header.i"
 
-
-%include GL.i
+#if !defined(__APPLE__) 
+	%include GL.i
+#endif
 
 %{
 #include <osg/ref_ptr>
@@ -464,6 +465,14 @@ VECIGNOREHELPER(Quat)
 
 %ignore osg::ArgumentParser::read;
 
+// 
+//
+//ParentList in osg::StateAttribute
+%template(vectorStateSet) std::vector<osg::StateSet*>
+//RefAttributePair
+%template(refStateAttribute) osg::ref_ptr< osg::StateAttribute >
+%template(refAttributePair_) std::pair< osg::ref_ptr< osg::StateAttribute >, osg::StateAttribute::OverrideValue >)
+
 
 
 #ifdef SWIGPERL
@@ -701,6 +710,9 @@ namespace osg {
 %template(vectorGroup) std::vector<osg::Group*>;
 //DescriptionList
 %template(vectorString) std::vector<std::string>;
+//ParentList in osg::StateSet
+%template(vectorObject) std::vector<osg::Object*>
+
 
 %include osg/Node
 %include osg/Geode
