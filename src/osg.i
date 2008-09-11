@@ -63,15 +63,14 @@
 %{
 #include <osg/ref_ptr>
 
-#if (OSG_VERSION_MAJOR > 1)
+
 #include <osg/DeleteHandler>
-#endif
 #include <osg/Notify>
 #include <osg/ApplicationUsage>
 #include <osg/AnimationPath>
 #include <osg/ArgumentParser>
 
-#if (OPENSCENEGRAPH_MINOR_VERSION > 4)
+#if (OPENSCENEGRAPH_SO_VERSION > 41)
 #include <osg/MixinVector>
 #endif
 
@@ -101,13 +100,9 @@
 #include <osg/LightModel>
 #include <osg/LightSource>
 
-#if (OSG_VERSION_MAJOR > 1)
-#if (OSG_VERSION_MINOR > 0)
 #include <osg/OperationThread>
-#endif
 #include <osg/GraphicsThread>
 #include <osg/GraphicsContext>
-#endif
 
 #include <osg/TexMat>
 #include <osg/TexEnv>
@@ -134,8 +129,6 @@
 #include <osg/Geode>
 #include <osg/Billboard>
 
-#if (OSG_VERSION_MAJOR > 0)
-
 #include <osg/PositionAttitudeTransform>
 #include <osg/AutoTransform>
 #include <osg/Camera>
@@ -143,7 +136,6 @@
 #include <osg/CameraView>
 #include <osg/Uniform>
 
-#endif
 
 #include <osg/Timer>
 
@@ -465,15 +457,6 @@ VECIGNOREHELPER(Quat)
 
 %ignore osg::ArgumentParser::read;
 
-// 
-//
-//ParentList in osg::StateAttribute
-%template(vectorStateSet) std::vector<osg::StateSet*>
-//RefAttributePair
-%template(refStateAttribute) osg::ref_ptr< osg::StateAttribute >
-%template(refAttributePair_) std::pair< osg::ref_ptr< osg::StateAttribute >, osg::StateAttribute::OverrideValue >)
-
-
 
 #ifdef SWIGPERL
 %feature("ref") osg::Referenced "$this->ref();"
@@ -517,10 +500,9 @@ VECIGNOREHELPER(Quat)
 %include osg/Referenced
 %include osg/ref_ptr
 
+%include osg/MixinVector
 
-#if (OSG_VERSION_MAJOR > 1)
 %include osg/DeleteHandler
-#endif
 %include osg/CopyOp
 %include osg/Object
 
@@ -561,6 +543,7 @@ namespace osg {
 	typedef Vec4f Vec4;
 }
 %}
+
 #include <osg/Vec2>
 #include <osg/Vec2f>
 #include <osg/Vec3>
@@ -588,6 +571,15 @@ namespace osg {
 %include osg/Plane
 %include osg/Polytope
 
+//
+%template(vectorStateSet) std::vector<osg::StateSet*>;
+//RefAttributePair
+%template(refStateAttribute) osg::ref_ptr< osg::StateAttribute >;
+
+//%template(refAttributePair_) std::pair< osg::ref_ptr< osg::StateAttribute >, osg::StateAttribute::OverrideValue >);
+
+
+
 %include osg/FrameStamp
 %include osg/StateSet
 %include osg/StateAttribute
@@ -613,18 +605,17 @@ namespace osg {
 %include osg/BufferObject
 %include osg/Image
 %include osg/ImageStream
+
 %extend osg::Image {
-	virtual osg::ImageStream* asImageStream() {return dynamic_cast<osg::ImageStream*>(self);}
+	virtual osg::ImageStream* asImageStream() {return dynamic_cast<osg::ImageStream*>($self);}
 };
 
 
-#if (OSG_VERSION_MAJOR > 0)
-#if (OSG_VERSION_MINOR > 0)
+
 %include osg/OperationThread
-#endif
 %include osg/GraphicsThread
 %include osg/GraphicsContext
-#endif
+
 
 %include osg/Texture
 %include osg/TexMat
@@ -636,12 +627,14 @@ namespace osg {
 %include osg/VertexProgram
 %include osg/ColorMask
 
-// In osg/Viewport, the return as by-reference function x() precedes the by-value function x()
-// we can ignore the declarations, and extend the class with calls to the by-value function
-// we cannot use the same names for the extensions as the original function (or one should change the header files)
-// note that with SWIG extend-ing, a class's "this" is not available (neither explicitly nor implicitly), 
-// so an explicit $self is needed for all member access, see 
-//  http://www.swig.org/Doc1.3/SWIGPlus.html#SWIGPlus_class_extension 
+/*
+In osg/Viewport, the return as by-reference function x() precedes the by-value function x()
+we can ignore the declarations, and extend the class with calls to the by-value function
+we cannot use the same names for the extensions as the original function (or one should change the header files)
+note that with SWIG extend-ing, a class's "this" is not available (neither explicitly nor implicitly), 
+so an explicit $self is needed for all member access, see http://www.swig.org/Doc1.3/SWIGPlus.html#SWIGPlus_class_extension 
+*/
+
 %ignore osg::Viewport::x;
 %ignore osg::Viewport::y;
 %ignore osg::Viewport::width;
@@ -667,9 +660,7 @@ namespace osg {
 %include osg/Drawable
 
 
-#if (OPENSCENEGRAPH_MINOR_VERSION > 4)
-%include osg/MixinVector
-#endif
+
 
 %include osg/Array
 //Definition of array types which are useful in python
@@ -709,9 +700,9 @@ namespace osg {
 //ParentList
 %template(vectorGroup) std::vector<osg::Group*>;
 //DescriptionList
-%template(vectorString) std::vector<std::string>;
+//%template(vectorString) std::vector<std::string>;
 //ParentList in osg::StateSet
-%template(vectorObject) std::vector<osg::Object*>
+//%template(vectorObject) std::vector<osg::Object*>
 
 
 %include osg/Node

@@ -41,7 +41,6 @@
 %define OSGFX_EXPORT
 %enddef
 
-
 %include osgFX/Export
 %include osgFX/Technique
 %include osgFX/Effect
