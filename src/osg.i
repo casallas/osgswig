@@ -848,6 +848,12 @@ osg::ProxyNode *NodeToProxyNode(osg::Node *b) {
 }
 %}
 
+%inline %{
+osg::Node *ReferencedToNode(osg::Referenced *b) {
+  return dynamic_cast<osg::Node*>(b);
+}
+%}
+
 %extend osg::Group {
 	osg::ProxyNode* asProxyNode() {return dynamic_cast<osg::ProxyNode*>(self);}
 };

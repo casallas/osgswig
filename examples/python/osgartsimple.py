@@ -21,7 +21,7 @@ def createImageBackground(video):
 root = osg.Group()
 
 # only use Python path
-osgDB.Registry.instance().setLibraryFilePathList(sys.path)
+#osgDB.Registry.instance().setLibraryFilePathList(sys.path)
 
 # create a viewer
 viewer = osgViewer.Viewer()

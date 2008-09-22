@@ -87,6 +87,11 @@ osgManipulator::Dragger *NodeToDragger(osg::Node *d) {
 }
 %}
 
+%inline %{
+osgManipulator::Selection *NodeToSelection(osg::Node *d) {
+  return dynamic_cast<osgManipulator::Selection*>(d);
+}
+%}
 
 
 
