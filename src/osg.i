@@ -500,7 +500,9 @@ VECIGNOREHELPER(Quat)
 %include osg/Referenced
 %include osg/ref_ptr
 
+#if (OPENSCENEGRAPH_SO_VERSION > 41)
 %include osg/MixinVector
+#endif
 
 %include osg/DeleteHandler
 %include osg/CopyOp
