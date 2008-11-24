@@ -76,7 +76,8 @@ namespace std
 #include <osgDB/DatabasePager>
 #include <osgDB/Archive>
 
-// using namespace osgDB;
+using namespace osg;
+using namespace osgDB;
 
 %}
 
@@ -130,6 +131,7 @@ namespace std
 %include osgDB/WriteFile
 %include osgDB/SharedStateManager
 
+
 %typemap(out) osg::Node* {
     //  osgDB::readNodeFile(s) returns a raw Node* with 0 reference count.
     //  custom typemap to ensure a target-language-owned Node object, while increasing reference counting
@@ -146,7 +148,9 @@ namespace std
     {
         SWIG_exception(SWIG_IOError,"osgDB::$symname:: Could not load file");
     }
-} 
+}
+
+ 
 %include osgDB/ReadFile
 %typemap(out) osg::Node*;   //resets the typemap
 
