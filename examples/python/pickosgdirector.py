@@ -159,6 +159,7 @@ class myPose(osg.PositionAttitudeTransform):
         osg.PositionAttitudeTransform.__init__(self)
         self._instancename = None
     def accept(self,nv):
+        f
         osg.PositionAttitudeTransform.accept(self,nv)
     def setInstanceName(self,pName):
         self._instancename = pName
@@ -220,7 +221,6 @@ class PickHandler(osgGA.GUIEventHandler):
             for node in intersection.nodePath:
                 mt = node.asTransform()        
                 if mt:            
-                    print "if Transform"
                     #if there is a previous selected node, 'deselect' it
                     if self._selectedNode:
                         self._selectedNode.setUpdateCallback(None)

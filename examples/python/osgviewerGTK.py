@@ -39,7 +39,10 @@ class SimpleDemo(gtk.Window):
         # if not successful then try to get a single-buffered one.
         display_mode = (gtk.gdkgl.MODE_RGB    |
                         gtk.gdkgl.MODE_DEPTH  |
-                        gtk.gdkgl.MODE_DOUBLE)
+                        gtk.gdkgl.MODE_DOUBLE )
+
+        # gtk.gdkgl.MODE_STEREO | is possible
+
         try:
             glconfig = gtk.gdkgl.Config(mode=display_mode)
         except gtk.gdkgl.NoMatches:
@@ -71,6 +74,14 @@ class SimpleDemo(gtk.Window):
 
         #register the key callbacks to the drawing area
         self.drawing_area.register_key_events(self)
+
+        print sys.argv
+        if len(sys.argv)>1:
+            loadfile = sys.argv[1]
+        else:
+            loadfile ="cow.osg"
+
+        self.drawing_area.load_file(loadfile)
 
         self.init_draw_update()
 

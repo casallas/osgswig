@@ -58,20 +58,39 @@ class SimpleDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
             self.viewer = osgViewer.Viewer()
         else:
             self.viewer = viewer
-        self.osgwindow = self.viewer.setUpViewerAsEmbeddedInWindow(0,0,200,200)
+        #self.osgwindow = self.viewer.setUpViewerAsEmbeddedInWindow(0,0,200,200)
+        self.osgwindow = self.setup_osgwindow(0,0,200,200)
         self.viewer.setCameraManipulator(osgGA.TrackballManipulator())
 
         self.viewer.addEventHandler(osgViewer.StatsHandler())
         self.viewer.addEventHandler(osgViewer.HelpHandler())
 
         self.rootnode = osg.MatrixTransformRef(osg.MatrixTransform())
-
-        self.load_file("cow.osg")
-
         self.viewer.setSceneData(self.rootnode.get())
-
         
         self._x,self._y =0,0
+
+    def setup_osgwindow(self,x,y,width,height):
+        """
+        pythonic alternative to setUpViewerAsEmbeddedInWindow
+        """
+
+        self.traits = osg.Traits()
+        self.traits.x = x
+        self.traits.y = y
+        self.traits.width = width
+        self.traits.height = height
+
+        #stereo is possible:
+        # self.traits.quadBufferStereo = True
+        # self.traits.screenNum = 1
+
+        gw = osgViewer.GraphicsWindowEmbedded(self.traits);
+        self.viewer.getCamera().setViewport(osg.Viewport(0,0,width,height));
+        self.viewer.getCamera().setProjectionMatrixAsPerspective(30.0,float(width)/float(height), 1.0, 10000.0);
+        self.viewer.getCamera().setGraphicsContext(gw);
+
+        return gw
 
     def load_file (self,pFileName):
         print "Opening file ", pFileName
@@ -98,6 +117,7 @@ class SimpleDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
             return
     
         gldrawable.gl_end()
+        
 
     def _on_configure_event(self, *args):
         self.osgwindow.resized(0,0,self.allocation.width,self.allocation.height)
