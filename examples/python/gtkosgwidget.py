@@ -58,8 +58,9 @@ class SimpleDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
             self.viewer = osgViewer.Viewer()
         else:
             self.viewer = viewer
-        #self.osgwindow = self.viewer.setUpViewerAsEmbeddedInWindow(0,0,200,200)
-        self.osgwindow = self.setup_osgwindow(0,0,200,200)
+        self.osgwindow = self.viewer.setUpViewerAsEmbeddedInWindow(0,0,200,200)
+        # one could try using a pythonic alternative:
+        #  self.osgwindow = self.setup_osgwindow(0,0,200,200)
         self.viewer.setCameraManipulator(osgGA.TrackballManipulator())
 
         self.viewer.addEventHandler(osgViewer.StatsHandler())

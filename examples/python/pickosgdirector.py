@@ -159,7 +159,6 @@ class myPose(osg.PositionAttitudeTransform):
         osg.PositionAttitudeTransform.__init__(self)
         self._instancename = None
     def accept(self,nv):
-        f
         osg.PositionAttitudeTransform.accept(self,nv)
     def setInstanceName(self,pName):
         self._instancename = pName
