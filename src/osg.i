@@ -212,7 +212,7 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Matrix2::operator ()(int,int) ;
 %ignore osg::Matrix3::operator ()(int,int) ;
 %ignore osg::Node::getParents() ;
-//%ignore osg::Uniform::getParents
+%ignore osg::Uniform::getParents();
 %rename("get_float") osg::Uniform::get(float&) ;
 %rename("get_int") osg::Uniform::get(int&);
 
