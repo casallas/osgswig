@@ -29,7 +29,7 @@
 
 %exception {
     try { $action }
-    catch (Swig::DirectorException &e) { SWIG_fail; }
+    catch (Swig::DirectorException &) { SWIG_fail; }
 }
 
 // Experimental: Integrating Doxygen-generated docs from OSG in python docstrings
@@ -70,7 +70,7 @@
 #include <osg/AnimationPath>
 #include <osg/ArgumentParser>
 
-#if (OPENSCENEGRAPH_SO_VERSION > 41)
+#if (OPENSCENEGRAPH_SOVERSION > 41)
 #include <osg/MixinVector>
 #endif
 
@@ -208,10 +208,16 @@ VECIGNOREHELPER(Vec4d)
 VECIGNOREHELPER(Quat)
 %ignore osg::Quat::operator=;
 
-
+// ignore override for osg::Matrix2 and osg::Matrix3
+%ignore osg::Matrix2::operator ()(int,int) ;
+%ignore osg::Matrix3::operator ()(int,int) ;
+%ignore osg::Node::getParents() ;
+//%ignore osg::Uniform::getParents
+%rename("get_float") osg::Uniform::get(float&) ;
+%rename("get_int") osg::Uniform::get(int&);
 
 // correct override for osg::NodeVisitor::apply
-%rename("apply_Node") osg::NodeVisitor::apply(Node&);
+//%rename("apply_Node") osg::NodeVisitor::apply(Node&);
 %rename("apply_Geode") osg::NodeVisitor::apply(Geode&);
 %rename("apply_Billboard") osg::NodeVisitor::apply(Billboard&);
 %rename("apply_Group") osg::NodeVisitor::apply(Group&);
@@ -475,7 +481,8 @@ VECIGNOREHELPER(Quat)
 %include osg/Notify
 
 %extend osg::Referenced {
-   ~Referenced() 
+	
+    ~Referenced() 
    {
 #ifdef OSGSWIGDEBUG
      printf("osg::~Referenced Obj %x, refcount before [%d]\n",self,self->referenceCount());
@@ -500,7 +507,7 @@ VECIGNOREHELPER(Quat)
 %include osg/Referenced
 %include osg/ref_ptr
 
-#if (OPENSCENEGRAPH_SO_VERSION > 41)
+#if (OPENSCENEGRAPH_SOVERSION > 41)
 %include osg/MixinVector
 #endif
 
@@ -594,6 +601,8 @@ namespace osg {
 %include osg/Stencil
 %include osg/Depth
 
+%ignore std::tm;
+
 %include osg/TexEnv
 %include osg/TexEnvCombine
 %include osg/TexEnvFilter
@@ -666,17 +675,20 @@ so an explicit $self is needed for all member access, see http://www.swig.org/D
 
 %include osg/Array
 //Definition of array types which are useful in python
-%template(vectorVec2)     std::vector<osg::Vec2f>;
-%template(vectorVec3)     std::vector<osg::Vec3f>;
-%template(vectorVec4)     std::vector<osg::Vec4f>;
-%template(vectorVec2d)    std::vector<osg::Vec2d>;
-%template(vectorVec3d)    std::vector<osg::Vec3d>;
-%template(vectorVec4d)    std::vector<osg::Vec4d>;
-%template(vectorGLshort)  std::vector<GLshort>;
-%template(vectorGLint)    std::vector<GLint>;
-%template(vectorGLubyte)  std::vector<GLubyte>;
-%template(vectorGLushort) std::vector<GLushort>;
-%template(vectorGLuint)   std::vector<GLuint>;
+//%ignore osg::MixinVector<osg::Vec2f>::vector_type;
+//%template(vectorVec2)     osg::MixinVector<osg::Vec2f>;
+//%template(vectorVec3)     osg::MixinVector<osg::Vec3f>;
+//%template(vectorVec4)     osg::MixinVector<osg::Vec4f>;
+//%template(vectorVec2d)    osg::MixinVector<osg::Vec2d>;
+//%template(vectorVec3d)    osg::MixinVector<osg::Vec3d>;
+//%template(vectorVec4d)    osg::MixinVector<osg::Vec4d>;
+//%template(vectorGLshort)  osg::MixinVector<GLshort>;
+//%template(vectorGLint)    osg::MixinVector<GLint>;
+//%template(vectorGLubyte)  osg::MixinVector<GLubyte>;
+//%template(vectorGLushort) osg::MixinVector<GLushort>;
+//%template(vectorGLuint)	  osg::MixinVector<GLuint>;
+%ignore std::tm;
+
 //%template(vectorGLfloat)  std::vector<GLfloat>;
 //%template(vectorGLdouble) std::vector<GLdouble>;
 //%template(FloatArray)     osg::TemplateArray<GLfloat,osg::Array::FloatArrayType,1,GL_FLOAT>;		// GL_FLOAT

@@ -25,8 +25,8 @@
  */
 
 
-typedef float			GL_FLOAT;
-typedef double			GL_DOUBLE;
+//typedef float			GL_FLOAT;
+//typedef double			GL_DOUBLE;
 
 // GLenum type changed from Mac OS X 10.4 to 10.5 - need a fix
 #if defined(__APPLE__)
