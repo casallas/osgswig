@@ -154,7 +154,10 @@
 #%ignore osg::ref_ptr::operator!;
 
 %ignore osg::Referenced::operator=;
-
+%ignore osg::ref_ptr::operator<;
+%ignore osg::ref_ptr::operator==;
+%ignore osg::ref_ptr::operator!=;
+%ignore osg::ref_ptr::operator.;
 
 // fix by René Molenaar
 //This is a little macro trick to prevent a swig error
@@ -213,11 +216,46 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Matrix3::operator ()(int,int) ;
 %ignore osg::Node::getParents() ;
 %ignore osg::Uniform::getParents();
-%rename("get_float") osg::Uniform::get(float&) ;
-%rename("get_int") osg::Uniform::get(int&);
+
+// correct override for osg::Uniform::get
+%rename(get_float) osg::Uniform::get( float& ) const;
+%rename(get_int) osg::Uniform::get( int&  ) const;
+%rename(get_blool) osg::Uniform::get( bool&  ) const;
+%rename(get_vec2) osg::Uniform::get( osg::Vec2&  ) const;
+%rename(get_vec3) osg::Uniform::get( osg::Vec3&  ) const;
+%rename(get_ve4) osg::Uniform::get( osg::Vec4&  ) const;
+%rename(get_m2) osg::Uniform::get( osg::Matrix2&  ) const;
+%rename(get_m3) osg::Uniform::get( osg::Matrix3& ) const;
+%rename(get_mf) osg::Uniform::get( osg::Matrixf&  ) const;
+%rename(get_m4) osg::Uniform::get( osg::Matrixd&  ) const;
+%rename(get_int2) osg::Uniform::get( int& , int&  ) const;
+%rename(get_int3) osg::Uniform::get( int& , int& , int&  ) const;
+%rename(get_int4) osg::Uniform::get( int& , int& , int& , int&  ) const;
+%rename(get_bool2) osg::Uniform::get( bool& , bool&  ) const;
+%rename(get_bool3) osg::Uniform::get( bool& , bool& , bool&  ) const;
+%rename(get_bool4) osg::Uniform::get( bool& , bool& , bool& , bool&  ) const;
+
+// correct override for osg::Uniform::getElement
+%rename(get_int_float) osg::Uniform::getElement( unsigned int , float&  ) const;
+%rename(get_int_int) osg::Uniform::getElement( unsigned int , int&  ) const;
+%rename(get_int_bool) osg::Uniform::getElement( unsigned int , bool&  ) const;
+%rename(get_int_vec2) osg::Uniform::getElement( unsigned int , osg::Vec2&  ) const;
+%rename(get_int_vec3) osg::Uniform::getElement( unsigned int , osg::Vec3&  ) const;
+%rename(get_int_vec4) osg::Uniform::getElement( unsigned int , osg::Vec4&  ) const;
+%rename(get_int_m2) osg::Uniform::getElement( unsigned int , osg::Matrix2&  ) const;
+%rename(get_int_m3) osg::Uniform::getElement( unsigned int , osg::Matrix3&  ) const;
+%rename(get_int_mf) osg::Uniform::getElement( unsigned int , osg::Matrixf&  ) const;
+%rename(get_int_md) osg::Uniform::getElement( unsigned int , osg::Matrixd&  ) const;
+%rename(get_int_int2) osg::Uniform::getElement( unsigned int , int& , int&  ) const;
+%rename(get_int_int3) osg::Uniform::getElement( unsigned int , int& , int& , int&  ) const;
+%rename(get_int_int4) osg::Uniform::getElement( unsigned int , int& , int& , int& , int&  ) const;
+%rename(get_int_bool2) osg::Uniform::getElement( unsigned int , bool& , bool&  ) const;
+%rename(get_int_bool3) osg::Uniform::getElement( unsigned int , bool& , bool& , bool& ) const;
+%rename(get_int_bool4) osg::Uniform::getElement( unsigned int , bool& , bool& , bool& , bool&  ) const;
+
 
 // correct override for osg::NodeVisitor::apply
-//%rename("apply_Node") osg::NodeVisitor::apply(Node&);
+%rename("apply_Node") osg::NodeVisitor::apply(Node&);
 %rename("apply_Geode") osg::NodeVisitor::apply(Geode&);
 %rename("apply_Billboard") osg::NodeVisitor::apply(Billboard&);
 %rename("apply_Group") osg::NodeVisitor::apply(Group&);
@@ -601,7 +639,7 @@ namespace osg {
 %include osg/Stencil
 %include osg/Depth
 
-%ignore std::tm;
+//%include std::tm;
 
 %include osg/TexEnv
 %include osg/TexEnvCombine
@@ -675,19 +713,19 @@ so an explicit $self is needed for all member access, see http://www.swig.org/D
 
 %include osg/Array
 //Definition of array types which are useful in python
-//%ignore osg::MixinVector<osg::Vec2f>::vector_type;
-//%template(vectorVec2)     osg::MixinVector<osg::Vec2f>;
-//%template(vectorVec3)     osg::MixinVector<osg::Vec3f>;
-//%template(vectorVec4)     osg::MixinVector<osg::Vec4f>;
-//%template(vectorVec2d)    osg::MixinVector<osg::Vec2d>;
-//%template(vectorVec3d)    osg::MixinVector<osg::Vec3d>;
-//%template(vectorVec4d)    osg::MixinVector<osg::Vec4d>;
-//%template(vectorGLshort)  osg::MixinVector<GLshort>;
-//%template(vectorGLint)    osg::MixinVector<GLint>;
-//%template(vectorGLubyte)  osg::MixinVector<GLubyte>;
-//%template(vectorGLushort) osg::MixinVector<GLushort>;
-//%template(vectorGLuint)	  osg::MixinVector<GLuint>;
-%ignore std::tm;
+%ignore osg::MixinVector<osg::Vec2f>::vector_type;
+//%apply (vectorVec2)    { osg::MixinVectorr<osg::Vec2f>}
+//%template(vectorVec3)     std::vector<osg::Vec3f>;
+//%template(vectorVec4)     std::vector<osg::Vec4f>;
+//%template(vectorVec2d)    std::vector<osg::Vec2d>;
+//%template(vectorVec3d)    std::vector<osg::Vec3d>;
+//%template(vectorVec4d)    std::vector<osg::Vec4d>;
+//%template(vectorGLshort)  std::vector<GLshort>;
+//%template(vectorGLint)    std::vector<GLint>;
+//%template(vectorGLubyte)  std::vector<GLubyte>;
+//%template(vectorGLushort) std::vector<GLushort>;
+//%template(vectorGLuint)	  std::vector<GLuint>;
+
 
 //%template(vectorGLfloat)  std::vector<GLfloat>;
 //%template(vectorGLdouble) std::vector<GLdouble>;
