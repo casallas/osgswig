@@ -15,7 +15,14 @@ import osgDB
 #use the osgDB DynamicLibrary option to load the wrappers for the osg library of interest
 osg_reflectors = osgDB.DynamicLibrary_loadLibrary("osgwrapper_osg.so")
 
-import osgIntrospection
+try:
+    import osgIntrospection
+except ImportError:
+    print "Could not import osgIntrospection."
+    print "Did you build osg with the option BUILD_OSG_WRAPPERS enabled?"
+    print "Did you build osgswig with the option BUILD_WITH_OSGINTROSPECTION enabled?"
+    raise 
+  
 
 #create a reflection instance
 reflection = osgIntrospection.Reflection()

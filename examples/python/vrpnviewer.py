@@ -7,7 +7,12 @@ import sys,os
 import osg
 import osgDB
 import osgViewer
-import osgVRPN
+try:
+    import osgVRPN
+except ImportError:
+    print "Could not import osgVRPN."
+    print "Did you build osgswig with the option BUILD_WITH_OSGVRPN enabled?"
+    raise 
 
 osg.setNotifyLevel(osg.INFO)
 

@@ -11,6 +11,8 @@ import osgDB
 import osgGA
 import osgViewer
 
+
+
 # create a root node
 node = osg.Group()
 
