@@ -143,7 +143,7 @@ class MainWindow(wx.Frame):
 			'OpenSceneGraph Files (*.osg,*.ive)|*.osg;*.ive|All Files (*.*)|*.*')
 		if wx.ID_OK == dlg.ShowModal():
 			wx.LogStatus("Loading" + dlg.GetPath())
-            node = osgDB.readNodeFile(dlg.GetPath().encode())
+			node = osgDB.readNodeFile(dlg.GetPath().encode())
 			self.canvas.viewer.setSceneData(node)
 			
 	def OnIdle(self, evt):
