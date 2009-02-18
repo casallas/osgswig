@@ -70,6 +70,7 @@
 #include <osg/AnimationPath>
 #include <osg/ArgumentParser>
 
+//for osg 2.6 and up, include MixinVector
 #if (OPENSCENEGRAPH_SOVERSION > 41)
 #include <osg/MixinVector>
 #endif
@@ -165,11 +166,7 @@
 #define Y_AXIS(a,b,c) Y_AXIS=Vec3f(0.0,1.0,0.0);
 #define Z_AXIS(a,b,c) Z_AXIS=Vec3f(0.0,0.0,1.0);
 
-
-
 %ignore osg::Geometry::s_InvalidArrayData;
-
-
 
 /* getRotate conversion */
 %apply double *OUTPUT {double &angle, double &x, double &y, double &z};
@@ -665,7 +662,6 @@ namespace osg {
 %include osg/GraphicsThread
 %include osg/GraphicsContext
 
-
 %include osg/Texture
 %include osg/TexMat
 %include osg/Texture1D
@@ -710,38 +706,47 @@ so an explicit $self is needed for all member access, see http://www.swig.org/D
 
 
 
+%ignore std::tm;
 
 %include osg/Array
+
 //Definition of array types which are useful in python
-%ignore osg::MixinVector<osg::Vec2f>::vector_type;
-//%apply (vectorVec2)    { osg::MixinVectorr<osg::Vec2f>}
-//%template(vectorVec3)     std::vector<osg::Vec3f>;
-//%template(vectorVec4)     std::vector<osg::Vec4f>;
-//%template(vectorVec2d)    std::vector<osg::Vec2d>;
-//%template(vectorVec3d)    std::vector<osg::Vec3d>;
-//%template(vectorVec4d)    std::vector<osg::Vec4d>;
-//%template(vectorGLshort)  std::vector<GLshort>;
-//%template(vectorGLint)    std::vector<GLint>;
-//%template(vectorGLubyte)  std::vector<GLubyte>;
-//%template(vectorGLushort) std::vector<GLushort>;
-//%template(vectorGLuint)	  std::vector<GLuint>;
+//for osg 2.4, use template for Array types
+//for osg 2.6 and up, ignore the MixinVector (issue 12) and ignore Arrays
+#if (OPENSCENEGRAPH_SOVERSION > 41)
+    %ignore osg::MixinVector<osg::Vec2f>::vector_type;
+#else
+    %template(vectorGLshort)  std::vector<GLshort>;
+    %template(vectorGLint)    std::vector<GLint>;
+    %template(vectorGLubyte)  std::vector<GLubyte>;
+    %template(vectorGLushort) std::vector<GLushort>;
+    %template(vectorGLuint)   std::vector<GLuint>;
+    %template(vectorGLfloat)  std::vector<float>;       //std::vector<GLfloat>;
+    //%template(vectorGLdouble) std::vector<double>;      //std::vector<GLdouble>;
 
+    %template(vectorVec2)     std::vector<osg::Vec2f>;
+    %template(vectorVec3)     std::vector<osg::Vec3f>;
+    %template(vectorVec4)     std::vector<osg::Vec4f>;
+    %template(vectorVec2d)    std::vector<osg::Vec2d>;
+    %template(vectorVec3d)    std::vector<osg::Vec3d>;
+    %template(vectorVec4d)    std::vector<osg::Vec4d>;
 
-//%template(vectorGLfloat)  std::vector<GLfloat>;
-//%template(vectorGLdouble) std::vector<GLdouble>;
-//%template(FloatArray)     osg::TemplateArray<GLfloat,osg::Array::FloatArrayType,1,GL_FLOAT>;		// GL_FLOAT
-%template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,GL_FLOAT>;		// GL_FLOAT
-%template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,GL_FLOAT>;		// GL_FLOAT
-%template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT>;		// GL_FLOAT
-//%template(DoubleArray)    osg::TemplateArray<GLdouble,osg::Array::DoubleArrayType,1,GL_DOUBLE>;		// GL_DOUBLE
-%template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,GL_DOUBLE>;	// GL_DOUBLE
-%template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,GL_DOUBLE>;	// GL_DOUBLE
-%template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,GL_DOUBLE>;	// GL_DOUBLE
-%template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,GL_SHORT>;	// GL_SHORT
-%template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,GL_INT>;		// GL_INT
-%template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,GL_UNSIGNED_BYTE>;// GL_UNSIGNED_BYTE
-%template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,GL_UNSIGNED_SHORT>;// GL_UNSIGNED_SHORT
-%template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,GL_UNSIGNED_INT>;	// GL_UNSIGNED_INT
+    %template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,GL_SHORT>;
+    %template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,GL_INT>;
+    %template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,GL_UNSIGNED_BYTE>;
+    %template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,GL_UNSIGNED_SHORT>;
+    %template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,GL_UNSIGNED_INT>;
+    %template(FloatArray)     osg::TemplateIndexArray<float,osg::Array::FloatArrayType,1,GL_FLOAT>;
+    //%template(DoubleArray)    osg::TemplateIndexArray<double,osg::Array::DoubleArrayType,1,GL_DOUBLE>;
+
+    %template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,GL_FLOAT>;
+    %template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,GL_FLOAT>;
+    %template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT>;
+    %template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,GL_DOUBLE>;
+    %template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,GL_DOUBLE>;
+    %template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,GL_DOUBLE>;
+#endif //(OPENSCENEGRAPH_SOVERSION > 41)
+
 
 %include osg/Geometry
 %include osg/Shape
