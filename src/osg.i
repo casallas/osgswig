@@ -473,12 +473,12 @@ VECIGNOREHELPER(Quat)
 
 %ignore osg::GraphicsContext::setCreateGraphicsContextCallback;
 %ignore osg::GraphicsContext::getCreateGraphicsContextCallback;
-%ignore osg::GraphicsContext::setWindowingSystemInterface;
-%ignore osg::GraphicsContext::getWindowingSystemInterface;
+
+
 %ignore osg::GraphicsContext::setResizedCallback;
 %ignore osg::GraphicsContext::getResizedCallback;
-%ignore osg::GraphicsContext::createGraphicsContext;
-%ignore osg::GraphicsContext::getTraits;
+
+
 
 %ignore osg::BlendEquation::getExtensions;
 %ignore osg::BlendEquation::setExtensions;
@@ -491,9 +491,7 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Point::getExtensions;
 %ignore osg::Point::setExtensions;
 
-%ignore osg::View::addSlave;
 %ignore osg::View::getSlave;
-%ignore osg::View::removeSlave;
 %ignore osg::View::findSlaveForCamera;
 
 %ignore osg::ArgumentParser::read;
@@ -660,6 +658,7 @@ namespace osg {
 
 %include osg/OperationThread
 %include osg/GraphicsThread
+%include "osg_GraphicsContext.i"
 %include osg/GraphicsContext
 
 %include osg/Texture

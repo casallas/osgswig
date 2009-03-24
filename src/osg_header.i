@@ -1,6 +1,6 @@
 %{
 
-#if (OPENSCENEGRAPH_MINOR_VERSION > 4)
+#if (OPENSCENEGRAPH_SOVERSION > 41)
 #include <osg/MixinVector>
 #endif
 
@@ -83,5 +83,7 @@
 
 #include <osg/Timer>
 
-
+typedef osg::GraphicsContext::ScreenIdentifier ScreenIdentifier;
+typedef osg::GraphicsContext::Traits Traits;
+typedef osg::GraphicsContext::WindowingSystemInterface WindowingSystemInterface;
 %}
