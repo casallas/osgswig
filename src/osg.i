@@ -61,6 +61,11 @@
 #endif
 
 %{
+
+#if definded(_MSC_VER)
+#pragma warning( disable: 4101 )
+#endif
+
 #include <osg/ref_ptr>
 
 
@@ -86,6 +91,8 @@
 #include <osg/LineWidth>
 #include <osg/LineStipple>
 #include <osg/Material>
+#include <osg/BoundingSphere>
+#include <osg/BoundingBox>
 #include <osg/Node>
 #include <osg/Group>
 #include <osg/Switch>
@@ -508,6 +515,8 @@ VECIGNOREHELPER(Quat)
 #endif
 
 
+%include osg/Config
+
 // Now the headers
 %include osg/Version
 
@@ -760,7 +769,8 @@ so an explicit $self is needed for all member access, see http://www.swig.org/D
 //ParentList in osg::StateSet
 //%template(vectorObject) std::vector<osg::Object*>
 
-
+%include osg/BoundingSphere
+%include osg/BoundingBox
 %include osg/Node
 %include osg/Geode
 %include osg/Billboard

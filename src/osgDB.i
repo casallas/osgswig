@@ -56,6 +56,8 @@ namespace std
 #if (OPENSCENEGRAPH_SOVERSION > 40)
 #include <osgDB/AuthenticationMap>
 #endif
+#include <osgDB/DatabasePager>
+#include <osgDB/FileCache>
 #include <osgDB/Registry>
 #include <osgDB/WriteFile>
 #include <osgDB/SharedStateManager>
@@ -75,9 +77,6 @@ namespace std
 #include <osgDB/DotOsgWrapper>
 #include <osgDB/DatabasePager>
 #include <osgDB/Archive>
-
-using namespace osg;
-using namespace osgDB;
 
 %}
 
@@ -118,6 +117,8 @@ using namespace osgDB;
 %ignore osgDB::DatabasePager::DatabaseThread;
 %ignore osgDB::DatabasePager::getDatabaseThread;
 %ignore osgDB::DatabasePager::getNumDatabaseThreads;
+%ignore osgDB::DatabasePager::addDatabaseThread;
+
 
 %include osg/Version
 %include osgDB/Version
@@ -126,6 +127,7 @@ using namespace osgDB;
 #if (OPENSCENEGRAPH_SOVERSION > 40)
 %include osgDB/AuthenticationMap
 #endif
+
 
 %include osgDB/ReaderWriter
 %include osgDB/WriteFile
@@ -154,6 +156,7 @@ using namespace osgDB;
 %include osgDB/ReadFile
 %typemap(out) osg::Node*;   //resets the typemap
 
+%include osgDB/FileCache
 %include osgDB/FieldReader
 %include osgDB/FieldReaderIterator
 %include osgDB/Input

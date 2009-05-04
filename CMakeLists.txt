@@ -28,22 +28,18 @@ IF(COMMAND cmake_policy)
 ENDIF(COMMAND cmake_policy)
 
 
-SET(OSGSWIG_MAJOR_VERSION 0)
-SET(OSGSWIG_MINOR_VERSION 9)
-SET(OSGSWIG_PATCH_VERSION 0)
-SET(OSGSWIG_SOVERSION 0)
-
-SET(OSGSWIG_VERSION ${OSGSWIG_MAJOR_VERSION}.${OSGSWIG_MINOR_VERSION}.${OSGSWIG_PATCH_VERSION})
-
 # We want to build SONAMES shared librariess
 SET(OSGSWIG_SONAMES TRUE)
 
 # We have some custom .cmake scripts not in the official distribution.
 # Maybe this can be used override existing behavior if needed?
 SET(CMAKE_MODULE_PATH 
-	${CMAKE_MODULE_PATH} 
-	"${CMAKE_SOURCE_DIR}/CMakeModules"
+	${CMAKE_SOURCE_DIR}/CMakeModules
+	${CMAKE_MODULE_PATH}
 	)
+
+# some simple parser for OSG version numbers
+INCLUDE(parse_OSG_version)
 
 # Find OpenGL
 FIND_PACKAGE(OpenGL)
@@ -62,6 +58,20 @@ ENDIF(UNIX)
 ##### use the module to include the OpenSceneGraph files
 ########################################################################################################
 FIND_PACKAGE(OSG) #OpenSceneGraph
+
+
+#
+# Now we tie ourself to the OSG version numbering
+# 
+
+
+SET(OSGSWIG_MAJOR_VERSION 0)
+SET(OSGSWIG_MINOR_VERSION 9)
+SET(OSGSWIG_PATCH_VERSION 1)
+
+SET(OSGSWIG_SOVERSION 0)
+
+SET(OSGSWIG_VERSION ${OSGSWIG_MAJOR_VERSION}.${OSGSWIG_MINOR_VERSION}.${OSGSWIG_PATCH_VERSION})
 
 # Optional / HITLabNZ
 FIND_PACKAGE(OSGART) #osgART
