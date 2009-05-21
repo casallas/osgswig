@@ -685,7 +685,7 @@ In osg/Viewport, the return as by-reference function x() precedes the by-value f
 we can ignore the declarations, and extend the class with calls to the by-value function
 we cannot use the same names for the extensions as the original function (or one should change the header files)
 note that with SWIG extend-ing, a class's "this" is not available (neither explicitly nor implicitly), 
-so an explicit $self is needed for all member access, see http://www.swig.org/Doc1.3/SWIGPlus.html#SWIGPlus_class_extension 
+so an explicit $self is needed for all member access, see http://www.swig.org/Doc1.3/SWIGPlus.html#SWIGPlus_class_extension 
 */
 
 %ignore osg::Viewport::x;

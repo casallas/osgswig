@@ -66,7 +66,3 @@
 %include osgART/TransformFilterCallback
 %include osgART/Utils
 %include osgART/GeometryUtils
-
-
-
-
