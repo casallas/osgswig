@@ -62,7 +62,7 @@
 
 %{
 
-#if definded(_MSC_VER)
+#if defined(_MSC_VER)
 #pragma warning( disable: 4101 )
 #endif
 
