@@ -6,6 +6,7 @@
 
 #if (OPENSCENEGRAPH_SOVERSION > 54)
 #define OSG_USE_FLOAT_BOUNDINGBOX
+#define OSG_USE_FLOAT_BOUNDINGSPHERE
 #endif
 
 #include <osg/Array>
