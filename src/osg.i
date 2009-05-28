@@ -299,6 +299,18 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Matrixf::operator=;
 %ignore osg::Matrixf::operator*=;
 
+%ignore osg::BoundingSphereImpl::center();
+%ignore osg::BoundingSphereImpl::radius();
+%ignore osg::BoundingSphereImpl::radius2();
+
+%ignore osg::BoundingBoxImpl::xMin();
+%ignore osg::BoundingBoxImpl::xMax();
+
+%ignore osg::BoundingBoxImpl::yMin();
+%ignore osg::BoundingBoxImpl::yMax();
+
+%ignore osg::BoundingBoxImpl::zMin();
+%ignore osg::BoundingBoxImpl::zMax();
 
 %ignore osg::BoundingSphere::center();
 %ignore osg::BoundingSphere::radius();
@@ -836,6 +848,20 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %template(CameraViewRef) osg::ref_ptr<osg::CameraView>;
 %template(CameraRef) osg::ref_ptr<osg::Camera>;
 
+#if (OPENSCENEGRAPH_SOVERSION > 54)
+using namespace osg;
+%template(BoundingBoxf) osg::BoundingBoxImpl<osg::Vec3f>;
+%template(BoundingSpheref) osg::BoundingSphereImpl<osg::Vec3f>;
+typedef osg::BoundingBoxf  BoundingBox;
+typedef osg::BoundingSpheref  BoundingSphere;
+#ifdef SWIGPYTHON
+%pythoncode %{
+BoundingBox = BoundingBoxf
+BoundingSphere = BoundingSpheref
+%}
+#endif
+#endif
+
 // belongs to osg::Uniform
 %apply float *OUTPUT { float& f };
 %apply int   *OUTPUT { int& i };
@@ -858,9 +884,6 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 #endif
 
 %include osg/Timer
-
-
-
 
 //casting helpers
 

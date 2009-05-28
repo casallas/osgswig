@@ -12,10 +12,14 @@ import osgViewer
 node = osg.Group()
 
 # needed for python
-osgDB.setLibraryFilePathList(sys.path)
+filepath = osgDB.getLibraryFilePathList()
+for item in sys.path: filepath.append(item)
+osgDB.setLibraryFilePathList(filepath)
+
+loadedmodel = osgDB.readNodeFile("cow.osg")
 
 # open a file
-node.addChild(osgDB.readNodeFile('cow.osg'))
+node.addChild(loadedmodel)
 
 # create a viewer
 viewer = osgViewer.Viewer()

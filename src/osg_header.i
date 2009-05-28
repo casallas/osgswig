@@ -4,6 +4,10 @@
 #include <osg/MixinVector>
 #endif
 
+#if (OPENSCENEGRAPH_SOVERSION > 54)
+#define OSG_USE_FLOAT_BOUNDINGBOX
+#endif
+
 #include <osg/Array>
 #include <osg/Notify>
 #include <osg/ApplicationUsage>
