@@ -1,5 +1,7 @@
 %{
 
+#include <osg/Version>
+
 #if (OPENSCENEGRAPH_SOVERSION > 41)
 #include <osg/MixinVector>
 #endif
@@ -7,12 +9,12 @@
 #if (OPENSCENEGRAPH_SOVERSION > 54)
 #define OSG_USE_FLOAT_BOUNDINGBOX
 #define OSG_USE_FLOAT_BOUNDINGSPHERE
+#include <osg/ComputeBoundsVisitor>
 #endif
 
 #include <osg/Array>
 #include <osg/Notify>
 #include <osg/ApplicationUsage>
-#include <osg/Version>
 #include <osg/State>
 #include <osg/StateSet>
 #include <osg/StateAttribute>
@@ -69,6 +71,7 @@
 
 #include <osg/TexGen>
 #include <osg/TexGenNode>
+#include <osg/ClipNode>
 
 #include <osg/Texture>
 #include <osg/Texture1D>

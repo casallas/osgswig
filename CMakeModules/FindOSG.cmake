@@ -39,11 +39,14 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
         /usr/local/lib
         /usr/lib64
         /usr/lib
+        $ENV{OSG_DIR}/lib64
         $ENV{OSG_DIR}/lib
         $ENV{OSG_DIR}/bin
         $ENV{OSG_DIR}
+        $ENV{OSGDIR}/lib64
         $ENV{OSGDIR}/lib
         $ENV{OSGDIR}
+        $ENV{OSG_ROOT}/lib64
         $ENV{OSG_ROOT}/lib
          /sw/lib
         /opt/local/lib
@@ -67,10 +70,13 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
         /usr/local/lib
         /usr/lib64
         /usr/lib
+        $ENV{OSG_DIR}/lib64
         $ENV{OSG_DIR}/lib
         $ENV{OSG_DIR}
+        $ENV{OSGDIR}/lib64
         $ENV{OSGDIR}/lib
         $ENV{OSGDIR}
+        $ENV{OSG_ROOT}/lib64
         $ENV{OSG_ROOT}/lib
         /sw/lib
         /opt/local/lib

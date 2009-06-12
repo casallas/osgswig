@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#simpleosg.py
+#osgviewerQt4.py
 
 __author__  = ["Rene Molenaar"]
 __url__     = ("http://code.google.com/p/osgswig/")
@@ -13,7 +13,7 @@ __doc__     = """ This example shows to use osgViewer.Viewer within PyQt4 ____Re
 # general Python
 import sys,os
 
-# import wxWidgets stuff
+# import qtWidgets stuff
 import PyQt4
 
 # import OpenSceneGraph wrapper
@@ -122,18 +122,6 @@ class PyQtOSGWidget(QtOpenGL.QGLWidget):
     def getGraphicsWindow(self):
         """returns the osg graphicswindow created by osgViewer """
         return self.gw 
-
-class PyViewerQT():
-    """ Alternative implemenation test, using EmbeddedWindow """
-    def __init__(self, parent = 0, name = '' ,flags = 0):
-        self.window = Qt.QWidget(parent)
-        #create the viewer
-        self.viewer = osgViewer.Viewer()         
-        self.osgwindow = self.viewer.setUpViewerAsEmbeddedInWindow(0,0, self.window.width(), self.window.height())
-        #set default manipulators and event handlers
-        self.viewer.setCameraManipulator(osgGA.TrackballManipulator())
-        self.viewer.addEventHandler(osgViewer.StatsHandler())
-        self.viewer.addEventHandler(osgViewer.HelpHandler())
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):

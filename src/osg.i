@@ -119,6 +119,7 @@
 
 #include <osg/TexGen>
 #include <osg/TexGenNode>
+#include <osg/ClipNode>
 
 #include <osg/Texture>
 #include <osg/Texture1D>
@@ -796,6 +797,7 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %include osg/Transform
 %include osg/PositionAttitudeTransform
 %include osg/TexGenNode
+%include osg/ClipNode
 
 # %include osg/AnimationPath
 %include osg/ApplicationUsage
@@ -825,6 +827,7 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %include osg/CameraNode
 %include osg/CameraView
 
+%include osg/ComputeBoundsVisitor
 
 // Reference stuff
 
