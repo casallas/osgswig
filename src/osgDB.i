@@ -78,6 +78,11 @@ namespace std
 #include <osgDB/DatabasePager>
 #include <osgDB/Archive>
 
+#if (OPENSCENEGRAPH_SOVERSION > 40)
+using namespace osgDB;
+#include <osgDB/Callbacks>
+#endif
+
 %}
 
 

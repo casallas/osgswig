@@ -1,9 +1,8 @@
 ##---------------------------------------------------------------------------
-## CMakeLists.txt - The VRmeer Library - Delft University of Technology
-##
+## CMakeLists.txt - osgswig - http://code.google.com/p/osgswig
 ##---------------------------------------------------------------------------
-## Created by René Molenaar - Aug 2007
-## 
+## First version created by René Molenaar - Aug 2007
+##
 ## osg python bindings
 ##---------------------------------------------------------------------------
 
@@ -37,6 +36,7 @@ ELSE(NOT APPLE)
 	FAKE_INCLUDE_FROM_FRAMEWORK(osgFX ${OSGFX_LIBRARY} ${FAKE_INCLUDE_PATH})
 	FAKE_INCLUDE_FROM_FRAMEWORK(osgText ${OSGTEXT_LIBRARY} ${FAKE_INCLUDE_PATH})
 	FAKE_INCLUDE_FROM_FRAMEWORK(osgViewer ${OSGVIEWER_LIBRARY} ${FAKE_INCLUDE_PATH})
+	FAKE_INCLUDE_FROM_FRAMEWORK(osgAnimation ${OSGANIMATION_LIBRARY} ${FAKE_INCLUDE_PATH})
 	INCLUDE_DIRECTORIES(${FAKE_INCLUDE_PATH})
 ENDIF(NOT APPLE)
 
@@ -61,7 +61,7 @@ CONFIGURE_FILE(
 
 
 SET_SOURCE_FILES_PROPERTIES(
-	osg.i osgUtil.i osgFX.i osgDB.i osgGA.i osgText.i osgSim.i osgViewer.i osgManipulator.i
+	osg.i osgUtil.i osgFX.i osgDB.i osgGA.i osgText.i osgSim.i osgViewer.i osgManipulator.i osgAnimation.i
 	PROPERTIES CPLUSPLUS TRUE)
 	
 SET_SOURCE_FILES_PROPERTIES(osg.i PROPERTIES SWIG_FLAGS "-make_default")
@@ -101,6 +101,9 @@ SWIG_LINK_LIBRARIES(osgText ${SWIGLINKLIBS} ${OSGGA_LIBRARY} ${OSGTEXT_LIBRARY})
 SWIG_ADD_MODULE(osgSim python osgSim.i)
 SWIG_LINK_LIBRARIES(osgSim ${SWIGLINKLIBS} ${OSGGA_LIBRARY} ${OSGUTIL_LIBRARY} ${OSGSIM_LIBRARY})
 
+SWIG_ADD_MODULE(osgAnimation python osgAnimation.i)
+SWIG_LINK_LIBRARIES(osgAnimation ${SWIGLINKLIBS} ${OSGANIMATION_LIBRARY})
+
 
 IF(BUILD_WITH_OSGINTROSPECTION)
 	SET_SOURCE_FILES_PROPERTIES(
@@ -116,7 +119,7 @@ IF(BUILD_WITH_OSGART)
 ENDIF(BUILD_WITH_OSGART)
 
 IF(WIN32)
-FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim)
+FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim osgAnimation)
 	SET(TGT ${SWIG_MODULE_${modname}_REAL_NAME}) 
 	GET_TARGET_PROPERTY(${TGT}_LOCATION ${TGT} LOCATION)
 	GET_FILENAME_COMPONENT( MYNAME ${${TGT}_LOCATION} NAME_WE)
@@ -130,4 +133,3 @@ FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim)
   )
 ENDFOREACH(modname)
 ENDIF(WIN32)
-

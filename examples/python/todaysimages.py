@@ -29,7 +29,6 @@ class RotateCB(osg.NodeCallback):
     """
     Rotate UpdateCallback for Transform Nodes 
     """
-    base_class = osg.NodeCallback
     def __init__(self, axis = osg.Vec3( 0.0, 0.0, 1.0 ), startangle = 0.0, speed=0.001):
         self._angle = startangle
         self._axis = axis
@@ -55,6 +54,9 @@ def getUrlsFromRSS(pURL,pItem=0):
 
     pItem indicates which entry item one would like
     """
+
+    print "Trying to open URL :", pURL
+
     try:
         url_info = urllib2.urlopen(pURL)
         xmldoc = minidom.parse(url_info)
@@ -84,7 +86,7 @@ def getImageListFromPage(pUrl):
     lcontent = urllib2.urlopen(lbaseurl+lstuburl).read()
     lsoup = BeautifulSoup.BeautifulSoup(lcontent)
     imglisttags = lsoup.findChildren("img")
-    imglistfiles = [x["src"] for x in imglisttags]
+    imglistfiles = [x["src"] for x in imglisttags if x["src"].endswith("jpg")]
     return imglistfiles
 
 def createObjectFromImageList(pNode, pImageList, pBaseUrl=""):
@@ -97,21 +99,28 @@ def createObjectFromImageList(pNode, pImageList, pBaseUrl=""):
     # create a random function for floating points
     frandom = lambda x,y : random.randrange(x,y,int=types.FloatType)
 
-    for imgfile in [str(x) for x in pImageList ]:
-        print "Loading:", imgfile
+    print "Opening %d from %d images"%(maxphotos, len(pImageList))
+
+    for imgfile in [str(x) for x in pImageList[:maxphotos]]:
+        print "osgDB.readImageFile loading:", imgfile
         image = osgDB.readImageFile(imgfile)
 
         #check if the image is there, and not too small (icons and such)
         if image and image.s()>100.0 and image.t()>100.0:
-            t = osg.Texture2D()
+            t = osg.TextureRectangle()
+            texmat = osg.TexMat()
+            texmat.setScaleByTextureRectangleSize(True)
             t.setImage(image)
             stateset = osg.StateSet()
             stateset.setTextureAttributeAndModes(0,t,1)
+            stateset.setTextureAttributeAndModes(0, texmat, osg.StateAttribute.ON)
+
             lbox_geode = osg.Geode()
             lbox_geode.addDrawable(box_drawable)
             lbox_geode.setStateSet(stateset)
             lbox_node = osg.PositionAttitudeTransform()
             lbox_node.addChild(lbox_geode)
+
             rscale = frandom(5,10)
             lbox_node.setScale(osg.Vec3d(image.s()/rscale,0.5,image.t()/rscale))
             #set vertical
@@ -127,13 +136,16 @@ def createObjectFromImageList(pNode, pImageList, pBaseUrl=""):
 root = osg.Group()
 pillar = osg.PositionAttitudeTransform()
 animatecallback = RotateCB(speed=0.001)
-pillar.setUpdateCallback(animatecallback)
+#pillar.setUpdateCallback(animatecallback)      #don't know why this crashes (again?)
 root.addChild(pillar)
 
 imagelist=[]
 
 #get the BBC's "Today in images" page URL from today from the RSS
-rssaddress = 'http://newsrss.bbc.co.uk/rss/newsonline_world_edition/in_pictures/rss.xml'
+#rssaddress = 'http://newsrss.bbc.co.uk/rss/newsonline_world_edition/in_pictures/rss.xml'# 
+#BBC appears to have changed their feed, instead use a flickr interesting photo feed
+rssaddress = 'http://www.flourish.org/news/flickr-daily-interesting.xml'
+maxphotos = 20
 
 #generate a list of URLs from the last couple of items
 urllist = getUrlsFromRSS(rssaddress,4)
@@ -144,8 +156,6 @@ for urlitem in urllist:
 
 #create image objects from the list
 createObjectFromImageList(pillar,imagelist)
-
-
 
 # osgViewer section, see other viewer examples for these functions
 viewer = osgViewer.Viewer()

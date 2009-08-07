@@ -115,7 +115,7 @@ MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
 
 ENDMACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)
 
-FOREACH(MYOSGLIBRARY osg osgUtil osgDB osgText osgTerrain osgFX osgViewer osgGA osgSim osgShadow osgManipulator osgParticle )
+FOREACH(MYOSGLIBRARY osg osgUtil osgDB osgText osgTerrain osgFX osgViewer osgGA osgSim osgShadow osgManipulator osgParticle osgAnimation)
     STRING(TOUPPER ${MYOSGLIBRARY} MYOSGUPPER )
     FIND_OSG_LIBRARY( ${MYOSGUPPER}_LIBRARY ${MYOSGLIBRARY}) 
 ENDFOREACH(MYOSGLIBRARY)

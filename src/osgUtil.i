@@ -1,4 +1,4 @@
-%module osgUtil
+%module (directors="1") osgUtil
 
 #ifdef SWIGPERL
 %{
@@ -10,6 +10,8 @@
 #endif
 %}
 #endif
+
+%feature("director") osgUtil::IntersectionVisitor;
 
 // Suppress SWIG warning
 //#pragma SWIG nowarn=SWIGWARN_PARSE_NESTED_CLASS
@@ -96,6 +98,26 @@
 %include osgUtil/GLObjectsVisitor
 %include osgUtil/HalfWayMapGenerator
 %include osgUtil/HighlightMapGenerator
+
+// correct override for osgUtil::IntersectionVisitor::apply
+%rename("apply_Node") osgUtil::IntersectionVisitor::apply(Node&);
+%rename("apply_Geode") osgUtil::IntersectionVisitor::apply(Geode&);
+%rename("apply_Billboard") osgUtil::IntersectionVisitor::apply(Billboard&);
+%rename("apply_Group") osgUtil::IntersectionVisitor::apply(Group&);
+%rename("apply_Projection") osgUtil::IntersectionVisitor::apply(Projection&);
+%rename("apply_CoordinateSystemNode") osgUtil::IntersectionVisitor::apply(CoordinateSystemNode&);
+%rename("apply_ClipNode") osgUtil::IntersectionVisitor::apply(ClipNode&);
+%rename("apply_TexGenNode") osgUtil::IntersectionVisitor::apply(TexGenNode&);
+%rename("apply_LightSource") osgUtil::IntersectionVisitor::apply(LightSource&);       
+%rename("apply_Transform") osgUtil::IntersectionVisitor::apply(Transform&);
+%rename("apply_Camera") osgUtil::IntersectionVisitor::apply(Camera&);
+%rename("apply_CameraView") osgUtil::IntersectionVisitor::apply(CameraView&);
+%rename("apply_MatrixTransform") osgUtil::IntersectionVisitor::apply(MatrixTransform&);
+%rename("apply_PositionAttitudeTransform") osgUtil::IntersectionVisitor::apply(PositionAttitudeTransform&);
+%rename("apply_Switch") osgUtil::IntersectionVisitor::apply(Switch&);
+%rename("apply_Sequence") osgUtil::IntersectionVisitor::apply(Sequence&);
+%rename("apply_LOD") osgUtil::IntersectionVisitor::apply(LOD&);
+%rename("apply_PagedLOD") osgUtil::IntersectionVisitor::apply(PagedLOD&);
 	
 ///////////////////////////////////////////////////////////////////////////////
 /// Duplicate nested class from osgUtil/IntersectionVisitor

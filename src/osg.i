@@ -20,6 +20,15 @@
 %feature("director") osg::NodeCallback;
 %feature("director") osg::NodeVisitor;
 
+%feature("director") DrawCallback;
+struct DrawCallback : virtual public Object
+{
+    DrawCallback() {}
+    DrawCallback(const DrawCallback&,const CopyOp&) {}
+    virtual void operator () (osg::RenderInfo& renderInfo) const;
+    virtual void operator () (const osg::Camera&) const {}
+};
+
 //Enable exception handling in directors 
 %feature("director:except") {
     if ($error != NULL) {
@@ -443,16 +452,7 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Camera::getCameraThread;
 
 %ignore osg::Camera::DrawCallback;
-%ignore osg::Camera::setPostDrawCallback;
-%ignore osg::Camera::getPostDrawCallback;
-%ignore osg::Camera::setPreDrawCallback;
-%ignore osg::Camera::getPreDrawCallback;
-%ignore osg::Camera::getInitialDrawCallback;
-%ignore osg::Camera::setInitialDrawCallback;
-%ignore osg::Camera::getIntialDrawCallback;
-%ignore osg::Camera::setIntialDrawCallback;
-%ignore osg::Camera::getFinalDrawCallback;
-%ignore osg::Camera::setFinalDrawCallback;
+
 %ignore osg::CameraNode::Attachment;
 %ignore osg::CameraNode::BufferAttachmentMap;
 
@@ -669,11 +669,27 @@ namespace osg {
 %include osg/BlendColor
 
 %include osg/BufferObject
+%typemap(in) unsigned char * data {
+    if (PyString_Check($input)) {
+        int len;
+        char *buf;
+        PyString_AsStringAndSize($input, &buf, &len);
+        $1 = (unsigned char *)malloc(len);
+        memcpy($1, buf, len);
+    } else {
+        SWIG_exception(SWIG_TypeError, "string expected");
+    }
+}
+%typemap(typecheck) unsigned char * data = char *;
+
 %include osg/Image
 %include osg/ImageStream
 
 %extend osg::Image {
 	virtual osg::ImageStream* asImageStream() {return dynamic_cast<osg::ImageStream*>($self);}
+	PyObject* dataAsString() {
+	return PyString_FromStringAndSize((char *)(self)->data(), self->getImageSizeInBytes());
+	}
 };
 
 
@@ -713,6 +729,19 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 
 %include osg/Shader
 %include osg/Program
+
+%extend osg::Program { 
+GLuint getHandle(int contextID) {
+    return $self->getPCP(contextID)->getHandle();
+}
+GLint getUniformLocation(int contextID, std::string name) {
+    return $self->getPCP(contextID)->getUniformLocation(name);
+}
+GLint getAttribLocation(int contextID, std::string name) {
+    return $self->getPCP(contextID)->getAttribLocation(name);
+}
+} 
+
 %include osg/DisplaySettings
 %include osg/State
 %include osg/NodeCallback
@@ -734,16 +763,17 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 //Definition of array types which are useful in python
 //for osg 2.4, use template for Array types
 //for osg 2.6 and up, ignore the MixinVector (issue 12) and ignore Arrays
+//it seems either patching osg or using Joe Killner's trick fixes MixinVectors again
+
 #if (OPENSCENEGRAPH_SOVERSION > 41)
     %ignore osg::MixinVector<osg::Vec2f>::vector_type;
-#else
+    //#else
     %template(vectorGLshort)  std::vector<GLshort>;
     %template(vectorGLint)    std::vector<GLint>;
     %template(vectorGLubyte)  std::vector<GLubyte>;
     %template(vectorGLushort) std::vector<GLushort>;
     %template(vectorGLuint)   std::vector<GLuint>;
     %template(vectorGLfloat)  std::vector<float>;       //std::vector<GLfloat>;
-    //%template(vectorGLdouble) std::vector<double>;      //std::vector<GLdouble>;
 
     %template(vectorVec2)     std::vector<osg::Vec2f>;
     %template(vectorVec3)     std::vector<osg::Vec3f>;
@@ -758,7 +788,6 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
     %template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,GL_UNSIGNED_SHORT>;
     %template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,GL_UNSIGNED_INT>;
     %template(FloatArray)     osg::TemplateIndexArray<float,osg::Array::FloatArrayType,1,GL_FLOAT>;
-    //%template(DoubleArray)    osg::TemplateIndexArray<double,osg::Array::DoubleArrayType,1,GL_DOUBLE>;
 
     %template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,GL_FLOAT>;
     %template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,GL_FLOAT>;
@@ -766,8 +795,40 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
     %template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,GL_DOUBLE>;
     %template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,GL_DOUBLE>;
     %template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,GL_DOUBLE>;
+
+    // These fail for reasons unclear  
+    //%template(vectorGLdouble) std::vector<double>;      //std::vector<GLdouble>;
+    //%template(DoubleArray)    osg::TemplateIndexArray<double,osg::Array::DoubleArrayType,1,GL_DOUBLE>;
 #endif //(OPENSCENEGRAPH_SOVERSION > 41)
 
+
+%{
+template <class ValueT>
+struct MixinVectorAccessor {
+    virtual ~MixinVectorAccessor();
+    std::vector<ValueT> vec;
+};
+%}
+
+%inline %{
+template<class ValueT> std::vector<ValueT> *asVector(osg::MixinVector<ValueT> *base){return &(((MixinVectorAccessor<ValueT> *)base)->vec);}
+%}
+
+%template(asGLshortVector)  asVector<GLshort>;
+%template(asGLintVector)    asVector<GLint>;
+%template(asGLubyteVector)  asVector<GLubyte>;
+%template(asGLushortVector) asVector<GLushort>;
+%template(asGLuintVector)   asVector<GLuint>;
+%template(asGLfloatVector)  asVector<float>;         //asVector<GLfloat>;
+//%template(asGLdoubleVector) asVector<double>;      //asVector<GLdouble>;
+
+%template(asVec2Vector)     asVector<osg::Vec2f>;
+%template(asVec3Vector)     asVector<osg::Vec3f>;
+%template(asVec4Vector)     asVector<osg::Vec4f>;
+%template(asVec2dVector)    asVector<osg::Vec2d>;
+%template(asVec3dVector)    asVector<osg::Vec3d>;
+%template(asVec4dVector)    asVector<osg::Vec4d>;
+%template(asVec2Vector)     asVector<osg::Vec2f>;
 
 %include osg/Geometry
 %include osg/Shape
@@ -824,6 +885,9 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 
 %include osg/AutoTransform
 %include osg/Camera
+%{
+typedef osg::Camera::DrawCallback DrawCallback;
+%}
 %include osg/CameraNode
 %include osg/CameraView
 
