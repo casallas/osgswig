@@ -811,24 +811,27 @@ struct MixinVectorAccessor {
 %}
 
 %inline %{
-template<class ValueT> std::vector<ValueT> *asVector(osg::MixinVector<ValueT> *base){return &(((MixinVectorAccessor<ValueT> *)base)->vec);}
+template<class ValueT> std::vector<ValueT> *asVectorTemplate(osg::MixinVector<ValueT> *base){return &(((MixinVectorAccessor<ValueT> *)base)->vec);}
+std::vector<GLubyte> *asVector(osg::DrawElementsUByte *base){return asVectorTemplate(base);}
+std::vector<GLushort> *asVector(osg::DrawElementsUShort *base){return asVectorTemplate(base);}
+std::vector<GLuint> *asVector(osg::DrawElementsUInt *base){return asVectorTemplate(base);}
 %}
 
-%template(asGLshortVector)  asVector<GLshort>;
-%template(asGLintVector)    asVector<GLint>;
-%template(asGLubyteVector)  asVector<GLubyte>;
-%template(asGLushortVector) asVector<GLushort>;
-%template(asGLuintVector)   asVector<GLuint>;
-%template(asGLfloatVector)  asVector<float>;         //asVector<GLfloat>;
-//%template(asGLdoubleVector) asVector<double>;      //asVector<GLdouble>;
+%template(asVector)     asVectorTemplate<GLshort>;
+%template(asVector)     asVectorTemplate<GLint>;
+%template(asVector)     asVectorTemplate<GLubyte>;
+%template(asVector)     asVectorTemplate<GLushort>;
+%template(asVector)     asVectorTemplate<GLuint>;
+%template(asVector)     asVectorTemplate<float>;         //asVectorTemplate<GLfloat>;
+//%template(asGLdoubleVector) asVector<double>;      //asVectorTemplate<GLdouble>;
 
-%template(asVec2Vector)     asVector<osg::Vec2f>;
-%template(asVec3Vector)     asVector<osg::Vec3f>;
-%template(asVec4Vector)     asVector<osg::Vec4f>;
-%template(asVec2dVector)    asVector<osg::Vec2d>;
-%template(asVec3dVector)    asVector<osg::Vec3d>;
-%template(asVec4dVector)    asVector<osg::Vec4d>;
-%template(asVec2Vector)     asVector<osg::Vec2f>;
+%template(asVector)     asVectorTemplate<osg::Vec2f>;
+%template(asVector)     asVectorTemplate<osg::Vec3f>;
+%template(asVector)     asVectorTemplate<osg::Vec4f>;
+%template(asVector)     asVectorTemplate<osg::Vec2d>;
+%template(asVector)     asVectorTemplate<osg::Vec3d>;
+%template(asVector)     asVectorTemplate<osg::Vec4d>;
+%template(asVector)     asVectorTemplate<osg::Vec2f>;
 
 %include osg/Geometry
 %include osg/Shape
