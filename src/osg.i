@@ -766,7 +766,7 @@ GLint getAttribLocation(int contextID, std::string name) {
 //Definition of array types which are useful in python
 //for osg 2.4, use template for Array types
 //for osg 2.6 and up, ignore the MixinVector (issue 12) and ignore Arrays
-//it seems either patching osg or using Joe Killner's trick fixes MixinVectors again
+//it seems either patching OSG or using Joe Kilner's trick fixes MixinVectors again
 
 #if (OPENSCENEGRAPH_SOVERSION > 41)
     %ignore osg::MixinVector<osg::Vec2f>::vector_type;
@@ -836,7 +836,7 @@ std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTe
 %template(asVector)     asVectorTemplate<osg::Vec4d>;
 %template(asVector)     asVectorTemplate<osg::Vec2f>;
 
-// This part extends every MixinVector type with an asVector method
+// This part extends every MixinVector type with some methods to directly access the underlying std::vectors
 
 //The following macros expands to a manual definition for one templated type, e.g.
 //%extend osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT> {
@@ -846,6 +846,8 @@ std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTe
 %extend osg::TemplateArray<##dataName, ##dataType, ##dataElements, ##dataSize>
 {
 	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
+	void push_back(##dataName el) {dynamic_cast<osg::MixinVector<##dataName>*>(self)->push_back(el);}
+	int size() {dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
 };
 %enddef
 
@@ -853,6 +855,8 @@ std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTe
 %extend osg::TemplateIndexArray<##dataName, ##dataType, ##dataElements, ##dataSize>
 {
 	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
+	void push_back(##dataName el) {dynamic_cast<osg::MixinVector<##dataName>*>(self)->push_back(el);}
+	int size() {dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
 };
 %enddef
 

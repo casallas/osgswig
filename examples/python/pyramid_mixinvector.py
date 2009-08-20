@@ -9,6 +9,13 @@
 #   lineVertices = lineVerticesA.asVector()
 # or
 #   lineVertices = osg.asVector(lineVerticesA)
+# some functions (e.g. push_back and size) are added for calling convenience, 
+#  for advanced stuff (e.g. iterators) use the asVector() method
+# warning: take care that reference counting can get messed up if you don't ref the original structure anymore
+#          it can be collected 
+#  e.g. v = osg.Vec3Array().asVector(); v.push_back(osg.Vec3(1,2,3));  # undefined, osg.Vec3Array gets garbage collected directly
+#  instead: va = osg.Vec3Array(); v = va.asVector(); va.push_back(osg.Vec3(1,2,3));  # ok, until va gets garbage collected
+
 
 # import all necessary stuff
 import sys
@@ -28,11 +35,10 @@ lineGeometry = osg.Geometry()
 lineGeode.addDrawable(lineGeometry)
 lineStateSet = lineGeode.getOrCreateStateSet()
 
-lineVerticesA = osg.Vec3Array()
-lineVertices = lineVerticesA.asVector()
+lineVertices = osg.Vec3Array()
 lineVertices.push_back(osg.Vec3(-10,10,0))
 lineVertices.push_back(osg.Vec3(-10,-10,0))
-lineGeometry.setVertexArray(lineVerticesA)
+lineGeometry.setVertexArray(lineVertices)
 
 lineBaseA = osg.DrawElementsUInt(osg.PrimitiveSet.LINES,0)
 lineBase = lineBaseA.asVector()
@@ -48,14 +54,13 @@ pyramidGeometry = osg.Geometry()
 pyramidGeode.addDrawable(pyramidGeometry)
 pyramidStateSet = pyramidGeode.getOrCreateStateSet()
 
-pyramidVerticesA = osg.Vec3Array()
-pyramidVertices = pyramidVerticesA.asVector()
+pyramidVertices = osg.Vec3Array()
 pyramidVertices.push_back(osg.Vec3(0,0,0))
 pyramidVertices.push_back(osg.Vec3(10,0,0))
 pyramidVertices.push_back(osg.Vec3(10,10,0))
 pyramidVertices.push_back(osg.Vec3(0,10,0))
 pyramidVertices.push_back(osg.Vec3(5,5,10))
-pyramidGeometry.setVertexArray(pyramidVerticesA)
+pyramidGeometry.setVertexArray(pyramidVertices)
 
 pyramidBaseA = osg.DrawElementsUInt(osg.PrimitiveSet.QUADS,0)
 pyramidBase = pyramidBaseA.asVector()
