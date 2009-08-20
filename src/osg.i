@@ -157,6 +157,9 @@ struct DrawCallback : virtual public Object
 
 #include <osg/Timer>
 
+//forward declaration of the function that will be defined further on
+template<class ValueT> std::vector<ValueT> *asVectorTemplate(osg::MixinVector<ValueT> *base);
+
 %}
 
 %define OSG_EXPORT
@@ -812,9 +815,9 @@ struct MixinVectorAccessor {
 
 %inline %{
 template<class ValueT> std::vector<ValueT> *asVectorTemplate(osg::MixinVector<ValueT> *base){return &(((MixinVectorAccessor<ValueT> *)base)->vec);}
-std::vector<GLubyte> *asVector(osg::DrawElementsUByte *base){return asVectorTemplate(base);}
+std::vector<GLubyte>  *asVector(osg::DrawElementsUByte  *base){return asVectorTemplate(base);}
 std::vector<GLushort> *asVector(osg::DrawElementsUShort *base){return asVectorTemplate(base);}
-std::vector<GLuint> *asVector(osg::DrawElementsUInt *base){return asVectorTemplate(base);}
+std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTemplate(base);}
 %}
 
 %template(asVector)     asVectorTemplate<GLshort>;
@@ -823,7 +826,7 @@ std::vector<GLuint> *asVector(osg::DrawElementsUInt *base){return asVectorTempla
 %template(asVector)     asVectorTemplate<GLushort>;
 %template(asVector)     asVectorTemplate<GLuint>;
 %template(asVector)     asVectorTemplate<float>;         //asVectorTemplate<GLfloat>;
-//%template(asGLdoubleVector) asVector<double>;      //asVectorTemplate<GLdouble>;
+//%template(asGLdoubleVector) asVector<double>;          //asVectorTemplate<GLdouble>;
 
 %template(asVector)     asVectorTemplate<osg::Vec2f>;
 %template(asVector)     asVectorTemplate<osg::Vec3f>;
@@ -832,6 +835,51 @@ std::vector<GLuint> *asVector(osg::DrawElementsUInt *base){return asVectorTempla
 %template(asVector)     asVectorTemplate<osg::Vec3d>;
 %template(asVector)     asVectorTemplate<osg::Vec4d>;
 %template(asVector)     asVectorTemplate<osg::Vec2f>;
+
+// This part extends every MixinVector type with an asVector method
+
+//The following macros expands to a manual definition for one templated type, e.g.
+//%extend osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT> {
+//	std::vector<Vec4f>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<Vec4f>*>(self));}
+//};
+%define MIXINVECTORHELPER( dataName, dataType, dataElements, dataSize)
+%extend osg::TemplateArray<##dataName, ##dataType, ##dataElements, ##dataSize>
+{
+	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
+};
+%enddef
+
+%define MIXINVECTORINDEXEDHELPER( dataName, dataType, dataElements, dataSize)
+%extend osg::TemplateIndexArray<##dataName, ##dataType, ##dataElements, ##dataSize>
+{
+	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
+};
+%enddef
+
+MIXINVECTORINDEXEDHELPER ( GLshort   , osg::Array::ShortArrayType  ,1, GL_SHORT);
+MIXINVECTORINDEXEDHELPER ( GLint     , osg::Array::IntArrayType    ,1, GL_INT);
+MIXINVECTORINDEXEDHELPER ( GLubyte   , osg::Array::UByteArrayType  ,1, GL_UNSIGNED_BYTE);
+MIXINVECTORINDEXEDHELPER ( GLushort  , osg::Array::UShortArrayType ,1, GL_UNSIGNED_SHORT);
+MIXINVECTORINDEXEDHELPER ( GLuint    , osg::Array::UIntArrayType   ,1, GL_UNSIGNED_INT);
+MIXINVECTORINDEXEDHELPER ( float     , osg::Array::FloatArrayType  ,1, GL_FLOAT);
+
+MIXINVECTORHELPER ( osg::Vec2 , osg::Array::Vec2ArrayType   ,2, GL_FLOAT);
+MIXINVECTORHELPER ( osg::Vec3 , osg::Array::Vec3ArrayType   ,3, GL_FLOAT);
+MIXINVECTORHELPER ( osg::Vec4 , osg::Array::Vec4ArrayType   ,4, GL_FLOAT);
+MIXINVECTORHELPER ( osg::Vec2d, osg::Array::Vec2dArrayType  ,2, GL_DOUBLE);
+MIXINVECTORHELPER ( osg::Vec3d, osg::Array::Vec3dArrayType  ,3, GL_DOUBLE);
+MIXINVECTORHELPER ( osg::Vec4d, osg::Array::Vec4dArrayType  ,4, GL_DOUBLE);
+
+%extend osg::DrawElementsUByte{
+	std::vector<GLubyte>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<GLubyte>*>(self));}
+};
+%extend osg::DrawElementsUInt{
+	std::vector<GLuint>* asVector()  {return asVectorTemplate(dynamic_cast<osg::MixinVector<GLuint>*>(self));}
+};
+%extend osg::DrawElementsUShort{
+	std::vector<GLushort>* asVector(){return asVectorTemplate(dynamic_cast<osg::MixinVector<GLushort>*>(self));}
+};
+
 
 %include osg/Geometry
 %include osg/Shape
