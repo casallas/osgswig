@@ -5,6 +5,10 @@
 # http://www.openscenegraph.org/documentation/NPSTutorials/osgGeometry.html
 #
 # This is the mixinvector version of the example, using the "asVector" workaround 
+# note the two syntax styles:
+#   lineVertices = lineVerticesA.asVector()
+# or
+#   lineVertices = osg.asVector(lineVerticesA)
 
 # import all necessary stuff
 import sys
@@ -25,13 +29,13 @@ lineGeode.addDrawable(lineGeometry)
 lineStateSet = lineGeode.getOrCreateStateSet()
 
 lineVerticesA = osg.Vec3Array()
-lineVertices = osg.asVector(lineVerticesA)
+lineVertices = lineVerticesA.asVector()
 lineVertices.push_back(osg.Vec3(-10,10,0))
 lineVertices.push_back(osg.Vec3(-10,-10,0))
 lineGeometry.setVertexArray(lineVerticesA)
 
 lineBaseA = osg.DrawElementsUInt(osg.PrimitiveSet.LINES,0)
-lineBase = osg.asVector(lineBaseA)
+lineBase = lineBaseA.asVector()
 lineBase.push_back(0)
 lineBase.push_back(1)
 lineGeometry.addPrimitiveSet(lineBaseA)
@@ -45,7 +49,7 @@ pyramidGeode.addDrawable(pyramidGeometry)
 pyramidStateSet = pyramidGeode.getOrCreateStateSet()
 
 pyramidVerticesA = osg.Vec3Array()
-pyramidVertices = osg.asVector(pyramidVerticesA)
+pyramidVertices = pyramidVerticesA.asVector()
 pyramidVertices.push_back(osg.Vec3(0,0,0))
 pyramidVertices.push_back(osg.Vec3(10,0,0))
 pyramidVertices.push_back(osg.Vec3(10,10,0))
@@ -54,7 +58,7 @@ pyramidVertices.push_back(osg.Vec3(5,5,10))
 pyramidGeometry.setVertexArray(pyramidVerticesA)
 
 pyramidBaseA = osg.DrawElementsUInt(osg.PrimitiveSet.QUADS,0)
-pyramidBase = osg.asVector(pyramidBaseA)
+pyramidBase = pyramidBaseA.asVector()
 pyramidBase.push_back(3)
 pyramidBase.push_back(2)
 pyramidBase.push_back(1)
@@ -62,7 +66,7 @@ pyramidBase.push_back(0)
 pyramidGeometry.addPrimitiveSet(pyramidBaseA)
 
 pyramidFace1A = osg.DrawElementsUInt(osg.PrimitiveSet.TRIANGLES,0)
-pyramidFace1= osg.asVector(pyramidFace1A)
+pyramidFace1= pyramidFace1A.asVector()
 pyramidFace1.push_back(0)
 pyramidFace1.push_back(1)
 pyramidFace1.push_back(4)
@@ -90,14 +94,14 @@ pyramidFace4.push_back(4)
 pyramidGeometry.addPrimitiveSet(pyramidFace4A)
 
 colorsA= osg.Vec4Array()
-colors= osg.asVector(colorsA)
+colors= colorsA.asVector()
 colors.push_back(osg.Vec4(1,0,0,1)) #index 0 red
 colors.push_back(osg.Vec4(0,1,0,1)) #index 1 green
 colors.push_back(osg.Vec4(0,0,1,1)) #index 2 blue
 colors.push_back(osg.Vec4(1,1,1,1)) #index 3 white
 
 colorIndexArrayA = osg.UIntArray()
-colorIndexArray = osg.asVector(colorIndexArrayA)
+colorIndexArray = colorIndexArrayA.asVector()
 colorIndexArray.push_back(0)
 colorIndexArray.push_back(1)
 colorIndexArray.push_back(2)
