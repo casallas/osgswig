@@ -55,9 +55,9 @@ namespace std
 #include <osgDB/Version>
 #if (OPENSCENEGRAPH_SOVERSION > 40)
 #include <osgDB/AuthenticationMap>
+#include <osgDB/FileCache>
 #endif
 #include <osgDB/DatabasePager>
-#include <osgDB/FileCache>
 #include <osgDB/Registry>
 #include <osgDB/WriteFile>
 #include <osgDB/SharedStateManager>
@@ -131,13 +131,12 @@ using namespace osgDB;
 
 #if (OPENSCENEGRAPH_SOVERSION > 40)
 %include osgDB/AuthenticationMap
+%include osgDB/FileCache
 #endif
-
 
 %include osgDB/ReaderWriter
 %include osgDB/WriteFile
 %include osgDB/SharedStateManager
-
 
 %typemap(out) osg::Node* {
     //  osgDB::readNodeFile(s) returns a raw Node* with 0 reference count.
@@ -156,12 +155,10 @@ using namespace osgDB;
         SWIG_exception(SWIG_IOError,"osgDB::$symname:: Could not load file");
     }
 }
-
  
 %include osgDB/ReadFile
 %typemap(out) osg::Node*;   //resets the typemap
 
-%include osgDB/FileCache
 %include osgDB/FieldReader
 %include osgDB/FieldReaderIterator
 %include osgDB/Input

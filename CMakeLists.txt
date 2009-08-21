@@ -85,7 +85,9 @@ OPTION(BUILD_WITH_OSGART "Create wrappers for osgART (Augmented Reality Toolkit 
 OPTION(BUILD_WITH_OSGODE "Create wrappers for osgODE (ODE - Open Dynamics Environment for OpenSceneGraph)" OFF)
 OPTION(BUILD_WITH_OSGVRPN "Create wrappers for osgVRPN (VRPN - Virtual Reality Peripherals Network)" OFF)
 OPTION(BUILD_WITH_OSGVERSE "Create wrappers for osgVerse (lightweight, low latency, general-purpose network protocol for 3D data)" OFF)
+
 OPTION(BUILD_WITH_OSGINTROSPECTION "Create wrappers for osgIntrospection (OSG's own introspection library needs to be available)" OFF)
+OPTION(BUILD_WITH_OSGANIMATION     "Create wrappers for osgAnimation (available from osg 2.8)" ON)
 
 # bug on CMake 2.6 and 2.7 on Mac 
 IF (APPLE)

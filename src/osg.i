@@ -20,6 +20,7 @@
 %feature("director") osg::NodeCallback;
 %feature("director") osg::NodeVisitor;
 
+#if (OPENSCENEGRAPH_SOVERSION > 41)
 %feature("director") DrawCallback;
 struct DrawCallback : virtual public Object
 {
@@ -28,6 +29,7 @@ struct DrawCallback : virtual public Object
     virtual void operator () (osg::RenderInfo& renderInfo) const;
     virtual void operator () (const osg::Camera&) const {}
 };
+#endif
 
 //Enable exception handling in directors 
 %feature("director:except") {
@@ -157,8 +159,10 @@ struct DrawCallback : virtual public Object
 
 #include <osg/Timer>
 
+#if (OPENSCENEGRAPH_SOVERSION > 41)
 //forward declaration of the function that will be defined further on
 template<class ValueT> std::vector<ValueT> *asVectorTemplate(osg::MixinVector<ValueT> *base);
+#endif
 
 %}
 
@@ -530,8 +534,9 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Referenced::unref;
 #endif
 
-
+#if (OPENSCENEGRAPH_SOVERSION > 41)
 %include osg/Config
+#endif
 
 // Now the headers
 %include osg/Version
@@ -768,43 +773,42 @@ GLint getAttribLocation(int contextID, std::string name) {
 //for osg 2.6 and up, ignore the MixinVector (issue 12) and ignore Arrays
 //it seems either patching OSG or using Joe Kilner's trick fixes MixinVectors again
 
+
+%template(vectorGLshort)  std::vector<GLshort>;
+%template(vectorGLint)    std::vector<GLint>;
+%template(vectorGLubyte)  std::vector<GLubyte>;
+%template(vectorGLushort) std::vector<GLushort>;
+%template(vectorGLuint)   std::vector<GLuint>;
+%template(vectorGLfloat)  std::vector<float>;       //std::vector<GLfloat>;
+
+%template(vectorVec2)     std::vector<osg::Vec2f>;
+%template(vectorVec3)     std::vector<osg::Vec3f>;
+%template(vectorVec4)     std::vector<osg::Vec4f>;
+%template(vectorVec2d)    std::vector<osg::Vec2d>;
+%template(vectorVec3d)    std::vector<osg::Vec3d>;
+%template(vectorVec4d)    std::vector<osg::Vec4d>;
+
+%template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,GL_SHORT>;
+%template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,GL_INT>;
+%template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,GL_UNSIGNED_BYTE>;
+%template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,GL_UNSIGNED_SHORT>;
+%template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,GL_UNSIGNED_INT>;
+%template(FloatArray)     osg::TemplateIndexArray<float,osg::Array::FloatArrayType,1,GL_FLOAT>;
+
+%template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,GL_FLOAT>;
+%template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,GL_FLOAT>;
+%template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT>;
+%template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,GL_DOUBLE>;
+%template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,GL_DOUBLE>;
+%template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,GL_DOUBLE>;
+
+// These fail for reasons unclear  
+//%template(vectorGLdouble) std::vector<double>;      //std::vector<GLdouble>;
+//%template(DoubleArray)    osg::TemplateIndexArray<double,osg::Array::DoubleArrayType,1,GL_DOUBLE>;
+
+
+// -----------  MixinVector Helper section ------------------------------------
 #if (OPENSCENEGRAPH_SOVERSION > 41)
-    %ignore osg::MixinVector<osg::Vec2f>::vector_type;
-    //#else
-    %template(vectorGLshort)  std::vector<GLshort>;
-    %template(vectorGLint)    std::vector<GLint>;
-    %template(vectorGLubyte)  std::vector<GLubyte>;
-    %template(vectorGLushort) std::vector<GLushort>;
-    %template(vectorGLuint)   std::vector<GLuint>;
-    %template(vectorGLfloat)  std::vector<float>;       //std::vector<GLfloat>;
-
-    %template(vectorVec2)     std::vector<osg::Vec2f>;
-    %template(vectorVec3)     std::vector<osg::Vec3f>;
-    %template(vectorVec4)     std::vector<osg::Vec4f>;
-    %template(vectorVec2d)    std::vector<osg::Vec2d>;
-    %template(vectorVec3d)    std::vector<osg::Vec3d>;
-    %template(vectorVec4d)    std::vector<osg::Vec4d>;
-
-    %template(ShortArray)     osg::TemplateIndexArray<GLshort,osg::Array::ShortArrayType,1,GL_SHORT>;
-    %template(IntArray)       osg::TemplateIndexArray<GLint,osg::Array::IntArrayType,1,GL_INT>;
-    %template(UByteArray)     osg::TemplateIndexArray<GLubyte,osg::Array::UByteArrayType,1,GL_UNSIGNED_BYTE>;
-    %template(UShortArray)    osg::TemplateIndexArray<GLushort,osg::Array::UShortArrayType,1,GL_UNSIGNED_SHORT>;
-    %template(UIntArray)      osg::TemplateIndexArray<GLuint,osg::Array::UIntArrayType,1,GL_UNSIGNED_INT>;
-    %template(FloatArray)     osg::TemplateIndexArray<float,osg::Array::FloatArrayType,1,GL_FLOAT>;
-
-    %template(Vec2Array)      osg::TemplateArray<osg::Vec2,osg::Array::Vec2ArrayType,2,GL_FLOAT>;
-    %template(Vec3Array)      osg::TemplateArray<osg::Vec3,osg::Array::Vec3ArrayType,3,GL_FLOAT>;
-    %template(Vec4Array)      osg::TemplateArray<osg::Vec4,osg::Array::Vec4ArrayType,4,GL_FLOAT>;
-    %template(Vec2dArray)     osg::TemplateArray<osg::Vec2d,osg::Array::Vec2dArrayType,2,GL_DOUBLE>;
-    %template(Vec3dArray)     osg::TemplateArray<osg::Vec3d,osg::Array::Vec3dArrayType,3,GL_DOUBLE>;
-    %template(Vec4dArray)     osg::TemplateArray<osg::Vec4d,osg::Array::Vec4dArrayType,4,GL_DOUBLE>;
-
-    // These fail for reasons unclear  
-    //%template(vectorGLdouble) std::vector<double>;      //std::vector<GLdouble>;
-    //%template(DoubleArray)    osg::TemplateIndexArray<double,osg::Array::DoubleArrayType,1,GL_DOUBLE>;
-#endif //(OPENSCENEGRAPH_SOVERSION > 41)
-
-
 %{
 template <class ValueT>
 struct MixinVectorAccessor {
@@ -883,7 +887,8 @@ MIXINVECTORHELPER ( osg::Vec4d, osg::Array::Vec4dArrayType  ,4, GL_DOUBLE);
 %extend osg::DrawElementsUShort{
 	std::vector<GLushort>* asVector(){return asVectorTemplate(dynamic_cast<osg::MixinVector<GLushort>*>(self));}
 };
-
+#endif
+// -----------  MixinVector Helper section ------------------------------------
 
 %include osg/Geometry
 %include osg/Shape

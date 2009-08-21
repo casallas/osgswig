@@ -9,8 +9,8 @@
 #if (OPENSCENEGRAPH_SOVERSION > 54)
 #define OSG_USE_FLOAT_BOUNDINGBOX
 #define OSG_USE_FLOAT_BOUNDINGSPHERE
-#include <osg/ComputeBoundsVisitor>
 #endif
+#include <osg/ComputeBoundsVisitor>
 
 #include <osg/Array>
 #include <osg/Notify>
