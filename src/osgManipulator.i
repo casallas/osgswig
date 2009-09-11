@@ -21,7 +21,7 @@
 
 %{
 
-
+#include <osgManipulator/Export>
 #include <osgManipulator/AntiSquish>
 #include <osgManipulator/Command>
 #include <osgManipulator/CommandManager>
@@ -60,6 +60,7 @@ using namespace osg;
 
 
 /* include the actual headers */
+%include osgManipulator/Export
 %include osgManipulator/Selection
 %include osgManipulator/AntiSquish
 %include osgManipulator/Command
