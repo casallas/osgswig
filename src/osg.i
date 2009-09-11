@@ -20,17 +20,6 @@
 %feature("director") osg::NodeCallback;
 %feature("director") osg::NodeVisitor;
 
-#if (OPENSCENEGRAPH_SOVERSION > 41)
-%feature("director") DrawCallback;
-struct DrawCallback : virtual public Object
-{
-    DrawCallback() {}
-    DrawCallback(const DrawCallback&,const CopyOp&) {}
-    virtual void operator () (osg::RenderInfo& renderInfo) const;
-    virtual void operator () (const osg::Camera&) const {}
-};
-#endif
-
 //Enable exception handling in directors 
 %feature("director:except") {
     if ($error != NULL) {
@@ -184,7 +173,7 @@ template<class ValueT> std::vector<ValueT> *asVectorTemplate(osg::MixinVector<Va
 %ignore osg::ref_ptr::operator!=;
 %ignore osg::ref_ptr::operator.;
 
-// fix by René Molenaar
+// fix by Renï¿½ Molenaar
 //This is a little macro trick to prevent a swig error
 #define X_AXIS(a,b,c) X_AXIS=Vec3f(1.0,0.0,0.0);
 #define Y_AXIS(a,b,c) Y_AXIS=Vec3f(0.0,1.0,0.0);
@@ -534,12 +523,21 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Referenced::unref;
 #endif
 
-#if (OPENSCENEGRAPH_SOVERSION > 41)
-%include osg/Config
-#endif
-
 // Now the headers
 %include osg/Version
+
+#if (OPENSCENEGRAPH_SOVERSION > 41)
+%include osg/Config
+%feature("director") DrawCallback;
+struct DrawCallback : virtual public Object
+{
+    DrawCallback() {}
+    DrawCallback(const DrawCallback&,const CopyOp&) {}
+    virtual void operator () (osg::RenderInfo& renderInfo) const;
+    virtual void operator () (const osg::Camera&) const {}
+};
+#endif
+
 
 %include osg/Notify
 
