@@ -765,6 +765,20 @@ GLint getAttribLocation(int contextID, std::string name) {
 %ignore std::tm;
 
 %include osg/Array
+%extend osg::Array {
+	osg::Vec2Array* asVec2Array() {return dynamic_cast<osg::Vec2Array*>(self);}
+	osg::Vec3Array* asVec3Array() {return dynamic_cast<osg::Vec3Array*>(self);}
+	osg::Vec4Array* asVec4Array() {return dynamic_cast<osg::Vec4Array*>(self);}
+	osg::Vec2dArray* asVec2dArray() {return dynamic_cast<osg::Vec2dArray*>(self);}
+	osg::Vec3dArray* asVec3dArray() {return dynamic_cast<osg::Vec3dArray*>(self);}
+	osg::Vec4dArray* asVec4dArray() {return dynamic_cast<osg::Vec4dArray*>(self);}
+	osg::ShortArray* asShortArray() {return dynamic_cast<osg::ShortArray*>(self);}
+	osg::IntArray* asIntArray() {return dynamic_cast<osg::IntArray*>(self);}
+	osg::UByteArray* asUByteArray() {return dynamic_cast<osg::UByteArray*>(self);}
+	osg::UShortArray* asUShortArray() {return dynamic_cast<osg::UShortArray*>(self);}
+	osg::UIntArray* asUIntArray() {return dynamic_cast<osg::UIntArray*>(self);}
+	osg::FloatArray* asFloatArray() {return dynamic_cast<osg::FloatArray*>(self);}
+};
 
 //Definition of array types which are useful in python
 //for osg 2.4, use template for Array types
@@ -836,7 +850,6 @@ std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTe
 %template(asVector)     asVectorTemplate<osg::Vec2d>;
 %template(asVector)     asVectorTemplate<osg::Vec3d>;
 %template(asVector)     asVectorTemplate<osg::Vec4d>;
-%template(asVector)     asVectorTemplate<osg::Vec2f>;
 
 // This part extends every MixinVector type with some methods to directly access the underlying std::vectors
 
