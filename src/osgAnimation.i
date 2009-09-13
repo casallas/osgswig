@@ -19,11 +19,6 @@
 /* import stuff from OpenSceneGraph */
 %import osg.i
 
-%include "std_vector.i"
-%include "std_map.i"
-%include "std_pair.i"
-%include "std_string.i"
-
 %{
 #include <osgAnimation/Animation>
 #include <osgAnimation/AnimationManagerBase>
@@ -76,33 +71,21 @@ static osgAnimation::RigGeometry *dynamic_cast_RigGeometry(osg::Geometry *geomet
     return dynamic_cast<osgAnimation::RigGeometry *>(geometry);
 }
 
-static osgAnimation::Bone *fromBoneMap(osgAnimation::Bone::BoneMap *pBoneMap, std::string name) {
-    return (*pBoneMap)[name];
-}
-
-static osgAnimation::VertexInfluence *fromVertexInfluenceMap(osgAnimation::VertexInfluenceMap *pVIMap, std::string name) {
-    return &(*pVIMap)[name];
-}
-
-static std::vector<std::pair<int, float> > *asVertexList(osgAnimation::VertexInfluence *pVI) {
-    return pVI;
-}
-
 // typedefs
-typedef std::pair<int, float> VertexIndexWeight;
-typedef std::vector<std::pair<int, float> > VertexList;
-typedef osgAnimation::TemplateKeyframe<osg::Quat> QuatKeyframe;
-typedef osgAnimation::TemplateKeyframeContainer<osg::Quat> QuatKeyframeContainer;
+typedef std::pair<int, float>                                                   VertexIndexWeight;
+typedef std::vector<VertexIndexWeight>                                          VertexList;
+typedef osgAnimation::TemplateKeyframe<osg::Quat>                               QuatKeyframe;
+typedef osgAnimation::TemplateKeyframeContainer<osg::Quat>                      QuatKeyframeContainer;
 typedef osgAnimation::TemplateSphericalLinearInterpolator<osg::Quat, osg::Quat> QuatSphericalLinearInterpolator;
-typedef osgAnimation::TemplateSampler<QuatSphericalLinearInterpolator> QuatSphericalLinearSampler;
-typedef osgAnimation::TemplateChannel<QuatSphericalLinearSampler> QuatSphericalLinearChannel;
+typedef osgAnimation::TemplateSampler<QuatSphericalLinearInterpolator>          QuatSphericalLinearSampler;
+typedef osgAnimation::TemplateChannel<QuatSphericalLinearSampler>               QuatSphericalLinearChannel;
 
 %}
 
-
 // include the actual headers
 //%include osgAnimation/Assert
-//%include osgAnimation/Vec3Packed
+//%include osgAnimation/Export
+%include osgAnimation/Vec3Packed
 %include osgAnimation/Bone
 %include osgAnimation/Target
 %include osgAnimation/Keyframe
@@ -115,28 +98,29 @@ typedef osgAnimation::TemplateChannel<QuatSphericalLinearSampler> QuatSphericalL
 %include osgAnimation/Skeleton
 %include osgAnimation/RigGeometry
 %include osgAnimation/Skinning
-%include osgAnimation/UpdateCallback
+%include osgAnimation/LinkVisitor
 %include osgAnimation/AnimationManagerBase
+%include osgAnimation/UpdateCallback
 %include osgAnimation/BasicAnimationManager
 //%include osgAnimation/Timeline
 //%include osgAnimation/TimelineAnimationManager
-//%include osgAnimation/Export
-//%include osgAnimation/LinkVisitor
 
-//templates
-//To make definitions work
-%template() std::vector<osgAnimation::TemplateKeyframe<osg::Quat> >;
-%template() osgAnimation::TemplateInterpolatorBase< osg::Quat,osg::Quat >;
-%template() std::map< std::string,osgAnimation::VertexInfluence >;
-//To Use
-%template(VertexIndexWeight) std::pair<int, float>;
-%template(VertexList) std::vector<std::pair<int, float> >;
-%template(QuatKeyframe) osgAnimation::TemplateKeyframe<osg::Quat>;
-%template(QuatKeyframeContainer) osgAnimation::TemplateKeyframeContainer<osg::Quat>;
-%template(QuatSphericalLinearInterpolator) osgAnimation::TemplateSphericalLinearInterpolator<osg::Quat, osg::Quat>;
-%template(QuatSphericalLinearSampler) osgAnimation::TemplateSampler<QuatSphericalLinearInterpolator>;
-%template(QuatSphericalLinearChannel) osgAnimation::TemplateChannel<QuatSphericalLinearSampler>;
-
+// Vertex Influence stuff
+%template(VertexIndexWeight)               std::pair<int, float>;
+%template(VertexList)                      std::vector<VertexIndexWeight>;
+%template(mapVertexInfluence)              std::map< std::string, osgAnimation::VertexInfluence >;
 %include osgAnimation/VertexInfluence
+
+// Bone Map Stuff
+%template(BoneMap)                         std::map< std::string, osg::ref_ptr<osgAnimation::Bone> >;
+
+// Quat Keyframe Stuff
+%template(vectorQuatKeyframe)              std::vector< QuatKeyframe >;
+%template(QuatInterpolator)                osgAnimation::TemplateInterpolatorBase< osg::Quat,osg::Quat >;
+%template(QuatKeyframe)                    osgAnimation::TemplateKeyframe<osg::Quat>;
+%template(QuatKeyframeContainer)           osgAnimation::TemplateKeyframeContainer<osg::Quat>;
+%template(QuatSphericalLinearInterpolator) osgAnimation::TemplateSphericalLinearInterpolator<osg::Quat, osg::Quat>;
+%template(QuatSphericalLinearSampler)      osgAnimation::TemplateSampler<QuatSphericalLinearInterpolator>;
+%template(QuatSphericalLinearChannel)      osgAnimation::TemplateChannel<QuatSphericalLinearSampler>;
 
 
