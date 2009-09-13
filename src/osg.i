@@ -862,7 +862,7 @@ std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTe
 {
 	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
 	void push_back(##dataName el) {dynamic_cast<osg::MixinVector<##dataName>*>(self)->push_back(el);}
-	int size() {dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
+	int size() {return dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
 };
 %enddef
 
@@ -871,7 +871,16 @@ std::vector<GLuint>   *asVector(osg::DrawElementsUInt   *base){return asVectorTe
 {
 	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
 	void push_back(##dataName el) {dynamic_cast<osg::MixinVector<##dataName>*>(self)->push_back(el);}
-	int size() {dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
+	int size() {return dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
+};
+%enddef
+
+%define DRAWELEMENTSHELPER( className, dataName)
+%extend osg::##className
+{
+	std::vector<##dataName>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<##dataName>*>(self));}
+	void push_back(##dataName el) {dynamic_cast<osg::MixinVector<##dataName>*>(self)->push_back(el);}
+	int size() {return dynamic_cast<osg::MixinVector<##dataName>*>(self)->size();}
 };
 %enddef
 
@@ -889,15 +898,10 @@ MIXINVECTORHELPER ( osg::Vec2d, osg::Array::Vec2dArrayType  ,2, GL_DOUBLE);
 MIXINVECTORHELPER ( osg::Vec3d, osg::Array::Vec3dArrayType  ,3, GL_DOUBLE);
 MIXINVECTORHELPER ( osg::Vec4d, osg::Array::Vec4dArrayType  ,4, GL_DOUBLE);
 
-%extend osg::DrawElementsUByte{
-	std::vector<GLubyte>* asVector() {return asVectorTemplate(dynamic_cast<osg::MixinVector<GLubyte>*>(self));}
-};
-%extend osg::DrawElementsUInt{
-	std::vector<GLuint>* asVector()  {return asVectorTemplate(dynamic_cast<osg::MixinVector<GLuint>*>(self));}
-};
-%extend osg::DrawElementsUShort{
-	std::vector<GLushort>* asVector(){return asVectorTemplate(dynamic_cast<osg::MixinVector<GLushort>*>(self));}
-};
+DRAWELEMENTSHELPER ( DrawElementsUByte, GLubyte);
+DRAWELEMENTSHELPER ( DrawElementsUInt, GLuint);
+DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
+
 #endif
 // -----------  MixinVector Helper section ------------------------------------
 

@@ -5,43 +5,32 @@ import osgAnimation
 import osgViewer
 import osgUtil
 import osgGA
-import scipy.weave as weave
 import sys
-import numpy
-
 import os
-weave_include_dirs = [os.getenv("OSG_INCLUDE_DIR")]
-weave_library_dirs = [os.getenv("OSG_LIB")]
 
+PI_2 = 1.5707963267948966
 
 def createAxis():
     geode = osg.Geode()
     geometry = osg.Geometry()
     
-    # Have to do this in C++ due to problems with vectors and SWIG
-    pGeom = int(geometry.this)
-    buildGeomCode = """
-    osg::Geometry *geometry = (osg::Geometry *)pGeom;
-
-    osg::Vec3Array* vertices (new osg::Vec3Array());
-    vertices->push_back (osg::Vec3 ( 0.0, 0.0, 0.0));
-    vertices->push_back (osg::Vec3 ( 1.0, 0.0, 0.0));
-    vertices->push_back (osg::Vec3 ( 0.0, 0.0, 0.0));
-    vertices->push_back (osg::Vec3 ( 0.0, 1.0, 0.0));
-    vertices->push_back (osg::Vec3 ( 0.0, 0.0, 0.0));
-    vertices->push_back (osg::Vec3 ( 0.0, 0.0, 1.0));
-    geometry->setVertexArray (vertices);
-
-    osg::Vec4Array* colors (new osg::Vec4Array());
-    colors->push_back (osg::Vec4 (1.0f, 0.0f, 0.0f, 1.0f));
-    colors->push_back (osg::Vec4 (1.0f, 0.0f, 0.0f, 1.0f));
-    colors->push_back (osg::Vec4 (0.0f, 1.0f, 0.0f, 1.0f));
-    colors->push_back (osg::Vec4 (0.0f, 1.0f, 0.0f, 1.0f));
-    colors->push_back (osg::Vec4 (0.0f, 0.0f, 1.0f, 1.0f));
-    colors->push_back (osg::Vec4 (0.0f, 0.0f, 1.0f, 1.0f));
-    geometry->setColorArray (colors);
-"""
-    weave.inline(buildGeomCode,["pGeom"],headers=["<osg/Geometry>"],libraries=["osg"],include_dirs=weave_include_dirs, library_dirs=weave_library_dirs)
+    vertices = osg.Vec3Array()
+    vertices.push_back(osg.Vec3( 0.0, 0.0, 0.0))
+    vertices.push_back(osg.Vec3( 1.0, 0.0, 0.0))
+    vertices.push_back(osg.Vec3( 0.0, 0.0, 0.0))
+    vertices.push_back(osg.Vec3( 0.0, 1.0, 0.0))
+    vertices.push_back(osg.Vec3( 0.0, 0.0, 0.0))
+    vertices.push_back(osg.Vec3( 0.0, 0.0, 1.0))
+    geometry.setVertexArray(vertices)
+    
+    colors = osg.Vec4Array()
+    colors.push_back(osg.Vec4(1.0, 0.0, 0.0, 1.0))
+    colors.push_back(osg.Vec4(1.0, 0.0, 0.0, 1.0))
+    colors.push_back(osg.Vec4(0.0, 1.0, 0.0, 1.0))
+    colors.push_back(osg.Vec4(0.0, 1.0, 0.0, 1.0))
+    colors.push_back(osg.Vec4(0.0, 0.0, 1.0, 1.0))
+    colors.push_back(osg.Vec4(0.0, 0.0, 1.0, 1.0))
+    geometry.setColorArray(colors)
     
     geometry.setColorBinding(osg.Geometry.BIND_PER_VERTEX)
     geometry.addPrimitiveSet(osg.DrawArrays(osg.PrimitiveSet.LINES,0,6))
@@ -57,106 +46,78 @@ def createTesselatedBox(nsplit, size):
     geometry.setColorArray(colors)
     geometry.setColorBinding(osg.Geometry.BIND_PER_VERTEX)
     
-    # Have to do this in C++ due to problems with vectors and SWIG
-    pGeom = int(geometry.this)
-    pVertices = int(vertices.this)
-    pColors = int(colors.this)
-    buildGeomCode = """
-    osg::Geometry *geometry = (osg::Geometry *)pGeom;
-    osg::Vec3Array *vertices = (osg::Vec3Array *)pVertices;
-    osg::Vec3Array *colors = (osg::Vec3Array *)pColors; 
+    step = size / nsplit
+    s = 0.5/4.0
+    for i in range(nsplit):
+        x = -1 + i * step
+        vertices.push_back (osg.Vec3 ( x, s, s))
+        vertices.push_back (osg.Vec3 ( x, -s, s))
+        vertices.push_back (osg.Vec3 ( x, -s, -s))
+        vertices.push_back (osg.Vec3 ( x, s, -s))
+        c = osg.Vec3(0,0,0)
+        c[i%3] = 1
+        colors.push_back (c)
+        colors.push_back (c)
+        colors.push_back (c)
+        colors.push_back (c)
+
+    faces = osg.DrawElementsUInt(osg.PrimitiveSet.TRIANGLES, 0)
+    for i in range(nsplit - 1):
+        base = i * 4;
+        faces.push_back(base)
+        faces.push_back(base+1)
+        faces.push_back(base+4)
+        faces.push_back(base+1)
+        faces.push_back(base+5)
+        faces.push_back(base+4)
+
+        faces.push_back(base+3)
+        faces.push_back(base)
+        faces.push_back(base+4)
+        faces.push_back(base+7)
+        faces.push_back(base+3)
+        faces.push_back(base+4)
+
+        faces.push_back(base+5)
+        faces.push_back(base+1)
+        faces.push_back(base+2)
+        faces.push_back(base+2)
+        faces.push_back(base+6)
+        faces.push_back(base+5)
+
+        faces.push_back(base+2)
+        faces.push_back(base+3)
+        faces.push_back(base+7)
+        faces.push_back(base+6)
+        faces.push_back(base+2)
+        faces.push_back(base+7)
   
-    float step = size / nsplit;
-    float s = 0.5/4.0;
-    for (int i = 0; i < nsplit; i++) 
-    {
-        float x = -1 + i * step;
-        vertices->push_back (osg::Vec3 ( x, s, s));
-        vertices->push_back (osg::Vec3 ( x, -s, s));
-        vertices->push_back (osg::Vec3 ( x, -s, -s));
-        vertices->push_back (osg::Vec3 ( x, s, -s));
-        osg::Vec3 c (0,0,0);
-        c[i%3] = 1;
-        colors->push_back (c);
-        colors->push_back (c);
-        colors->push_back (c);
-        colors->push_back (c);
-    }
-
-    osg::ref_ptr<osg::UIntArray> array = new osg::UIntArray;
-    for (int i = 0; i < nsplit - 1; i++) 
-    {
-        int base = i * 4;
-        array->push_back(base);
-        array->push_back(base+1);
-        array->push_back(base+4);
-        array->push_back(base+1);
-        array->push_back(base+5);
-        array->push_back(base+4);
-
-        array->push_back(base+3);
-        array->push_back(base);
-        array->push_back(base+4);
-        array->push_back(base+7);
-        array->push_back(base+3);
-        array->push_back(base+4);
-
-        array->push_back(base+5);
-        array->push_back(base+1);
-        array->push_back(base+2);
-        array->push_back(base+2);
-        array->push_back(base+6);
-        array->push_back(base+5);
-
-        array->push_back(base+2);
-        array->push_back(base+3);
-        array->push_back(base+7);
-        array->push_back(base+6);
-        array->push_back(base+2);
-        array->push_back(base+7);
-    }
-  
-    geometry->addPrimitiveSet(new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES, array->size(), &array->front()));
-"""
-    weave.inline(buildGeomCode,["pGeom","pVertices","pColors","size","nsplit"],headers=["<osg/Geometry>"],libraries=["osg"],include_dirs=weave_include_dirs, library_dirs=weave_library_dirs)
-    
+    geometry.addPrimitiveSet(faces)
     geometry.setUseDisplayList(False)
     return geometry
 
 def initVertexMap(b0, b1, b2, geom, array):
     
     vim = osgAnimation.VertexInfluenceMap()
+    b0Inf = osgAnimation.VertexInfluence()
+    b1Inf = osgAnimation.VertexInfluence()
+    b2Inf = osgAnimation.VertexInfluence()
+    b0Inf.setName(b0.getName())
+    b1Inf.setName(b1.getName())
+    b2Inf.setName(b2.getName())
     
-    osgAnimation.fromVertexInfluenceMap(vim,b0.getName()).setName(b0.getName())
-    osgAnimation.fromVertexInfluenceMap(vim,b1.getName()).setName(b1.getName())
-    osgAnimation.fromVertexInfluenceMap(vim,b2.getName()).setName(b2.getName())
+    for i in range(array.size()):
+        val = array.asVector()[i][0]
+        if val >= -1 and val <= 0:
+            b0Inf.push_back(osgAnimation.VertexIndexWeight(i,1))
+        elif val > 0 and val <= 1:
+            b1Inf.push_back(osgAnimation.VertexIndexWeight(i,1))
+        elif val > 1 :
+            b2Inf.push_back(osgAnimation.VertexIndexWeight(i,1))
     
-    # Have to do this in C++ due to problems with vectors and SWIG
-    pVim = int(vim.this)
-    pB0 = int(b0.this)
-    pB1 = int(b1.this)
-    pB2 = int(b2.this)
-    pArray = int(array.this)
-    buildVertexMapCode = """
-    osgAnimation::VertexInfluenceMap* vim = (osgAnimation::VertexInfluenceMap*)pVim;
-    osgAnimation::Bone* b0 = (osgAnimation::Bone*)pB0;
-    osgAnimation::Bone* b1 = (osgAnimation::Bone*)pB1;
-    osgAnimation::Bone* b2 = (osgAnimation::Bone*)pB2;
-    osg::Vec3Array *array = (osg::Vec3Array *)pArray;
-
-    for (int i = 0; i < (int)array->size(); i++) 
-    {
-        float val = (*array)[i][0];
-        if (val >= -1 && val <= 0)
-            (*vim)[b0->getName()].push_back(osgAnimation::VertexIndexWeight(i,1));
-        else if ( val > 0 && val <= 1)
-            (*vim)[b1->getName()].push_back(osgAnimation::VertexIndexWeight(i,1));
-        else if ( val > 1)
-            (*vim)[b2->getName()].push_back(osgAnimation::VertexIndexWeight(i,1));
-    }
-    
-"""
-    weave.inline(buildVertexMapCode,["pVim", "pB0", "pB1", "pB2", "pArray"],headers=["<osgAnimation/Skinning>"],libraries=["osg","osgAnimation"],include_dirs=weave_include_dirs, library_dirs=weave_library_dirs)
+    vim[b0.getName()] = b0Inf
+    vim[b1.getName()] = b1Inf
+    vim[b2.getName()] = b2Inf
     geom.setInfluenceMap(vim)
 
 
@@ -198,20 +159,15 @@ def main():
     keys1 = osgAnimation.QuatKeyframeContainer()
     pKeys0 = int(keys0.this)
     pKeys1 = int(keys1.this)
-    buildAnimCode = """
-    osgAnimation::QuatKeyframeContainer* keys0 = (osgAnimation::QuatKeyframeContainer *)pKeys0;
-    osgAnimation::QuatKeyframeContainer* keys1 = (osgAnimation::QuatKeyframeContainer *)pKeys1;
-    osg::Quat rotate;
-    rotate.makeRotate(osg::PI_2, osg::Vec3(0,0,1));
-    keys0->push_back(osgAnimation::QuatKeyframe(0,osg::Quat(0,0,0,1)));
-    keys0->push_back(osgAnimation::QuatKeyframe(3,rotate));
-    keys0->push_back(osgAnimation::QuatKeyframe(6,rotate));
-    keys1->push_back(osgAnimation::QuatKeyframe(0,osg::Quat(0,0,0,1)));
-    keys1->push_back(osgAnimation::QuatKeyframe(3,osg::Quat(0,0,0,1)));
-    keys1->push_back(osgAnimation::QuatKeyframe(6,rotate));
-    """
-    weave.inline(buildAnimCode,["pKeys0","pKeys1"],headers=["<osgAnimation/BasicAnimationManager>"],libraries=["osg","osgAnimation"],include_dirs=weave_include_dirs, library_dirs=weave_library_dirs)
-
+    rotate = osg.Quat()
+    rotate.makeRotate(PI_2, osg.Vec3(0,0,1))
+    keys0.push_back(osgAnimation.QuatKeyframe(0,osg.Quat(0,0,0,1)));
+    keys0.push_back(osgAnimation.QuatKeyframe(3,rotate));
+    keys0.push_back(osgAnimation.QuatKeyframe(6,rotate));
+    keys1.push_back(osgAnimation.QuatKeyframe(0,osg.Quat(0,0,0,1)));
+    keys1.push_back(osgAnimation.QuatKeyframe(3,osg.Quat(0,0,0,1)));
+    keys1.push_back(osgAnimation.QuatKeyframe(6,rotate));
+    
     sampler0 = osgAnimation.QuatSphericalLinearSampler()
     sampler0.setKeyframeContainer(keys0)
     channel0 = osgAnimation.QuatSphericalLinearChannel(sampler0)
@@ -232,7 +188,7 @@ def main():
 
     # we will use local data from the skeleton
     rootTransform = osg.MatrixTransform()
-    rootTransform.setMatrix(osg.Matrixd_rotate(numpy.pi / 2.,osg.Vec3(1,0,0)))
+    rootTransform.setMatrix(osg.Matrixd_rotate(PI_2,osg.Vec3(1,0,0)))
     right0.addChild(createAxis())
     right0.setDataVariance(osg.Object.DYNAMIC)
     right1.addChild(createAxis())
@@ -249,7 +205,7 @@ def main():
     geode = osg.Geode()
     geode.addDrawable(geom)
     skelroot.addChild(geode)
-    src = geom.getVertexArray();
+    src = geom.getVertexArray().asVec3Array()
     geom.getOrCreateStateSet().setMode(osg.GL_LIGHTING, False)
     geom.setDataVariance(osg.Object.DYNAMIC)
 
