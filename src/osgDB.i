@@ -69,20 +69,22 @@ namespace std
 #include <osgDB/ImageOptions>
 #include <osgDB/FileUtils>
 #include <osgDB/FileNameUtils>
+#if (OPENSCENEGRAPH_SOVERSION < 63)
 #include <osgDB/FieldReaderIterator>
 #include <osgDB/FieldReader>
 #include <osgDB/Field>
+#endif
 #include <osgDB/Export>
 #include <osgDB/DynamicLibrary>
 #include <osgDB/DotOsgWrapper>
 #include <osgDB/DatabasePager>
 #include <osgDB/Archive>
 
-#if (OPENSCENEGRAPH_SOVERSION > 40)
-using namespace osgDB;
+#if (OPENSCENEGRAPH_SOVERSION > 55)
 #include <osgDB/Callbacks>
 #endif
 
+using namespace osgDB;
 %}
 
 
@@ -159,8 +161,12 @@ using namespace osgDB;
 %include osgDB/ReadFile
 %typemap(out) osg::Node*;   //resets the typemap
 
+#if (OPENSCENEGRAPH_SOVERSION < 63)
+%include osgDB/Field
 %include osgDB/FieldReader
 %include osgDB/FieldReaderIterator
+#endif
+
 %include osgDB/Input
 %include osgDB/Output
 %include osgDB/ParameterOutput
@@ -168,7 +174,6 @@ using namespace osgDB;
 %include osgDB/ImageOptions
 %include osgDB/FileUtils
 %include osgDB/FileNameUtils
-%include osgDB/Field
 %include osgDB/DynamicLibrary
 %include osgDB/DatabasePager
 %include osgDB/Archive

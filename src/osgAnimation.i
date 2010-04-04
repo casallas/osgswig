@@ -54,6 +54,14 @@
 
 // ignore nested stuff
 
+//from Macports, but commented it because it broke the skinning.py example
+//%ignore osgAnimation::RigGeometry::getInfluenceMap; 
+//%ignore osgAnimation::RigGeometry::setInfluenceMap; 
+//%ignore osgAnimation::RigGeometry::getVertexInfluenceSet; 
+//%ignore osgAnimation::RigGeometry::setVertexInfluenceSet; 
+//%ignore osgAnimation::RigGeometry::getRigTransformImplementation; 
+//%ignore osgAnimation::RigGeometry::setRigTransformImplementation; 
+
 // not sure why this needs ignoring but it generates an undefined symbol if it isn't ignored
 %ignore osgAnimation::Bone::needLink;
 

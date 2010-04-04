@@ -464,6 +464,10 @@ VECIGNOREHELPER(Quat)
 
 %ignore osg::Texture::getExtensions;
 %ignore osg::Texture::setExtensions;
+%ignore osg::Texture::getTextureObjectManager;
+%ignore osg::Texture::s_numberTextureReusedLastInLastFrame;
+%ignore osg::Texture::s_numberNewTextureInLastFrame;
+%ignore osg::Texture::s_numberDeletedTextureInLastFrame;
 
 %ignore osg::Texture1D::setSubloadCallback;
 %ignore osg::Texture1D::getSubloadCallback;
@@ -490,18 +494,19 @@ VECIGNOREHELPER(Quat)
 %ignore osg::GraphicsContext::setCreateGraphicsContextCallback;
 %ignore osg::GraphicsContext::getCreateGraphicsContextCallback;
 
-
 %ignore osg::GraphicsContext::setResizedCallback;
 %ignore osg::GraphicsContext::getResizedCallback;
-
-
 
 %ignore osg::BlendEquation::getExtensions;
 %ignore osg::BlendEquation::setExtensions;
 %ignore osg::BlendColor::getExtensions;
 %ignore osg::BlendColor::setExtensions;
+
 %ignore osg::BufferObject::getExtensions;
 %ignore osg::BufferObject::setExtensions;
+%ignore osg::GLBufferObject::getExtensions;
+%ignore osg::GLBufferObject::setExtensions;
+%ignore osg::GLBufferObject::_extensions;
 
 %ignore osg::Point::Extensions;
 %ignore osg::Point::getExtensions;
@@ -679,7 +684,7 @@ namespace osg {
     if (PyString_Check($input)) {
         int len;
         char *buf;
-        PyString_AsStringAndSize($input, &buf, &len);
+        PyString_AsStringAndSize($input, &buf, (Py_ssize_t *)&len);
         $1 = (unsigned char *)malloc(len);
         memcpy($1, buf, len);
     } else {
@@ -733,7 +738,14 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %extend osg::Viewport {	value_type getHeight() {return $self->height();}};
 %include osg/Viewport
 
+%ignore osg::Shader::Extensions; 
+%ignore osg::Shader::getExtensions; 
+%ignore osg::Shader::setExtensions; 
 %include osg/Shader
+
+%ignore osg::Program::Extensions; 
+%ignore osg::Program::getExtensions; 
+%ignore osg::Program::setExtensions; 
 %include osg/Program
 
 %extend osg::Program { 
@@ -940,6 +952,9 @@ DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
 %include osg/ArgumentParser
 %include osg/Array
 
+%ignore osg::PrimitiveSet::Extensions; 
+%ignore osg::PrimitiveSet::getExtensions; 
+%ignore osg::PrimitiveSet::setExtensions;
 %include osg/PrimitiveSet
 
 
@@ -1020,8 +1035,9 @@ BoundingSphere = BoundingSpheref
 %ignore osg::Uniform::getUpdateCallback;
 %ignore osg::Uniform::setEventCallback;
 %ignore osg::Uniform::getEventCallback;
-
-
+%ignore osg::Uniform::Extensions; 
+%ignore osg::Uniform::getExtensions; 
+%ignore osg::Uniform::setExtensions; 
 %include osg/Uniform
 #endif
 

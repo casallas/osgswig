@@ -99,6 +99,7 @@ ENDIF(APPLE)
 INCLUDE_DIRECTORIES(
     ${OSG_INCLUDE_DIR}
     ${osgswig_SOURCE_DIR}/include
+    ${OSG_GEN_INCLUDE_DIR}
 )
 
 
