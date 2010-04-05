@@ -10,6 +10,22 @@
 %include "globals.i"
 #ifdef SWIGPYTHON
 %include "osgPyExtend.i"
+%include "argv.i"
+
+//%exception {
+//    try { $action }
+//    catch (Swig::DirectorException &){SWIG_fail;}
+//}
+
+//std::cerr << "osgswig Swig::DirectorMethodException" << std::endl;        
+
+//Enable exception handling in directors 
+%feature("director:except") {
+    if ($error != NULL) {
+        PyErr_Print();
+        PyErr_SetString($error, "osgswig Swig::DirectorMethodException");
+    }
+}
 
 //added for VRMeer
 %feature("director") osg::Group;
@@ -20,17 +36,6 @@
 %feature("director") osg::NodeCallback;
 %feature("director") osg::NodeVisitor;
 
-//Enable exception handling in directors 
-%feature("director:except") {
-    if ($error != NULL) {
-        throw Swig::DirectorMethodException();
-    }
-}
-
-%exception {
-    try { $action }
-    catch (Swig::DirectorException &) { SWIG_fail; }
-}
 
 // Experimental: Integrating Doxygen-generated docs from OSG in python docstrings
 //  requires some more tooling/options to automate build
@@ -74,6 +79,7 @@
 #include <osg/ApplicationUsage>
 #include <osg/AnimationPath>
 #include <osg/ArgumentParser>
+#include <osg/Math>
 
 //for osg 2.6 and up, include MixinVector
 #if (OPENSCENEGRAPH_SOVERSION > 41)
@@ -358,31 +364,6 @@ VECIGNOREHELPER(Quat)
 %ignore osg::State::setDynamicObjectRenderingCompletedCallback;
 %ignore osg::State::getDynamicObjectRenderingCompletedCallback;
 
-//osg::Drawable, list of ignored Nested Classes
-%ignore osg::Drawable::ComputeBoundingBoxCallback;
-%ignore osg::Drawable::UpdateCallback;
-%ignore osg::Drawable::EventCallback;
-%ignore osg::Drawable::CullCallback;
-%ignore osg::Drawable::DrawCallback;
-%ignore osg::Drawable::AttributeFunctor;
-%ignore osg::Drawable::ConstAttributeFunctor;
-%ignore osg::Drawable::Extensions;
-
-//osg::Drawable, ignore functions that handle ignored Nested Classes
-%ignore osg::Drawable::getUpdateCallback;
-%ignore osg::Drawable::setUpdateCallback;
-%ignore osg::Drawable::getComputeBoundingBoxCallback;
-%ignore osg::Drawable::setComputeBoundingBoxCallback;
-%ignore osg::Drawable::getEventCallback;
-%ignore osg::Drawable::setEventCallback;
-%ignore osg::Drawable::getDrawCallback;
-%ignore osg::Drawable::setDrawCallback;
-%ignore osg::Drawable::getCullCallback;
-%ignore osg::Drawable::setCullCallback;
-%ignore osg::Drawable::supports;
-%ignore osg::Drawable::accept;
-%ignore osg::Drawable::getExtensions;
-%ignore osg::Drawable::setExtensions;
 
 //osg::Geometry, list of ignored Nested Classes
 %ignore osg::Geometry::ArrayData;
@@ -457,9 +438,6 @@ VECIGNOREHELPER(Quat)
 %ignore osg::GraphicsThread::remove;
 %ignore osg::GraphicsThread::getCurrentOperation;
 
-%ignore osg::GraphicsContext::add;
-%ignore osg::GraphicsContext::remove;
-%ignore osg::GraphicsContext::getCurrentOperation;
 
 
 %ignore osg::Texture::getExtensions;
@@ -490,12 +468,6 @@ VECIGNOREHELPER(Quat)
 
 %ignore osg::VertexProgram::getExtensions;
 %ignore osg::VertexProgram::setExtensions;
-
-%ignore osg::GraphicsContext::setCreateGraphicsContextCallback;
-%ignore osg::GraphicsContext::getCreateGraphicsContextCallback;
-
-%ignore osg::GraphicsContext::setResizedCallback;
-%ignore osg::GraphicsContext::getResizedCallback;
 
 %ignore osg::BlendEquation::getExtensions;
 %ignore osg::BlendEquation::setExtensions;
@@ -545,7 +517,7 @@ struct DrawCallback : virtual public Object
 
 
 %include osg/Notify
-
+%include osg/Math
 %extend osg::Referenced {
 	
     ~Referenced() 
@@ -580,6 +552,8 @@ struct DrawCallback : virtual public Object
 %include osg/DeleteHandler
 %include osg/CopyOp
 %include osg/Object
+
+
 
 %include osg/Vec2s
 %include osg/Vec3s
@@ -703,12 +677,9 @@ namespace osg {
 	}
 };
 
-
-
 %include osg/OperationThread
 %include osg/GraphicsThread
 %include "osg_GraphicsContext.i"
-%include osg/GraphicsContext
 
 %include osg/Texture
 %include osg/TexMat
@@ -770,8 +741,7 @@ GLint getAttribLocation(int contextID, std::string name) {
 %include osg/View
 %include osg/RenderInfo
 #endif
-%include osg/Drawable
-
+%include "osg_Drawable.i"
 
 
 %ignore std::tm;
@@ -947,7 +917,7 @@ DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
 %include osg/TexGenNode
 %include osg/ClipNode
 
-# %include osg/AnimationPath
+%include osg/AnimationPath
 %include osg/ApplicationUsage
 %include osg/ArgumentParser
 %include osg/Array

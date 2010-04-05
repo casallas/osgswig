@@ -7,6 +7,7 @@
 
 
 %define VECHELPER(name,val)
+%copyctor osg::## name;
     value_type __getitem__(int i)  
     { 
         if ((i>=0)&&(i<val))
@@ -80,6 +81,7 @@
 };
 %enddef
 
+%copyctor osg::Quat;
 %extend osg::Quat
 {
     std::string  __str__()
@@ -92,6 +94,7 @@
 };
 
 %define MATHELPER(name)
+%copyctor osg::## name;
 %extend osg::## name
 {
     std::string  __str__()

@@ -94,4 +94,6 @@
 typedef osg::GraphicsContext::ScreenIdentifier ScreenIdentifier;
 typedef osg::GraphicsContext::Traits Traits;
 typedef osg::GraphicsContext::WindowingSystemInterface WindowingSystemInterface;
+typedef osg::Drawable::UpdateCallback UpdateCallback;
+typedef osg::Drawable::AttributeFunctor AttributeFunctor;
 %}

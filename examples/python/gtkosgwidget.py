@@ -76,7 +76,7 @@ class SimpleDrawingArea(gtk.DrawingArea, gtk.gtkgl.Widget):
         pythonic alternative to setUpViewerAsEmbeddedInWindow
         """
 
-        self.traits = osg.Traits()
+        self.traits = osg.GraphicsContext.Traits()
         self.traits.x = x
         self.traits.y = y
         self.traits.width = width

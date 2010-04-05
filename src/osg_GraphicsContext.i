@@ -2,6 +2,15 @@
 osg_GraphicsContext.i - defines "global" versions of nested classes in osg::GraphicsContext
 */
 
+%ignore osg::GraphicsContext::add;
+%ignore osg::GraphicsContext::remove;
+%ignore osg::GraphicsContext::getCurrentOperation;
+%ignore osg::GraphicsContext::setCreateGraphicsContextCallback;
+%ignore osg::GraphicsContext::getCreateGraphicsContextCallback;
+%ignore osg::GraphicsContext::setResizedCallback;
+%ignore osg::GraphicsContext::getResizedCallback;
+
+%include osg/GraphicsContext
 
 %{
 using namespace osg;
@@ -64,3 +73,10 @@ struct WindowingSystemInterface : public osg::Referenced
     virtual GraphicsContext* createGraphicsContext(Traits* traits) = 0;
     virtual ~WindowingSystemInterface() {};
 };
+
+%pythoncode %{
+#get the original definitions back into their classes
+GraphicsContext.Traits = Traits
+GraphicsContext.ScreenIdentifier = ScreenIdentifier
+GraphicsContext.WindowingSystemInterface = WindowingSystemInterface
+%}
