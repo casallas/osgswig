@@ -11,12 +11,14 @@ Hartmut Seichter at the Human Interface Technology Laboratory New Zealand
 as part of the FRST (http://frst.govt.nz/) funded project MagicBook. The
 project was moved from the HITLabNZ to the community in order to get more 
 involvement.
-Soon after the VRmeer group contributed a vastly updated version.
+Soon after the TuDelft Data Visualization group contributed a vastly updated version.
 
+------------------------
+11/04/2010 Changed repsitory to Mecurial (hg), use the following command to make a local clone
+hg clone https://osgswig.googlecode.com/hg/ osgswig 
 
 Using CMake build system
 ------------------------
-
 steps:
 
 $> mkdir build
