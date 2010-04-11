@@ -64,6 +64,8 @@ using namespace osgIntrospection;
 
 %}
 %include <osgIntrospection/Utility>
+
+%include <osgIntrospection/CustomAttribute>
 %include <osgIntrospection/CustomAttributeProvider>
 
 //Difficulties with the osgIntrospection::ExtendedTypeInfo type, SWIG cannot make stub return objects without parameters
@@ -77,14 +79,15 @@ using namespace osgIntrospection;
 %include <osgIntrospection/TypedConstructorInfo>
 %include <osgIntrospection/TypedMethodInfo>
 %include <osgIntrospection/ParameterInfo>
-
-%include <osgIntrospection/CustomAttribute>
 %include <osgIntrospection/Type>
 
 %template(MethodInfoList_) std::vector<const osgIntrospection::MethodInfo* >;
 %template(PropertyInfoList_) std::vector<const osgIntrospection::PropertyInfo* >;
 %template(ParameterInfoList_) std::vector<const osgIntrospection::ParameterInfo* >;
 %template(ConstructorInfoList_) std::vector<const osgIntrospection::ConstructorInfo* >;
+
+%template(CustomAttributeList_) std::vector<const CustomAttribute* >;
+%template(CustomAttributeProviderList__) std::vector<const CustomAttributeProvider *>;
 
 // apparently there is a SWIG problem with pointer-to-consts in containers
 // see SWIG Mailing list post: http://www.nabble.com/Problems-with-container-of-pointer-to-const-td18594426.html
@@ -134,6 +137,22 @@ using namespace osgIntrospection;
     template <>  struct traits<osgIntrospection::Type> {
      typedef pointer_category category;
       static const char* type_name() { return "osgIntrospection::Type";}
+    };
+  }
+%}
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::CustomAttributeProvider> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::CustomAttributeProvider";}
+    };
+  }
+%}
+%{
+    namespace swig {
+    template <>  struct traits<osgIntrospection::CustomAttribute> {
+     typedef pointer_category category;
+      static const char* type_name() { return "osgIntrospection::CustomAttribute";}
     };
   }
 %}
