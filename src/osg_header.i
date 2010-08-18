@@ -23,6 +23,7 @@
 #include <osg/Point>
 #include <osg/LineWidth>
 #include <osg/LineStipple>
+#include <osg/LogicOp>
 #include <osg/Material>
 #include <osg/Depth>
 #include <osg/Stencil>
@@ -96,4 +97,5 @@ typedef osg::GraphicsContext::Traits Traits;
 typedef osg::GraphicsContext::WindowingSystemInterface WindowingSystemInterface;
 typedef osg::Drawable::UpdateCallback UpdateCallback;
 typedef osg::Drawable::AttributeFunctor AttributeFunctor;
+typedef osg::BufferData::ModifiedCallback ModifiedCallback;
 %}

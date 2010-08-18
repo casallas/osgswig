@@ -637,6 +637,7 @@ namespace osg {
 %include osg/PolygonOffset
 %include osg/LineWidth
 %include osg/LineStipple
+%include osg/LogicOp
 %include osg/Material
 %include osg/Stencil
 %include osg/Depth
@@ -656,9 +657,9 @@ namespace osg {
 %include osg/BufferObject
 %typemap(in) unsigned char * data {
     if (PyString_Check($input)) {
-        int len;
+        Py_ssize_t len;
         char *buf;
-        PyString_AsStringAndSize($input, &buf, (Py_ssize_t *)&len);
+        PyString_AsStringAndSize($input, &buf, &len);
         $1 = (unsigned char *)malloc(len);
         memcpy($1, buf, len);
     } else {
@@ -712,6 +713,7 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %ignore osg::Shader::Extensions; 
 %ignore osg::Shader::getExtensions; 
 %ignore osg::Shader::setExtensions; 
+%ignore osg::Shader::getPCS;
 %include osg/Shader
 
 %ignore osg::Program::Extensions; 
@@ -931,6 +933,17 @@ DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
 %include osg/BoundingBox
 %include osg/BoundingSphere
 %include osg/BoundsChecking
+
+%{
+   typedef osg::BufferData::ModifiedCallback ModifiedCallback;
+%}
+
+struct ModifiedCallback : public virtual osg::Object
+{
+    ModifiedCallback() {}
+    virtual void modified(osg::BufferData* /*bufferData*/) const {}
+};
+
 %include osg/BufferObject
 
 %include osg/MatrixTransform
