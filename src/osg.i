@@ -101,6 +101,7 @@
 #include <osg/BoundingBox>
 #include <osg/Node>
 #include <osg/Group>
+#include <osg/Sequence>
 #include <osg/Switch>
 #include <osg/LOD>
 #include <osg/PagedLOD>
@@ -675,6 +676,7 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
 
 %include osg/Image
 %include osg/ImageStream
+%include osg/ImageSequence
 
 %extend osg::Image {
 	virtual osg::ImageStream* asImageStream() {return dynamic_cast<osg::ImageStream*>($self);}
@@ -916,6 +918,7 @@ DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
 %include osg/Geode
 %include osg/Billboard
 %include osg/Group
+%include osg/Sequence
 %include osg/Switch
 %include osg/LOD
 %include osg/PagedLOD
