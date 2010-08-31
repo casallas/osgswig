@@ -32,19 +32,23 @@
 #include <osgAnimation/Keyframe>
 #include <osgAnimation/LinkVisitor>
 #include <osgAnimation/RigGeometry>
+#include <osgAnimation/RigTransform>
 #include <osgAnimation/Sampler>
 #include <osgAnimation/Skeleton>
-#include <osgAnimation/Skinning>
 #include <osgAnimation/Target>
 #include <osgAnimation/Timeline>
 #include <osgAnimation/TimelineAnimationManager>
-#include <osgAnimation/UpdateCallback>
 #include <osgAnimation/Vec3Packed>
 #include <osgAnimation/VertexInfluence>
 
+    typedef osgAnimation::VertexInfluenceMap VertexInfluenceMap; 
+    typedef osgAnimation::VertexInfluenceSet VertexInfluenceSet; 
 //using namespace osg;
 
 %}
+
+%ignore osgAnimation::RigGeometry::setRigTransformImplementation;
+%ignore osgAnimation::RigGeometry::getRigTransformImplementation;
 
 // remove the linkage macros
 %define OSG_EXPORT
@@ -105,10 +109,8 @@ typedef osgAnimation::TemplateChannel<QuatSphericalLinearSampler>               
 %include osgAnimation/EaseMotion
 %include osgAnimation/Skeleton
 %include osgAnimation/RigGeometry
-%include osgAnimation/Skinning
 %include osgAnimation/LinkVisitor
 %include osgAnimation/AnimationManagerBase
-%include osgAnimation/UpdateCallback
 %include osgAnimation/BasicAnimationManager
 //%include osgAnimation/Timeline
 //%include osgAnimation/TimelineAnimationManager

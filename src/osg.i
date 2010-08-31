@@ -654,6 +654,12 @@ namespace osg {
 %include osg/BlendColor
 
 %include osg/BufferObject
+%ignore osg::BufferObject;
+%{
+typedef osg::BufferData::ModifiedCallback ModifiedCallback;
+%}
+//%ignore osg::BufferObject::ModifiedCallback;
+
 %typemap(in) unsigned char * data {
     if (PyString_Check($input)) {
         int len;
@@ -713,6 +719,10 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %ignore osg::Shader::getExtensions; 
 %ignore osg::Shader::setExtensions; 
 %include osg/Shader
+
+%{
+    typedef osg::Shader::PerContextShader PerContextShader ;
+%}
 
 %ignore osg::Program::Extensions; 
 %ignore osg::Program::getExtensions; 

@@ -31,13 +31,6 @@
 %enddef
 
 
-%ignore osgGA::MatrixManipulator::setCoordinateFrameCallback;
-%ignore osgGA::MatrixManipulator::getCoordinateFrameCallback;
-%ignore osgGA::EventVisitor::setEvents;
-%ignore osgGA::EventVisitor::getEvents;
-
-
-
 %include osgGA/Export
 %include osgGA/Version
 %include osgGA/GUIActionAdapter
@@ -48,7 +41,7 @@
 %include osgGA/EventVisitor
 %include osgGA/FlightManipulator
 // %include osgGA/SetSceneViewVisitor
-%include osgGA/MatrixManipulator
+%include osgGA/CameraManipulator
 %include osgGA/KeySwitchMatrixManipulator
 %include osgGA/StateSetManipulator
 %include osgGA/TerrainManipulator
@@ -59,3 +52,12 @@
 %include osgGA/DriveManipulator
 %include osgGA/NodeTrackerManipulator
 
+%ignore osgGA::CameraManipulator::CoordinateFrameCallback;
+%ignore osgGA::CameraManipulator::setCoordinateFrameCallback;
+%ignore osgGA::CameraManipulator::getCoordinateFrameCallback;
+%ignore osgGA::EventVisitor::setEvents;
+%ignore osgGA::EventVisitor::getEvents;
+
+%{
+    typedef osgGA::CameraManipulator::CoordinateFrameCallback CoordinateFrameCallback;
+%}
