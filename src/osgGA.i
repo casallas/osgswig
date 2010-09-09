@@ -43,6 +43,8 @@
 // %include osgGA/SetSceneViewVisitor
 %include osgGA/CameraManipulator
 %include osgGA/KeySwitchMatrixManipulator
+%include osgGA/StandardManipulator
+%include osgGA/OrbitManipulator
 %include osgGA/StateSetManipulator
 %include osgGA/TerrainManipulator
 %include osgGA/TrackballManipulator

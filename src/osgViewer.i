@@ -57,6 +57,8 @@
 %ignore osgViewer::CompositeViewer::getAllThreads;
 %ignore osgViewer::CompositeViewer::getOperationThreads;
 
+%rename(frameAtTime) osgViewer::ViewerBase::frame(double);
+%feature("compactdefaultargs") osgViewer::View::setCameraManipulator;
 /* this one needs some thought */
 %ignore osgViewer::ScreenCaptureHandler;
 

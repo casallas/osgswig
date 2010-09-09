@@ -10,6 +10,8 @@
 #include <osgGA/FlightManipulator>
 // #include <osgGA/SetSceneViewVisitor>
 #include <osgGA/CameraManipulator>
+#include <osgGA/StandardManipulator>
+#include <osgGA/OrbitManipulator>
 #include <osgGA/KeySwitchMatrixManipulator>
 #include <osgGA/StateSetManipulator>
 #include <osgGA/TerrainManipulator>
