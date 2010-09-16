@@ -252,6 +252,25 @@ VECIGNOREHELPER(Quat)
 %rename(get_bool3) osg::Uniform::get( bool& , bool& , bool&  ) const;
 %rename(get_bool4) osg::Uniform::get( bool& , bool& , bool& , bool&  ) const;
 
+// rename for set
+%rename(set_float) osg::Uniform::set( float );
+%rename(set_int) osg::Uniform::set( int  );
+%rename(set_bool) osg::Uniform::set( bool  );
+%rename(set_vec2) osg::Uniform::set( const osg::Vec2&  );
+%rename(set_vec3) osg::Uniform::set( const osg::Vec3&  );
+%rename(set_ve4) osg::Uniform::set( const osg::Vec4&  );
+%rename(set_m2) osg::Uniform::set( const osg::Matrix2&  );
+%rename(set_m3) osg::Uniform::set( const osg::Matrix3& );
+%rename(set_m4f) osg::Uniform::set( const osg::Matrixf&  );
+%rename(set_m4d) osg::Uniform::set( const osg::Matrixd&  );
+%rename(set_int2) osg::Uniform::set( int , int  );
+%rename(set_int3) osg::Uniform::set( int , int , int  );
+%rename(set_int4) osg::Uniform::set( int , int , int , int  );
+%rename(set_bool2) osg::Uniform::set( bool , bool  );
+%rename(set_bool3) osg::Uniform::set( bool , bool , bool  );
+%rename(set_bool4) osg::Uniform::set( bool , bool , bool , bool  );
+
+
 // correct override for osg::Uniform::getElement
 %rename(get_int_float) osg::Uniform::getElement( unsigned int , float&  ) const;
 %rename(get_int_int) osg::Uniform::getElement( unsigned int , int&  ) const;
