@@ -59,7 +59,7 @@ ENDIF(UNIX)
 ########################################################################################################
 FIND_PACKAGE(OSG) #OpenSceneGraph
 
-
+check_osg_version(${OSG_INCLUDE_DIR}/osg/Version)
 #
 # Now we tie ourself to the OSG version numbering
 # 
@@ -70,6 +70,7 @@ SET(OSGSWIG_MINOR_VERSION ${OSG_VERSION_MINOR})
 SET(OSGSWIG_PATCH_VERSION ${OSG_VERSION_PATCH})
 
 SET(OSGSWIG_SOVERSION ${OSG_VERSION_SO})
+MESSAGE("OSG VERSION " ${OSG_VERSION_MAJOR}.${OSG_VERSION_MINOR}.${OSG_VERSION_PATCH})
 
 SET(OSGSWIG_VERSION ${OSGSWIG_MAJOR_VERSION}.${OSGSWIG_MINOR_VERSION}.${OSGSWIG_PATCH_VERSION})
 

@@ -20,11 +20,11 @@ macro(check_osg_version input)
 	string(REGEX REPLACE ".*([0-9]+).*" "\\1" version_patch ${version_patch})
 	string(REGEX REPLACE ".*([0-9][0-9]).*" "\\1" version_so ${version_so})
 
-	set(OSG_VERSION_MAJOR version_major)
-	set(OSG_VERSION_MINOR version_minor)
-	set(OSG_VERSION_PATCH version_patch)
+	set(OSG_VERSION_MAJOR ${version_major})
+	set(OSG_VERSION_MINOR ${version_minor})
+	set(OSG_VERSION_PATCH ${version_patch})
 	
-	set(OSG_VERSION_SO version_so)
+	set(OSG_VERSION_SO ${version_so})
 
 	set(OSG_VERSION_FULL "${version_major}.${version_minor}.${version_patch}")
 
