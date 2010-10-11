@@ -96,6 +96,9 @@ typedef osgAnimation::TemplateKeyframe<float>                                   
 typedef osgAnimation::TemplateKeyframeContainer<float>                          FloatKeyframeContainer;
 
 
+typedef osgAnimation::TemplateKeyframe<osg::Vec2f>                                   Vec2Keyframe;
+typedef osgAnimation::TemplateKeyframeContainer<osg::Vec2f>                          Vec2KeyframeContainer;
+
 typedef osgAnimation::TemplateKeyframe<osg::Vec3f>                                   Vec3Keyframe;
 typedef osgAnimation::TemplateKeyframeContainer<osg::Vec3f>                          Vec3KeyframeContainer;
 
@@ -103,6 +106,8 @@ typedef osgAnimation::TemplateKeyframeContainer<osg::Vec3f>                     
 typedef osgAnimation::TemplateKeyframe<osg::Vec4f>                                   Vec4Keyframe;
 typedef osgAnimation::TemplateKeyframeContainer<osg::Vec4f>                          Vec4KeyframeContainer;
 
+typedef osgAnimation::TemplateKeyframe<osg::Matrixf>                            MatrixKeyframe;
+typedef osgAnimation::TemplateKeyframeContainer<osg::Matrixf>                   MatrixKeyframeContainer;
 
 %}
 
@@ -151,10 +156,24 @@ typedef osgAnimation::TemplateKeyframeContainer<osg::Vec4f>                     
 %template(FloatKeyframeContainer)          osgAnimation::TemplateKeyframeContainer<float>;
 
 
+%template(vectorVec2Keyframe)             std::vector< Vec2Keyframe >;
+%template(Vec2Keyframe)                   osgAnimation::TemplateKeyframe<osg::Vec2f>;
+%template(Vec2KeyframeContainer)          osgAnimation::TemplateKeyframeContainer<osg::Vec2f>;
+%template(Vec2LinearSampler)              osgAnimation::TemplateSampler<Vec2LinearInterpolator>;
+
+
 %template(vectorVec3Keyframe)             std::vector< Vec3Keyframe >;
 %template(Vec3Keyframe)                   osgAnimation::TemplateKeyframe<osg::Vec3f>;
 %template(Vec3KeyframeContainer)          osgAnimation::TemplateKeyframeContainer<osg::Vec3f>;
+%template(Vec3LinearSampler)              osgAnimation::TemplateSampler<Vec3LinearInterpolator>;
 
 %template(vectorVec4Keyframe)             std::vector< Vec4Keyframe >;
 %template(Vec4Keyframe)                   osgAnimation::TemplateKeyframe<osg::Vec4f>;
 %template(Vec4KeyframeContainer)          osgAnimation::TemplateKeyframeContainer<osg::Vec4f>;
+%template(Vec4LinearSampler)              osgAnimation::TemplateSampler<Vec4LinearInterpolator>;
+
+
+%template(vectorMatrixKeyframe)           std::vector< MatrixKeyframe >;
+%template(MatrixKeyframe)                 osgAnimation::TemplateKeyframe<osg::Matrixf>;
+%template(MatrixKeyframeContainer)        osgAnimation::TemplateKeyframeContainer<osg::Matrixf>;
+%template(MatrixLinearSampler)            osgAnimation::TemplateSampler<MatrixLinearInterpolator>;

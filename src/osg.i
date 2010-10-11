@@ -240,7 +240,7 @@ VECIGNOREHELPER(Quat)
 %rename(get_blool) osg::Uniform::get( bool&  ) const;
 %rename(get_vec2) osg::Uniform::get( osg::Vec2&  ) const;
 %rename(get_vec3) osg::Uniform::get( osg::Vec3&  ) const;
-%rename(get_ve4) osg::Uniform::get( osg::Vec4&  ) const;
+%rename(get_vec4) osg::Uniform::get( osg::Vec4&  ) const;
 %rename(get_m2) osg::Uniform::get( osg::Matrix2&  ) const;
 %rename(get_m3) osg::Uniform::get( osg::Matrix3& ) const;
 %rename(get_mf) osg::Uniform::get( osg::Matrixf&  ) const;
@@ -258,7 +258,7 @@ VECIGNOREHELPER(Quat)
 %rename(set_bool) osg::Uniform::set( bool  );
 %rename(set_vec2) osg::Uniform::set( const osg::Vec2&  );
 %rename(set_vec3) osg::Uniform::set( const osg::Vec3&  );
-%rename(set_ve4) osg::Uniform::set( const osg::Vec4&  );
+%rename(set_vec4) osg::Uniform::set( const osg::Vec4&  );
 %rename(set_m2) osg::Uniform::set( const osg::Matrix2&  );
 %rename(set_m3) osg::Uniform::set( const osg::Matrix3& );
 %rename(set_m4f) osg::Uniform::set( const osg::Matrixf&  );
