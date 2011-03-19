@@ -34,6 +34,10 @@
 %include osgGA/Export
 %include osgGA/Version
 %include osgGA/GUIActionAdapter
+
+%ignore osgGA::GUIEventAdapter::TouchData;
+%ignore osgGA::GUIEventAdapter::getTouchData;
+%ignore osgGA::GUIEventAdapter::setTouchData;
 %include osgGA/GUIEventAdapter
 %include osgGA/EventQueue
 // %include osgGA/GUIEventHandlerVisitor
@@ -65,16 +69,19 @@ struct CoordinateFrameCallback : public virtual osg::Referenced
 %include osgGA/TrackballManipulator
 %include osgGA/UFOManipulator
 %include osgGA/FirstPersonManipulator
+
 %include osgGA/AnimationPathManipulator
+struct AnimationCompletedCallback : public virtual osg::Referenced
+{
+    virtual void completed(const osgGA::AnimationPathManipulator* apm) = 0;
+}; 
+%{
+   typedef osgGA::AnimationPathManipulator::AnimationCompletedCallback AnimationCompletedCallback;
+%}
+
 %include osgGA/DriveManipulator
 %include osgGA/NodeTrackerManipulator
 
-%ignore osgGA::CameraManipulator::CoordinateFrameCallback;
-%ignore osgGA::CameraManipulator::setCoordinateFrameCallback;
-%ignore osgGA::CameraManipulator::getCoordinateFrameCallback;
 %ignore osgGA::EventVisitor::setEvents;
 %ignore osgGA::EventVisitor::getEvents;
 
-%{
-    typedef osgGA::CameraManipulator::CoordinateFrameCallback CoordinateFrameCallback;
-%}
