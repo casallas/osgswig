@@ -27,9 +27,12 @@
 #include <osgText/KerningType>
 #include <osgText/TextBase>
 #include <osgText/FadeText>
+#include <osgText/Style>
+#include <osgText/Glyph>
 #include <osgText/Font>
 #include <osgText/String>
 #include <osgText/Text>
+#include <osgText/Text3D>
 #include <osgText/Version>
 
 // using namespace osg;
@@ -55,16 +58,14 @@
 %include osgText/Export
 %include osgText/KerningType
 %include osgText/String
+%include osgText/Style
+%include osgText/Glyph
 %include osgText/Font
 %include osgText/TextBase
 %include osgText/Text
+%include osgText/Text3D
 %include osgText/FadeText
 %include osgText/Version
 
 
 # %template(FontResolution) std::pair<unsigned int,unsigned int>;
-
-
-
-
-
