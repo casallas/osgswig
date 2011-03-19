@@ -753,6 +753,24 @@ so an explicit $self is needed for all member access, see http://www.swig.org/Do
 %ignore osg::Program::Extensions; 
 %ignore osg::Program::getExtensions; 
 %ignore osg::Program::setExtensions; 
+
+%ignore osg::Program::UniformBlockInfo;
+%ignore osg::Program::getUniformBlocks;
+
+//struct UniformBlockInfo
+//{
+//    UniformBlockInfo() : _index(GL_INVALID_INDEX), _size(0) {}
+//    UniformBlockInfo(GLuint index, GLsizei size)
+//        : _index(index), _size(size)
+//    {
+//    }
+//    GLuint _index;
+//    GLsizei _size;
+//};
+//%{
+//   typedef osg::Program::UniformBlockInfo UniformBlockInfo;
+//%}
+
 %include osg/Program
 
 %extend osg::Program { 
