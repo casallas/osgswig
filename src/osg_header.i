@@ -40,6 +40,7 @@
 #include <osg/Node>
 #include <osg/NodeCallback>
 #include <osg/Group>
+#include <osg/Sequence>
 #include <osg/Switch>
 #include <osg/Transform>
 #include <osg/PositionAttitudeTransform>
@@ -51,6 +52,7 @@
 #include <osg/BufferObject>
 #include <osg/Image>
 #include <osg/ImageStream>
+#include <osg/ImageSequence>
 
 #include <osg/Light>
 #include <osg/LightModel>

@@ -49,7 +49,10 @@ FIND_PATH(OPENTHREADS_INCLUDE_DIR OpenThreads/Thread
     $ENV{OSG_INCLUDE_DIR}
     $ENV{OSG_DIR}/include
     $ENV{OSG_DIR}
-	$ENV{PROGRAMFILES}/OpenSceneGraph/include
+    $ENV{OSGDIR}/include
+    $ENV{OSGDIR}
+    $ENV{OSG_ROOT}/include
+    $ENV{PROGRAMFILES}/OpenSceneGraph/include
     NO_DEFAULT_PATH
 )
 
@@ -89,7 +92,12 @@ FIND_LIBRARY(OPENTHREADS_LIBRARY
     $ENV{OSG_DIR}/lib64
     $ENV{OSG_DIR}/lib
     $ENV{OSG_DIR}
-	$ENV{PROGRAMFILES}/OpenSceneGraph/lib
+    $ENV{OSGDIR}/lib64
+    $ENV{OSGDIR}/lib
+    $ENV{OSGDIR}
+    $ENV{OSGROOT}/lib64
+    $ENV{OSGROOT}/lib
+    $ENV{PROGRAMFILES}/OpenSceneGraph/lib
     NO_DEFAULT_PATH
 )
 

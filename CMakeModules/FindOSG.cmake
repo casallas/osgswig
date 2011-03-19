@@ -24,7 +24,7 @@ FIND_PATH(OSG_INCLUDE_DIR osg/Node
     /opt/include
     ~/Library/Frameworks
     /Library/Frameworks
-	$ENV{PROGRAMFILES}/OpenSceneGraph/include
+    $ENV{PROGRAMFILES}/OpenSceneGraph/include
     /cygdrive/c/Program Files/OpenSceneGraph/include
     [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Session\ Manager\\Environment;OSG_ROOT]/include
     /usr/freeware/include
@@ -33,6 +33,8 @@ FIND_PATH(OSG_INCLUDE_DIR osg/Node
 FIND_PATH(OSG_GEN_INCLUDE_DIR osg/Config
     $ENV{OSG_GEN_INCLUDE_DIR} 
     $ENV{OSG_DIR}/include 
+    $ENV{OSG_ROOT}/include
+    $ENV{OSGDIR}/include
 )
 
 MACRO(FIND_OSG_LIBRARY MYLIBRARY MYLIBRARYNAME)

@@ -45,6 +45,8 @@ FIND_PACKAGE(PythonLibs)
 INCLUDE_DIRECTORIES(
 	${PYTHON_INCLUDE_PATH}
 )
+EXECUTE_PROCESS ( COMMAND python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()" OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
+#MESSAGE("-- Python install directory: "${PYTHON_SITE_PACKAGES})
 
 ##set and create the output dir
 SET(OUTPUT_LIBDIR ${PROJECT_BINARY_DIR}/lib/python/osgswig-${OSGSWIG_VERSION})
