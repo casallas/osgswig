@@ -658,6 +658,9 @@ namespace osg {
 %include osg/LineWidth
 %include osg/LineStipple
 %include osg/Material
+%ignore osg::Stencil::Extensions;
+%ignore osg::Stencil::getExtensions;
+%ignore osg::Stencil::setExtensions; 
 %include osg/Stencil
 %include osg/Depth
 
