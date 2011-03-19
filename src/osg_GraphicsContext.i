@@ -11,7 +11,14 @@ osg_GraphicsContext.i - defines "global" versions of nested classes in osg::Grap
 %ignore osg::GraphicsContext::getResizedCallback;
 
 %include osg/GraphicsContext
-
+struct SwapCallback : public osg::Referenced
+{
+    virtual void swapBuffersImplementation(osg::GraphicsContext* gc) = 0;
+};
+%{
+   typedef osg::GraphicsContext::SwapCallback SwapCallback;
+%}
+        
 %{
 using namespace osg;
 %}
@@ -79,4 +86,5 @@ struct WindowingSystemInterface : public osg::Referenced
 GraphicsContext.Traits = Traits
 GraphicsContext.ScreenIdentifier = ScreenIdentifier
 GraphicsContext.WindowingSystemInterface = WindowingSystemInterface
+GraphicsContext.SwapCallback = SwapCallback
 %}
