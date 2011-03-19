@@ -152,6 +152,8 @@
 #include <osg/CameraView>
 #include <osg/Uniform>
 
+#include <osg/Stats>
+
 
 #include <osg/Timer>
 
@@ -962,9 +964,30 @@ DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
 %include osg/Group
 %include osg/Sequence
 %include osg/Switch
-%include osg/LOD
-%include osg/PagedLOD
-%include osg/ProxyNode
+
+// Fix problems with center and radius methods in LOD, PagedLOD, and ProxyNode.
+%define LODHELPER(name)
+%ignore osg::## name::getCenter;
+%ignore osg::## name::setCenter;
+%ignore osg::## name::getRadius;
+%ignore osg::## name::setRadius;
+%rename(getCenter) osg::## name::getCenterAsVec3f();
+%rename(setCenter) osg::## name::setCenterAsVec3f(const osg::Vec3f &center);
+%rename(getRadius) osg::## name::getRadiusAsFloat();
+%rename(setRadius) osg::## name::setRadiusAsFloat(float radius);
+%include osg/## name
+%extend osg::## name {
+	const osg::Vec3f & getCenterAsVec3f() {return self->getCenter();}
+	void setCenterAsVec3f(const osg::Vec3f &center) {self->setCenter(center);}
+	float getRadiusAsFloat() {return self->getRadius();}
+	void setRadiusAsFloat(float radius) {self->setRadius(radius);}
+};
+%enddef
+
+LODHELPER(LOD)
+LODHELPER(PagedLOD)
+LODHELPER(ProxyNode)
+
 %include osg/NodeVisitor
 %include osg/Projection
 %include osg/Transform
@@ -1075,6 +1098,13 @@ BoundingSphere = BoundingSpheref
 %ignore osg::Uniform::getExtensions; 
 %ignore osg::Uniform::setExtensions; 
 %include osg/Uniform
+
+// belongs to osg::Stats
+%apply double *OUTPUT { double& value };
+
+%ignore osg::Stats::getAttributeMap;
+%ignore osg::Stats::report;
+%include osg/Stats
 #endif
 
 %include osg/Timer
