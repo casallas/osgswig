@@ -48,10 +48,6 @@
 %include osgGA/CameraManipulator
 
 
-%{
-   typedef osgGA::CameraManipulator::CoordinateFrameCallback CoordinateFrameCallback;
-%}
-
 struct CoordinateFrameCallback : public virtual osg::Referenced
 {
     virtual osg::CoordinateFrame getCoordinateFrame(const osg::Vec3d& position) const = 0;
@@ -75,9 +71,6 @@ struct AnimationCompletedCallback : public virtual osg::Referenced
 {
     virtual void completed(const osgGA::AnimationPathManipulator* apm) = 0;
 }; 
-%{
-   typedef osgGA::AnimationPathManipulator::AnimationCompletedCallback AnimationCompletedCallback;
-%}
 
 %include osgGA/DriveManipulator
 %include osgGA/NodeTrackerManipulator

@@ -15,9 +15,6 @@ struct SwapCallback : public osg::Referenced
 {
     virtual void swapBuffersImplementation(osg::GraphicsContext* gc) = 0;
 };
-%{
-   typedef osg::GraphicsContext::SwapCallback SwapCallback;
-%}
         
 %{
 using namespace osg;

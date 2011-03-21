@@ -16,10 +16,6 @@
 %include osg_header.i
 %include osgGA_header.i
 
-%{
-   typedef osgGA::CameraManipulator::CoordinateFrameCallback CoordinateFrameCallback;
-%}
-
 /* import stuff from OpenSceneGraph */
 %import osg.i
 %import osgGA.i

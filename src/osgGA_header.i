@@ -24,4 +24,8 @@
 #include <osgGA/AnimationPathManipulator>
 #include <osgGA/DriveManipulator>
 #include <osgGA/NodeTrackerManipulator>
+
+typedef osgGA::CameraManipulator::CoordinateFrameCallback CoordinateFrameCallback;
+typedef osgGA::AnimationPathManipulator::AnimationCompletedCallback AnimationCompletedCallback;
+
 %}
