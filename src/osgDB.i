@@ -150,7 +150,7 @@ using namespace osgDB;
         $1->ref();
 #ifdef OSGSWIGDEBUG
         printf("osgDB::$symname:: Typemap Ref for Obj %x\n",$result);
-#endif OSGSWIGDEBUG
+#endif //OSGSWIGDEBUG
     }
     else
     {

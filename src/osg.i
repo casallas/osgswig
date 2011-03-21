@@ -546,7 +546,7 @@ struct DrawCallback : virtual public Object
    {
 #ifdef OSGSWIGDEBUG
      printf("osg::~Referenced Obj %x, refcount before [%d]\n",self,self->referenceCount());
-#endif OSGSWIGDEBUG
+#endif //OSGSWIGDEBUG
      self->unref();
    }
 };
@@ -555,12 +555,12 @@ struct DrawCallback : virtual public Object
 	$this->ref();
 #ifdef OSGSWIGDEBUG
 	printf("osg::Referenced::Ref   Obj %x, refcount[%d]\n",$this,$this->referenceCount());
-#endif OSGSWIGDEBUG
+#endif //OSGSWIGDEBUG
 	}
 %feature("unref") osg::Referenced {
 #ifdef OSGSWIGDEBUG
 	printf("osg::UnRef Obj %x, refcount before [%d]\n",$this,$this->referenceCount());
-#endif OSGSWIGDEBUG
+#endif //OSGSWIGDEBUG
 	$this->unref();
 	}
 #endif
