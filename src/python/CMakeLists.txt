@@ -68,6 +68,7 @@ SET_SOURCE_FILES_PROPERTIES(
 	
 SET_SOURCE_FILES_PROPERTIES(osg.i PROPERTIES SWIG_FLAGS "-make_default")
 
+
 IF(CMAKE_COMPILER_IS_GNUCXX)
  SET(STDCPLUSPLUS_LIBRARY -lstdc++)
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
@@ -138,4 +139,7 @@ FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim osgAnimat
     								 ARGS -E copy ${${TGT}_LOCATION} "${PARDIR}/${MYNAME}.pyd"
   )
 ENDFOREACH(modname)
+
+set_target_properties( ${SWIG_MODULE_osg_REAL_NAME} PROPERTIES COMPILE_FLAGS "/bigobj" )
+
 ENDIF(WIN32)
