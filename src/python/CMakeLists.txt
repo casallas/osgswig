@@ -126,7 +126,7 @@ IF(BUILD_WITH_OSGART)
 ENDIF(BUILD_WITH_OSGART)
 
 IF(WIN32)
-FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim osgAnimation)
+FOREACH(modname osg osgUtil osgFX osgDB osgGA osgViewer osgText osgSim osgAnimation osgManipulator)
 	SET(TGT ${SWIG_MODULE_${modname}_REAL_NAME}) 
 	GET_TARGET_PROPERTY(${TGT}_LOCATION ${TGT} LOCATION)
 	GET_FILENAME_COMPONENT( MYNAME ${${TGT}_LOCATION} NAME_WE)
@@ -143,3 +143,6 @@ ENDFOREACH(modname)
 set_target_properties( ${SWIG_MODULE_osg_REAL_NAME} PROPERTIES COMPILE_FLAGS "/bigobj" )
 
 ENDIF(WIN32)
+
+file( COPY "__init__.py" DESTINATION ${OUTPUT_LIBDIR} )
+file( COPY "setup.py" DESTINATION ${OUTPUT_LIBDIR} )
