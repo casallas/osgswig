@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(name='osgswig',
-      version='0.3.0',
-      description='Python OpenSceneGraph 2.8.3 Swig Bindings',
+      version='0.3.2',
+      description='Python OpenSceneGraph 2.9.11 Swig Bindings',
       #py_modules=['osg', 'osgAnimation', 'osgDB', 'osgFX', 'osgGA', 'osgManipulator', 'osgSim', 'osgText', 'osgUtil', 'osgViewer'],
       packages=['osgswig'],
       package_dir={'osgswig': ''},
