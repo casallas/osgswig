@@ -7,5 +7,5 @@ setup(name='osgswig',
       package_dir={'osgswig': ''},
       package_data={'osgswig': ['*.py', '*.pyd']},      
       author='http://code.google.com/p/osgswig/people/list',
-      url='http://code.google.com/r/megamillerzoid-stable-osg/',      
+      url='http://code.google.com/p/osgswig',      
       )

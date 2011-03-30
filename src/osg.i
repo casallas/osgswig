@@ -239,6 +239,7 @@ VECIGNOREHELPER(Quat)
 // correct override for osg::Uniform::get
 %rename(get_float) osg::Uniform::get( float& ) const;
 %rename(get_int) osg::Uniform::get( int&  ) const;
+%rename(get_uint) osg::Uniform::get( unsigned int& i );
 %rename(get_blool) osg::Uniform::get( bool&  ) const;
 %rename(get_vec2) osg::Uniform::get( osg::Vec2&  ) const;
 %rename(get_vec3) osg::Uniform::get( osg::Vec3&  ) const;
@@ -250,13 +251,17 @@ VECIGNOREHELPER(Quat)
 %rename(get_int2) osg::Uniform::get( int& , int&  ) const;
 %rename(get_int3) osg::Uniform::get( int& , int& , int&  ) const;
 %rename(get_int4) osg::Uniform::get( int& , int& , int& , int&  ) const;
+%rename(get_uint2) osg::Uniform::get( unsigned int& , unsigned int&  ) const;
+%rename(get_uint3) osg::Uniform::get( unsigned int& , unsigned int& , unsigned int&  ) const;
+%rename(get_uint4) osg::Uniform::get( unsigned int& , unsigned int& , unsigned int& , unsigned int&  ) const;
 %rename(get_bool2) osg::Uniform::get( bool& , bool&  ) const;
 %rename(get_bool3) osg::Uniform::get( bool& , bool& , bool&  ) const;
 %rename(get_bool4) osg::Uniform::get( bool& , bool& , bool& , bool&  ) const;
 
 // rename for set
 %rename(set_float) osg::Uniform::set( float );
-%rename(set_int) osg::Uniform::set( int  );
+%rename(set_int) osg::Uniform::set( int );
+%rename(set_uint) osg::Uniform::set( unsigned int i );
 %rename(set_bool) osg::Uniform::set( bool  );
 %rename(set_vec2) osg::Uniform::set( const osg::Vec2&  );
 %rename(set_vec3) osg::Uniform::set( const osg::Vec3&  );
@@ -268,29 +273,58 @@ VECIGNOREHELPER(Quat)
 %rename(set_int2) osg::Uniform::set( int , int  );
 %rename(set_int3) osg::Uniform::set( int , int , int  );
 %rename(set_int4) osg::Uniform::set( int , int , int , int  );
+%rename(set_uint2) osg::Uniform::set( unsigned int , unsigned int  );
+%rename(set_uint3) osg::Uniform::set( unsigned int , unsigned int , unsigned int  );
+%rename(set_uint4) osg::Uniform::set( unsigned int , unsigned int , unsigned int , unsigned int  );
 %rename(set_bool2) osg::Uniform::set( bool , bool  );
 %rename(set_bool3) osg::Uniform::set( bool , bool , bool  );
 %rename(set_bool4) osg::Uniform::set( bool , bool , bool , bool  );
 
 
 // correct override for osg::Uniform::getElement
-%rename(get_int_float) osg::Uniform::getElement( unsigned int , float&  ) const;
-%rename(get_int_int) osg::Uniform::getElement( unsigned int , int&  ) const;
-%rename(get_int_bool) osg::Uniform::getElement( unsigned int , bool&  ) const;
-%rename(get_int_vec2) osg::Uniform::getElement( unsigned int , osg::Vec2&  ) const;
-%rename(get_int_vec3) osg::Uniform::getElement( unsigned int , osg::Vec3&  ) const;
-%rename(get_int_vec4) osg::Uniform::getElement( unsigned int , osg::Vec4&  ) const;
-%rename(get_int_m2) osg::Uniform::getElement( unsigned int , osg::Matrix2&  ) const;
-%rename(get_int_m3) osg::Uniform::getElement( unsigned int , osg::Matrix3&  ) const;
-%rename(get_int_mf) osg::Uniform::getElement( unsigned int , osg::Matrixf&  ) const;
-%rename(get_int_md) osg::Uniform::getElement( unsigned int , osg::Matrixd&  ) const;
-%rename(get_int_int2) osg::Uniform::getElement( unsigned int , int& , int&  ) const;
-%rename(get_int_int3) osg::Uniform::getElement( unsigned int , int& , int& , int&  ) const;
-%rename(get_int_int4) osg::Uniform::getElement( unsigned int , int& , int& , int& , int&  ) const;
-%rename(get_int_bool2) osg::Uniform::getElement( unsigned int , bool& , bool&  ) const;
-%rename(get_int_bool3) osg::Uniform::getElement( unsigned int , bool& , bool& , bool& ) const;
-%rename(get_int_bool4) osg::Uniform::getElement( unsigned int , bool& , bool& , bool& , bool&  ) const;
+%rename(get_int_float)  osg::Uniform::getElement( unsigned int index, float& f ) const;                                                                  
+%rename(get_int_int)    osg::Uniform::getElement( unsigned int index, int& i ) const;                                                                
+%rename(get_int_uint)   osg::Uniform::getElement( unsigned int index, unsigned int& i ) const;                                                       
+%rename(get_int_bool)   osg::Uniform::getElement( unsigned int index, bool& b ) const;                                                               
+%rename(get_int_vec2)   osg::Uniform::getElement( unsigned int index, osg::Vec2& v2 ) const;                                                         
+%rename(get_int_vec3)   osg::Uniform::getElement( unsigned int index, osg::Vec3& v3 ) const;                                                         
+%rename(get_int_vec4)   osg::Uniform::getElement( unsigned int index, osg::Vec4& v4 ) const;                                                         
+%rename(get_int_m2)     osg::Uniform::getElement( unsigned int index, osg::Matrix2& m2 ) const;                                                      
+%rename(get_int_m3)     osg::Uniform::getElement( unsigned int index, osg::Matrix3& m3 ) const;                                                      
+%rename(get_int_mf)     osg::Uniform::getElement( unsigned int index, osg::Matrixf& m4 ) const;                                                      
+%rename(get_int_md)     osg::Uniform::getElement( unsigned int index, osg::Matrixd& m4 ) const;                                                      
+%rename(get_int_int2)   osg::Uniform::getElement( unsigned int index, int& i0, int& i1 ) const;                                                      
+%rename(get_int_int3)   osg::Uniform::getElement( unsigned int index, int& i0, int& i1, int& i2 ) const;                                             
+%rename(get_int_int4)   osg::Uniform::getElement( unsigned int index, int& i0, int& i1, int& i2, int& i3 ) const;                                    
+%rename(get_int_uint2)  osg::Uniform::getElement( unsigned int index, unsigned int& i0, unsigned int& i1 ) const;                                    
+%rename(get_int_uint3)  osg::Uniform::getElement( unsigned int index, unsigned int& i0, unsigned int& i1, unsigned int& i2 ) const;                  
+%rename(get_int_uint4)  osg::Uniform::getElement( unsigned int index, unsigned int& i0, unsigned int& i1, unsigned int& i2, unsigned int& i3 ) const;
+%rename(get_int_bool2)  osg::Uniform::getElement( unsigned int index, bool& b0, bool& b1 ) const;                                                    
+%rename(get_int_bool3)  osg::Uniform::getElement( unsigned int index, bool& b0, bool& b1, bool& b2 ) const;                                          
+%rename(get_int_bool4)  osg::Uniform::getElement( unsigned int index, bool& b0, bool& b1, bool& b2, bool& b3 ) const;                                
 
+// correct override for osg::Uniform::setElement
+//note we could remove the set and setElement renames and let swig map the types
+%rename(set_int_float)  osg::Uniform::setElement( unsigned int index, float f );
+%rename(set_int_int)    osg::Uniform::setElement( unsigned int index, int i );
+%rename(set_int_uint)   osg::Uniform::setElement( unsigned int index, unsigned int i );
+%rename(set_int_bool)   osg::Uniform::setElement( unsigned int index, bool b );
+%rename(set_int_vec2)   osg::Uniform::setElement( unsigned int index, const osg::Vec2& v2 );
+%rename(set_int_vec3)   osg::Uniform::setElement( unsigned int index, const osg::Vec3& v3 );
+%rename(set_int_vec4)   osg::Uniform::setElement( unsigned int index, const osg::Vec4& v4 );
+%rename(set_int_m2)     osg::Uniform::setElement( unsigned int index, const osg::Matrix2& m2 );
+%rename(set_int_m3)     osg::Uniform::setElement( unsigned int index, const osg::Matrix3& m3 );
+%rename(set_int_mf)     osg::Uniform::setElement( unsigned int index, const osg::Matrixf& m4 );
+%rename(set_int_md)     osg::Uniform::setElement( unsigned int index, const osg::Matrixd& m4 );
+%rename(set_int_int2)   osg::Uniform::setElement( unsigned int index, int i0, int i1 );
+%rename(set_int_int3)   osg::Uniform::setElement( unsigned int index, int i0, int i1, int i2 );
+%rename(set_int_int4)   osg::Uniform::setElement( unsigned int index, int i0, int i1, int i2, int i3 );
+%rename(set_int_uint2)  osg::Uniform::setElement( unsigned int index, unsigned int i0, unsigned int i1 );
+%rename(set_int_uint3)  osg::Uniform::setElement( unsigned int index, unsigned int i0, unsigned int i1, unsigned int i2 );
+%rename(set_int_uint4)  osg::Uniform::setElement( unsigned int index, unsigned int i0, unsigned int i1, unsigned int i2, unsigned int i3 );
+%rename(set_int_bool2)  osg::Uniform::setElement( unsigned int index, bool b0, bool b1 );
+%rename(set_int_bool3)  osg::Uniform::setElement( unsigned int index, bool b0, bool b1, bool b2 );
+%rename(set_int_bool4)  osg::Uniform::setElement( unsigned int index, bool b0, bool b1, bool b2, bool b3 );
 
 // correct override for osg::NodeVisitor::apply
 %rename("apply_Node") osg::NodeVisitor::apply(Node&);
