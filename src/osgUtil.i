@@ -92,7 +92,11 @@
 %include osgUtil/PositionalStateContainer
 %include osgUtil/RenderStage
 %include osgUtil/CubeMapGenerator
+
+%ignore osgUtil::CullVisitor::getIdentifier;
+%ignore osgUtil::CullVisitor::setIdentifier;
 %include osgUtil/CullVisitor
+
 %include osgUtil/DelaunayTriangulator
 %include osgUtil/DisplayRequirementsVisitor
 %include osgUtil/GLObjectsVisitor
