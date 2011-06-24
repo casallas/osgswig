@@ -8,6 +8,25 @@
 
 %define VECHELPER(name,val)
 %copyctor osg::## name;
+
+    %exception __getitem__ {
+       try {
+          $action
+       } catch (std::out_of_range &e) {
+          PyErr_SetString(PyExc_IndexError, const_cast<char*>(e.what()));
+          return NULL;
+       }
+    }
+
+    %exception __setitem__ {
+       try {
+          $action
+       } catch (std::out_of_range &e) {
+          PyErr_SetString(PyExc_IndexError, const_cast<char*>(e.what()));
+          return NULL;
+       }
+    }
+
     value_type __getitem__(int i)  
     { 
         if ((i>=0)&&(i<val))
@@ -16,9 +35,7 @@
         }
         else
         {
-                //Needs a better exception handling
-                //return (osg::## name ##::value_type)0;
-                PyErr_SetString(PyExc_IndexError,"Index error, type osg::name has only val elements\n");
+                throw std::out_of_range("osg::name has only val elements\n");
         }
     }
 
@@ -30,10 +47,14 @@
         }
         else
         {
-                //Needs a better exception handling
-                PyErr_SetString(PyExc_IndexError,"Index error, type osg::name has only val elements\n");
+                throw std::out_of_range("osg::name has only val elements\n");        
         }
         
+    }
+
+    int __len__() 
+    {
+        return val;
     }
 %enddef
 
