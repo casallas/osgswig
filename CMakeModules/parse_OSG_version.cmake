@@ -11,13 +11,13 @@ macro(check_osg_version input)
 
 	string(REGEX MATCH "#define[\t ]+OPENSCENEGRAPH_MAJOR_VERSION[\t ]+([0-9]+)" version_major ${text})
 	string(REGEX MATCH "#define[\t ]+OPENSCENEGRAPH_MINOR_VERSION[\t ]+([0-9]+)" version_minor ${text})
-	string(REGEX MATCH "#define[\t ]+OPENSCENEGRAPH_PATCH_VERSION[\t ]+([0-9][0-9]*)" version_patch ${text})
+	string(REGEX MATCH "#define[\t ]+OPENSCENEGRAPH_PATCH_VERSION[\t ]+([0-9]*)" version_patch ${text})
 	string(REGEX MATCH "#define[\t ]+OPENSCENEGRAPH_SOVERSION[\t ]+([0-9][0-9])" version_so ${text})
 	
 
 	string(REGEX REPLACE ".*([0-9]+).*" "\\1" version_major ${version_major})
 	string(REGEX REPLACE ".*([0-9]+).*" "\\1" version_minor ${version_minor})
-	string(REGEX REPLACE ".*([0-9][0-9]*).*" "\\1" version_patch ${version_patch})
+	string(REGEX REPLACE "[^0-9]*([0-9]+)[^0-9]*" "\\1" version_patch ${version_patch})
 	string(REGEX REPLACE ".*([0-9][0-9]).*" "\\1" version_so ${version_so})
 
 	set(OSG_VERSION_MAJOR ${version_major})
