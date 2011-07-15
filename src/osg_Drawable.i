@@ -72,8 +72,10 @@ public:
     virtual void apply(Drawable::AttributeType,unsigned int,Vec4d*) {}
 };
 
+#ifdef SWIGPYTHON
 %pythoncode %{
 #get the original definitions back into their classes
 Drawable.UpdateCallback = UpdateCallback
 Drawable.AttributeFunctor = AttributeFunctor
 %}
+#endif

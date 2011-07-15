@@ -720,6 +720,8 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
 %}
 //%ignore osg::BufferObject::ModifiedCallback;
 
+
+#ifdef SWIG_PYTHON
 %typemap(in) unsigned char * data {
     if (PyString_Check($input)) {
         Py_ssize_t len;
@@ -731,18 +733,22 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
         SWIG_exception(SWIG_TypeError, "string expected");
     }
 }
+#endif
+
 %typemap(typecheck) unsigned char * data = char *;
 
 %include osg/Image
 %include osg/ImageStream
 %include osg/ImageSequence
 
+#ifdef SWIG_PYTHON
 %extend osg::Image {
 	virtual osg::ImageStream* asImageStream() {return dynamic_cast<osg::ImageStream*>($self);}
 	PyObject* dataAsString() {
 	return PyString_FromStringAndSize((char *)(self)->data(), self->getImageSizeInBytes());
 	}
 };
+#endif
 
 %include osg/OperationThread
 %include osg/GraphicsThread
