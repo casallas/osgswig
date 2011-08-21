@@ -48,6 +48,7 @@
 #include <osg/Projection>
 #include <osg/CullSettings>
 #include <osg/ColorMask>
+#include <osg/ClampColor>
 
 #include <osg/BufferObject>
 #include <osg/Image>

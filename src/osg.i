@@ -110,6 +110,7 @@
 #include <osg/Projection>
 #include <osg/CullSettings>
 #include <osg/ColorMask>
+#include <osg/ClampColor>
 
 #include <osg/Light>
 #include <osg/LightModel>
@@ -763,6 +764,7 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
 %include osg/TextureRectangle
 %include osg/VertexProgram
 %include osg/ColorMask
+%include osg/ClampColor
 
 /*
 In osg/Viewport, the return as by-reference function x() precedes the by-value function x()

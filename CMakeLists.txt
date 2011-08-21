@@ -83,9 +83,14 @@ FIND_PACKAGE(OSGVERSE) #osgODE
 #FIND_PACKAGE(OSGVRPN) #osgVRPN
 
 OPTION(BUILD_WITH_OSGART "Create wrappers for osgART (Augmented Reality Toolkit for OpenSceneGraph)" OFF)
+OPTION(BUILD_WITH_OSGPPU "Create wrappers for osgPPU ( OpenSceneGraph Post Processing Units)" OFF)
 OPTION(BUILD_WITH_OSGODE "Create wrappers for osgODE (ODE - Open Dynamics Environment for OpenSceneGraph)" OFF)
 OPTION(BUILD_WITH_OSGVRPN "Create wrappers for osgVRPN (VRPN - Virtual Reality Peripherals Network)" OFF)
 OPTION(BUILD_WITH_OSGVERSE "Create wrappers for osgVerse (lightweight, low latency, general-purpose network protocol for 3D data)" OFF)
+
+IF (BUILD_WITH_OSGPPU)
+  FIND_PACKAGE(OSGPPU) #osgPPU
+ENDIF (BUILD_WITH_OSGPPU)
 
 OPTION(BUILD_WITH_OSGINTROSPECTION "Create wrappers for osgIntrospection (OSG's own introspection library needs to be available)" OFF)
 OPTION(BUILD_WITH_OSGANIMATION     "Create wrappers for osgAnimation (available from osg 2.8)" ON)
