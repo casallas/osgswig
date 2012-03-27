@@ -368,6 +368,9 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Matrixf::operator=;
 %ignore osg::Matrixf::operator*=;
 
+%ignore osg::ClampColor::getExtensions;
+%ignore osg::ClampColor::setExtensions;
+
 %ignore osg::BoundingSphereImpl::center();
 %ignore osg::BoundingSphereImpl::radius();
 %ignore osg::BoundingSphereImpl::radius2();
