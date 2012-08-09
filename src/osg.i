@@ -110,6 +110,7 @@
 #include <osg/Projection>
 #include <osg/CullSettings>
 #include <osg/ColorMask>
+#include <osg/ClampColor>
 
 #include <osg/Light>
 #include <osg/LightModel>
@@ -366,6 +367,9 @@ VECIGNOREHELPER(Quat)
 
 %ignore osg::Matrixf::operator=;
 %ignore osg::Matrixf::operator*=;
+
+%ignore osg::ClampColor::getExtensions;
+%ignore osg::ClampColor::setExtensions;
 
 %ignore osg::BoundingSphereImpl::center();
 %ignore osg::BoundingSphereImpl::radius();
@@ -720,6 +724,8 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
 %}
 //%ignore osg::BufferObject::ModifiedCallback;
 
+
+#ifdef SWIG_PYTHON
 %typemap(in) unsigned char * data {
     if (PyString_Check($input)) {
         Py_ssize_t len;
@@ -731,18 +737,22 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
         SWIG_exception(SWIG_TypeError, "string expected");
     }
 }
+#endif
+
 %typemap(typecheck) unsigned char * data = char *;
 
 %include osg/Image
 %include osg/ImageStream
 %include osg/ImageSequence
 
+#ifdef SWIG_PYTHON
 %extend osg::Image {
 	virtual osg::ImageStream* asImageStream() {return dynamic_cast<osg::ImageStream*>($self);}
 	PyObject* dataAsString() {
 	return PyString_FromStringAndSize((char *)(self)->data(), self->getImageSizeInBytes());
 	}
 };
+#endif
 
 %include osg/OperationThread
 %include osg/GraphicsThread
@@ -757,6 +767,7 @@ typedef osg::BufferData::ModifiedCallback ModifiedCallback;
 %include osg/TextureRectangle
 %include osg/VertexProgram
 %include osg/ColorMask
+%include osg/ClampColor
 
 /*
 In osg/Viewport, the return as by-reference function x() precedes the by-value function x()

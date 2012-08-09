@@ -78,6 +78,7 @@ struct WindowingSystemInterface : public osg::Referenced
     virtual ~WindowingSystemInterface() {};
 };
 
+#ifdef SWIGPYTHON
 %pythoncode %{
 #get the original definitions back into their classes
 GraphicsContext.Traits = Traits
@@ -85,3 +86,4 @@ GraphicsContext.ScreenIdentifier = ScreenIdentifier
 GraphicsContext.WindowingSystemInterface = WindowingSystemInterface
 GraphicsContext.SwapCallback = SwapCallback
 %}
+#endif
