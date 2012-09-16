@@ -236,6 +236,7 @@ VECIGNOREHELPER(Quat)
 %ignore osg::Matrix3::operator ()(int,int) ;
 %ignore osg::Node::getParents() ;
 %ignore osg::Uniform::getParents();
+%ignore osg::Node::getWorldMatrices( osg::Node* ) ;
 
 // correct override for osg::Uniform::get
 %rename(get_float) osg::Uniform::get( float& ) const;
@@ -1000,6 +1001,8 @@ DRAWELEMENTSHELPER ( DrawElementsUShort, GLushort);
 %template(vectorNode) std::vector<osg::Node*>;
 //ParentList
 %template(vectorGroup) std::vector<osg::Group*>;
+//MatrixList
+%template(vectorMatrix) std::vector<osg::Matrix>;
 //DescriptionList
 //%template(vectorString) std::vector<std::string>;
 //ParentList in osg::StateSet
